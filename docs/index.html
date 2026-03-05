@@ -931,6 +931,301 @@
     color: rgba(255,255,255,0.25);
   }
 
+  /* ── PREDICTION MARKET INTELLIGENCE ────── */
+  .pred-market {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pred-market::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 70% at 90% 50%, rgba(99,102,241,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(245,166,35,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .pred-market .container { position: relative; z-index: 1; }
+
+  .pred-intro {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 52px;
+    margin-bottom: 56px;
+  }
+
+  .pred-desc {
+    font-size: 17px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .pred-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .pred-stat {
+    background: rgba(255,255,255,0.03);
+    padding: 22px 18px;
+    text-align: center;
+  }
+
+  .pred-stat-value {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+
+  .pred-stat-value.indigo { color: #818cf8; }
+  .pred-stat-value.cyan   { color: #22d3ee; }
+  .pred-stat-value.amber  { color: var(--gold); }
+  .pred-stat-value.green  { color: #34d399; }
+
+  .pred-stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .signal-sources {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .signal-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 22px 18px;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+
+  .signal-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+  }
+
+  .signal-card-icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .signal-card-platform {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+
+  .signal-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .signal-card p {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  .signal-impact {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .impact-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+  }
+
+  .impact-item-icon {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .impact-item h5 {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .impact-item p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.55;
+  }
+
+  /* ── TEAM ────────────────────────────────── */
+  .team {
+    background: var(--off-white);
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 52px;
+  }
+
+  .agent-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px 22px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agent-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--navy);
+  }
+
+  .agent-card.accent-teal::before { background: var(--teal); }
+  .agent-card.accent-gold::before  { background: var(--gold); }
+  .agent-card.accent-red::before   { background: var(--red); }
+  .agent-card.accent-purple::before { background: #7b68ee; }
+  .agent-card.accent-indigo::before { background: #6366f1; }
+
+  .agent-card:hover {
+    box-shadow: 0 12px 40px rgba(13,27,42,0.1);
+    transform: translateY(-3px);
+  }
+
+  .agent-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .agent-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .agent-icon.bg-teal   { background: rgba(0,194,160,0.12); }
+  .agent-icon.bg-gold   { background: rgba(245,166,35,0.12); }
+  .agent-icon.bg-red    { background: rgba(230,57,70,0.10); }
+  .agent-icon.bg-purple { background: rgba(123,104,238,0.12); }
+  .agent-icon.bg-indigo { background: rgba(99,102,241,0.12); }
+
+  .agent-card-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .agent-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .agent-role {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .agent-desc {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .agent-caps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .agent-cap {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 5px;
+    background: var(--off-white);
+    color: var(--text-2);
+    border: 1px solid var(--border);
+  }
+
+  .agent-card.featured {
+    background: linear-gradient(145deg, rgba(13,27,42,0.97), rgba(26,47,74,0.97));
+    border-color: rgba(99,102,241,0.3);
+    color: white;
+  }
+
+  .agent-card.featured .agent-name  { color: white; }
+  .agent-card.featured .agent-role  { color: rgba(255,255,255,0.4); }
+  .agent-card.featured .agent-desc  { color: rgba(255,255,255,0.6); }
+  .agent-card.featured .agent-cap   {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+  }
+
+  .agent-new-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(99,102,241,0.2);
+    color: #818cf8;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
   /* ── RESPONSIVE ─────────────────────────── */
   @media (max-width: 900px) {
     nav { padding: 0 20px; }
@@ -946,6 +1241,10 @@
     .deals-grid { grid-template-columns: 1fr 1fr; }
     .intel-grid,
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pred-intro,
+    .team-grid { grid-template-columns: 1fr; gap: 40px; }
+    .signal-sources { grid-template-columns: 1fr 1fr; }
+    .signal-impact { grid-template-columns: 1fr 1fr; }
     .section-title { font-size: 30px; }
     .cta-title { font-size: 36px; }
     .cta-contact-strip { flex-wrap: wrap; gap: 24px; }
@@ -964,6 +1263,8 @@
   <ul class="nav-links">
     <li><a href="#how-it-works">System</a></li>
     <li><a href="#deals">Active Deals</a></li>
+    <li><a href="#market-intelligence">Intelligence</a></li>
+    <li><a href="#team">Team</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#partnership">Partnership</a></li>
     <li><a href="#contact" class="nav-cta">Get the Report →</a></li>
@@ -1311,6 +1612,85 @@
 </section>
 
 
+<!-- ─── PREDICTION MARKET INTELLIGENCE ──────── -->
+<section class="pred-market" id="market-intelligence">
+  <div class="container">
+    <div class="section-eyebrow">The Forward Intelligence Layer</div>
+    <h2 class="section-title light">We Know What's Coming.<br>Before the Market Does.</h2>
+
+    <div class="pred-intro">
+      <div>
+        <p class="pred-desc">While every other buyer analyzes what <em style="color:rgba(255,255,255,0.8);font-style:normal;">IS</em> — current listings, current prices, current conditions — Deal Intelligence analyzes what <em style="color:var(--teal);font-style:normal;">WILL BE.</em></p>
+        <p class="pred-desc">Live prediction market data from Kalshi, Polymarket, and Polymarket-Parcl gives us an economic edge that no traditional buyer possesses: probability-weighted signals for Fed rate paths, cap rate trends, and city-level property market direction — updated in real time.</p>
+        <p class="pred-desc" style="font-size:15px;color:rgba(255,255,255,0.45);">When we approach a motivated seller, we're not guessing at market timing. We're armed with the same forward-looking data that hedge funds and institutional investors pay $50K+/year to access.</p>
+      </div>
+      <div class="pred-stats">
+        <div class="pred-stat">
+          <div class="pred-stat-value indigo">100%</div>
+          <div class="pred-stat-label">Kalshi FOMC Accuracy since 2022</div>
+        </div>
+        <div class="pred-stat">
+          <div class="pred-stat-value cyan">40.1%</div>
+          <div class="pred-stat-label">Lower CPI forecast error vs consensus</div>
+        </div>
+        <div class="pred-stat">
+          <div class="pred-stat-value amber">6–18mo</div>
+          <div class="pred-stat-label">REIT-to-private RE lead time signal</div>
+        </div>
+        <div class="pred-stat">
+          <div class="pred-stat-value green">27%</div>
+          <div class="pred-stat-label">Faster deal closure with data analytics</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="signal-sources">
+      <div class="signal-card">
+        <div class="signal-card-icon">📈</div>
+        <div class="signal-card-platform">Kalshi</div>
+        <h4>Fed Rate Path Signals</h4>
+        <p>Live probabilities for every Fed meeting. When a cut is coming, cap rates follow. We see the window before it opens.</p>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card-icon">🌐</div>
+        <div class="signal-card-platform">Polymarket</div>
+        <h4>Macro &amp; Policy Events</h4>
+        <p>GDP growth, CPI forecasts, policy shifts, and geopolitical events — all probability-weighted and mapped to deal impact.</p>
+      </div>
+      <div class="signal-card">
+        <div class="signal-card-icon">🏙️</div>
+        <div class="signal-card-platform">Polymarket-Parcl</div>
+        <h4>City-Level RE Markets</h4>
+        <p>Forward-looking price indices for target metros. Know whether values in a deal's market are trending up or down — before closing.</p>
+      </div>
+    </div>
+
+    <div class="signal-impact">
+      <div class="impact-item">
+        <div class="impact-item-icon">⏰</div>
+        <h5>Deal Timing</h5>
+        <p>Rate cut probability spikes → we accelerate pipeline. Rate hold signals → we negotiate harder on price.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-item-icon">💰</div>
+        <h5>Valuation Adjustment</h5>
+        <p>Point-estimate cap rates replaced with probability distributions. Every LOI reflects where the market is headed, not where it was.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-item-icon">🧠</div>
+        <h5>Seller Psychology</h5>
+        <p>Self-fulfilling prophecy, anchoring, and loss aversion frameworks — research-backed behavioral science applied to every negotiation.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-item-icon">📋</div>
+        <h5>Outreach Urgency</h5>
+        <p>Scenario-based urgency triggers: "Rates are priced to cut in 90 days. Other buyers are watching this market." Backed by real data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- ─── ABOUT ─────────────────────────────────── -->
 <section class="about" id="about">
   <div class="container">
@@ -1367,6 +1747,117 @@
 </section>
 
 
+<!-- ─── THE TEAM ──────────────────────────────── -->
+<section class="team" id="team">
+  <div class="container">
+    <div class="section-eyebrow">The Intelligence Team</div>
+    <h2 class="section-title">Six Specialized Agents.<br>One Orchestrated System.</h2>
+    <p class="section-desc">Each deal runs through a dedicated team of AI specialists — each with a single job, done at scale, around the clock. This is not a tool. It's an organization.</p>
+
+    <div class="team-grid">
+
+      <div class="agent-card accent-teal">
+        <div class="agent-card-header">
+          <div class="agent-icon bg-teal">🎯</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Lead Researcher</div>
+            <div class="agent-role">Pipeline Orchestration</div>
+          </div>
+        </div>
+        <p class="agent-desc">Coordinates the full acquisition pipeline — from market scan to LOI. Delegates to specialized agents, synthesizes outputs, and manages deal prioritization across all active markets.</p>
+        <div class="agent-caps">
+          <span class="agent-cap">Orchestration</span>
+          <span class="agent-cap">Market Selection</span>
+          <span class="agent-cap">Deal Prioritization</span>
+        </div>
+      </div>
+
+      <div class="agent-card accent-gold">
+        <div class="agent-card-header">
+          <div class="agent-icon bg-gold">🔍</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Data Collector</div>
+            <div class="agent-role">Listing Intelligence</div>
+          </div>
+        </div>
+        <p class="agent-desc">Scrapes CREXI and related platforms for motivated-seller signals — DOM history, price reductions, owner-finance language, and property-type filters. Feeds structured data to all downstream agents.</p>
+        <div class="agent-caps">
+          <span class="agent-cap">Platform Scraping</span>
+          <span class="agent-cap">Signal Extraction</span>
+          <span class="agent-cap">Data Structuring</span>
+        </div>
+      </div>
+
+      <div class="agent-card accent-purple">
+        <div class="agent-card-header">
+          <div class="agent-icon bg-purple">📊</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Market Analyst</div>
+            <div class="agent-role">Deal Economics</div>
+          </div>
+        </div>
+        <p class="agent-desc">Analyzes cap rates, NOI, price-per-unit, and market comparables. Enriches every listing with market context — is the asking price above or below where deals are clearing?</p>
+        <div class="agent-caps">
+          <span class="agent-cap">Cap Rate Analysis</span>
+          <span class="agent-cap">Market Comps</span>
+          <span class="agent-cap">NOI Verification</span>
+        </div>
+      </div>
+
+      <div class="agent-card accent-red">
+        <div class="agent-card-header">
+          <div class="agent-icon bg-red">⚡</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Deal Scout</div>
+            <div class="agent-role">Scoring &amp; Ranking</div>
+          </div>
+        </div>
+        <p class="agent-desc">Applies the 100-point scoring model: DOM weight, price-to-market ratio, seller-financing signals, motivation language, and property fundamentals. Surfaces only the highest-conviction opportunities.</p>
+        <div class="agent-caps">
+          <span class="agent-cap">100-pt Scoring</span>
+          <span class="agent-cap">Motivation Analysis</span>
+          <span class="agent-cap">Deal Ranking</span>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-card-header">
+          <div class="agent-icon">✍️</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Outreach Specialist</div>
+            <div class="agent-role">Contact Intelligence</div>
+          </div>
+        </div>
+        <p class="agent-desc">Generates the complete seller contact package per deal: 3-call close scripts in stealth buyer voice, email + LinkedIn templates, full stakeholder contact trees, and 21-day multi-channel cadences.</p>
+        <div class="agent-caps">
+          <span class="agent-cap">Outreach Scripts</span>
+          <span class="agent-cap">Seller Profiling</span>
+          <span class="agent-cap">LOI Generation</span>
+        </div>
+      </div>
+
+      <div class="agent-card featured accent-indigo">
+        <div class="agent-card-header">
+          <div class="agent-icon bg-indigo">🔮</div>
+          <div class="agent-card-title">
+            <div class="agent-name">Prediction Market Intel <span class="agent-new-badge">New</span></div>
+            <div class="agent-role">Forward-Looking Signals</div>
+          </div>
+        </div>
+        <p class="agent-desc">Monitors Kalshi, Polymarket, and Polymarket-Parcl for CRE-relevant economic signals. Delivers probability-weighted macro forecasts, divergence alerts, and behavioral science-backed negotiation frameworks. Origin: PolyBot v2 research program — 60+ academic and industry sources synthesized.</p>
+        <div class="agent-caps">
+          <span class="agent-cap">Fed Rate Signals</span>
+          <span class="agent-cap">Macro Forecasting</span>
+          <span class="agent-cap">Divergence Detection</span>
+          <span class="agent-cap">Behavioral Science</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- ─── PARTNERSHIP ──────────────────────────── -->
 <section class="partnership" id="partnership">
   <div class="container">
@@ -1409,9 +1900,13 @@
       <a href="mailto:jeromyjsmith@gmail.com?subject=Deal Intelligence — I'd Like the Full Report" class="btn-cta-primary">
         Request the Full Report →
       </a>
-      <a href="mailto:jeromyjsmith@gmail.com?subject=Deal Intelligence — Let's Schedule a Call" class="btn-cta-secondary">
-        Schedule a Call
+      <a href="proposal.html" class="btn-cta-secondary">
+        View Investor Briefing
       </a>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:1rem;">
+      <a href="Deal-Intelligence-Website.pdf" download style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;border:1px solid rgba(255,255,255,0.15);padding:8px 18px;border-radius:4px;">↓ Download Overview PDF</a>
+      <a href="Deal-Intelligence-Proposal.pdf" download style="font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none;border:1px solid rgba(255,255,255,0.15);padding:8px 18px;border-radius:4px;">↓ Download Investor Briefing PDF</a>
     </div>
 
     <div class="cta-contact-strip">
