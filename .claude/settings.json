@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(python3 *)",
+      "Bash(pip3 *)",
+      "Bash(git *)",
+      "Bash(jq *)",
+      "Bash(curl *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(agent-browser *)",
+      "Read(data/**)",
+      "Read(scripts/**)",
+      "Read(docs/**)",
+      "Read(.claude/**)",
+      "Write(data/**)",
+      "Write(scripts/**)",
+      "Edit(data/**)",
+      "Edit(scripts/**)",
+      "Agent(lead-researcher)",
+      "Agent(market-analyst)",
+      "Agent(deal-scout)",
+      "Agent(outreach-specialist)",
+      "Agent(data-collector)",
+      "Agent(Explore)",
+      "Skill(hunt *)",
+      "Skill(scrape *)",
+      "Skill(analyze *)",
+      "Skill(score *)",
+      "Skill(outreach *)",
+      "Skill(report *)",
+      "Skill(watch *)",
+      "Skill(notebook-upload *)",
+      "Skill(notebook-research *)",
+      "Skill(notebook-report *)",
+      "Agent(notebook-uploader)",
+      "Agent(notebook-researcher)",
+      "Agent(notebook-reporter)",
+      "Agent(prediction-market-intel)",
+      "Skill(predict *)",
+      "Bash(notebooklm *)",
+      "Bash(pipx *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(sudo *)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "NODE_ENV": "development",
+    "CREXI_BASE_URL": "https://www.crexi.com",
+    "CREXI_SEARCH_URL": "https://www.crexi.com/properties",
+    "DATA_DIR": "./data",
+    "RAW_DIR": "./data/raw",
+    "PROCESSED_DIR": "./data/processed",
+    "EXPORTS_DIR": "./data/exports",
+    "NOTEBOOKLM_NOTEBOOK_ID": "20df62c7-c167-4b61-accb-343d7e23b3bc",
+    "NOTEBOOKLM_CONFIG": "./data/notebook-config.json"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate-command.sh",
+            "timeout": 10,
+            "statusMessage": "Validating command safety..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/validate-data.sh",
+            "timeout": 15,
+            "statusMessage": "Validating data integrity..."
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/agent-report.sh",
+            "timeout": 10,
+            "statusMessage": "Capturing agent results..."
+          },
+          {
+            "type": "command",
+            "command": ".claude/hooks/notebook-sync.sh",
+            "timeout": 10,
+            "statusMessage": "Syncing with NotebookLM..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/session-summary.sh",
+            "timeout": 15,
+            "statusMessage": "Saving session summary..."
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/preserve-context.sh",
+            "timeout": 10,
+            "statusMessage": "Preserving critical context..."
+          }
+        ]
+      }
+    ]
+  },
+  "model": "claude-sonnet-4-6",
+  "autoMemoryEnabled": true
+}

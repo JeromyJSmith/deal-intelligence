@@ -1,11 +1,16 @@
-# CREXI Deal Finder - Agent Team Project
+# Deal Intelligence - Agent Team Project
 
 ## Project Purpose
 
-Automated commercial real estate opportunity discovery on CREXI.com.
-A multi-agent system that researches, analyzes, and surfaces owner-financed
-and distressed commercial properties — gas stations, car washes, mobile home parks,
-and other cash-flowing assets with motivated sellers.
+Automated deal opportunity discovery across ANY asset class.
+A multi-agent intelligence system that researches, analyzes, and surfaces
+owner-financed and motivated-seller opportunities — real estate, businesses,
+notes, land, franchises, and any cash-flowing asset.
+
+**CRITICAL: Deal Intelligence is NOT limited to commercial real estate.**
+The methodology — motivated seller identification, deal scoring, owner
+financing structure, prediction market signals — applies universally.
+Never pigeonhole this system as "CRE" or "CREXI-only."
 
 ## Strategy (The Playbook)
 
