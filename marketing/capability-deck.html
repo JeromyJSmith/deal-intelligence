@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Intelligence — Full Capability Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0d1b2a;
+    --navy2: #1a2f4a;
+    --teal:  #00c2a0;
+    --gold:  #f5a623;
+    --red:   #e63946;
+    --white: #ffffff;
+    --g50:   #f8f9fa;
+    --g100:  #e9ecef;
+    --g200:  #dee2e6;
+    --g400:  #adb5bd;
+    --g600:  #6c757d;
+    --g800:  #343a40;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--g800); background: var(--white); line-height: 1.6; }
+
+  @page { size: 8.5in 11in; margin: 0; }
+  @media print {
+    .no-print { display: none !important; }
+    .page { page-break-after: always; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page:last-of-type { page-break-after: avoid; }
+    a { text-decoration: none; color: inherit; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page { width: 8.5in; min-height: 11in; margin: 0.5in auto; background: white; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+    .download-btn {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: var(--teal); color: white; border: none;
+      padding: 0.75rem 1.5rem; border-radius: 6px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(0,194,160,0.3); z-index: 100;
+    }
+    .download-btn:hover { background: #009e82; }
+  }
+
+  .page { position: relative; overflow: hidden; }
+
+  /* ─── PAGE HEADER ─────────── */
+  .inner { padding: 0.5in 0.65in; }
+  .ph {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 0.3in; border-bottom: 2px solid var(--navy); margin-bottom: 0.4in;
+  }
+  .ph-brand { display: flex; align-items: center; gap: 0.6rem; }
+  .ph-mark {
+    width: 32px; height: 32px; background: var(--navy); border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ph-mark span { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 900; color: var(--teal); }
+  .ph-name { font-family: 'Playfair Display', serif; font-size: 14px; color: var(--navy); }
+  .ph-right { font-size: 10px; color: var(--g400); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ─── SECTION LABELS ──────── */
+  .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--navy); line-height: 1.15; margin-bottom: 0.4rem; }
+  .sec-sub { font-size: 13px; color: var(--g600); margin-bottom: 1.25rem; max-width: 540px; line-height: 1.65; }
+
+  /* ─── COVER ───────────────── */
+  .cover { background: var(--navy); min-height: 11in; display: flex; flex-direction: column; }
+  .cover-hd { padding: 0.6in 0.65in 0; display: flex; justify-content: space-between; align-items: flex-start; }
+  .cover-mk { width: 56px; height: 56px; background: var(--teal); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .cover-mk span { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--navy); }
+  .cover-dt { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .cover-bd { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 0.65in; }
+  .cover-ey { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem; }
+  .cover-h1 { font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900; color: white; line-height: 1.05; margin-bottom: 1.5rem; }
+  .cover-rule { width: 60px; height: 3px; background: var(--gold); margin-bottom: 1.5rem; }
+  .cover-desc { font-size: 16px; color: rgba(255,255,255,0.6); max-width: 480px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .cover-stats { display: flex; gap: 2rem; margin-bottom: 2rem; }
+  .cs-item { }
+  .cs-val { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--teal); line-height: 1; }
+  .cs-lbl { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .cover-ft { border-top: 1px solid rgba(255,255,255,0.08); padding: 0.35in 0.65in; display: flex; justify-content: space-between; align-items: center; }
+  .cf-brand { font-family: 'Playfair Display', serif; font-size: 14px; color: rgba(255,255,255,0.5); }
+  .cf-meta { font-size: 11px; color: rgba(255,255,255,0.25); text-align: right; }
+
+  /* ─── WHAT WE DO ─────────── */
+  .what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .what-card {
+    border: 1px solid var(--g200); border-radius: 6px; padding: 1rem;
+    position: relative; overflow: hidden;
+  }
+  .what-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--teal);
+  }
+  .what-card.gold::before { background: var(--gold); }
+  .what-card.red::before { background: var(--red); }
+  .what-card.navy::before { background: var(--navy); }
+  .wc-num { font-size: 10px; font-weight: 700; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .wc-num.gold-num { color: var(--gold); }
+  .wc-num.red-num { color: var(--red); }
+  .wc-num.navy-num { color: var(--navy2); }
+  .wc-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+  .wc-desc { font-size: 12px; color: var(--g600); line-height: 1.55; }
+
+  /* ─── PIPELINE ────────────── */
+  .pipeline-flow {
+    display: flex; align-items: stretch; gap: 0; margin-bottom: 1.25rem;
+    background: var(--navy); border-radius: 8px; overflow: hidden;
+  }
+  .pf-step { flex: 1; padding: 0.9rem 0.6rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); position: relative; }
+  .pf-step:last-child { border-right: none; }
+  .pf-step-num { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-bottom: 0.3rem; }
+  .pf-step-name { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+  .pf-step-detail { font-size: 10px; color: rgba(255,255,255,0.45); line-height: 1.4; }
+  .pf-step-agent { font-size: 9px; color: var(--teal); margin-top: 0.3rem; font-weight: 600; }
+  .pf-step.active .pf-step-name { color: var(--teal); }
+
+  /* ─── SIGNALS TABLE ─────── */
+  .signals-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; font-size: 12px; }
+  .signals-table th { background: var(--navy); color: white; padding: 0.5rem 0.75rem; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+  .signals-table td { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--g100); color: var(--g800); vertical-align: top; }
+  .signals-table tr:last-child td { border-bottom: none; }
+  .signals-table tr:nth-child(even) td { background: var(--g50); }
+  .sig-score { font-weight: 700; color: var(--teal); }
+  .sig-badge { display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 10px; font-weight: 600; }
+  .sb-high { background: rgba(0,194,160,0.15); color: var(--teal); }
+  .sb-med  { background: rgba(245,166,35,0.15); color: var(--gold); }
+  .sb-low  { background: rgba(108,117,125,0.15); color: var(--g600); }
+
+  /* ─── DELIVERABLES ─────────── */
+  .deliverable-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.25rem; }
+  .del-card {
+    border: 1px solid var(--g200); border-radius: 6px; padding: 0.75rem 0.9rem;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+  }
+  .del-icon {
+    width: 32px; height: 32px; background: var(--navy); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 14px; color: var(--teal);
+  }
+  .del-body { flex: 1; }
+  .del-title { font-weight: 600; color: var(--navy); font-size: 12px; margin-bottom: 2px; }
+  .del-desc { font-size: 11px; color: var(--g600); line-height: 1.45; }
+
+  /* ─── SELLER ARCHETYPES ───── */
+  .archetype-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1.25rem; }
+  .arch-card { border-radius: 5px; padding: 0.65rem 0.6rem; border: 1px solid var(--g200); text-align: center; }
+  .arch-icon { font-size: 18px; margin-bottom: 0.3rem; display: block; }
+  .arch-name { font-size: 10px; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; line-height: 1.3; }
+  .arch-trigger { font-size: 9px; color: var(--g600); line-height: 1.4; }
+
+  /* ─── PROPERTY TYPES ──────── */
+  .prop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1.25rem; }
+  .prop-card {
+    border: 1px solid var(--g200); border-radius: 6px; padding: 0.75rem;
+    background: var(--g50);
+  }
+  .prop-icon { font-size: 20px; margin-bottom: 0.4rem; display: block; }
+  .prop-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; }
+  .prop-why { font-size: 11px; color: var(--g600); line-height: 1.45; margin-bottom: 0.4rem; }
+  .prop-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+  .prop-tag { font-size: 9px; padding: 1px 6px; background: rgba(13,27,42,0.07); color: var(--navy2); border-radius: 3px; font-weight: 600; }
+
+  /* ─── INTEL LAYER ─────────── */
+  .intel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .intel-card { border-radius: 6px; overflow: hidden; border: 1px solid var(--g200); }
+  .intel-header {
+    background: var(--navy); padding: 0.65rem 0.9rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .ih-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: white; }
+  .ih-badge { font-size: 9px; padding: 2px 7px; background: rgba(0,194,160,0.2); color: var(--teal); border-radius: 10px; font-weight: 600; }
+  .intel-body { padding: 0.75rem; background: white; }
+  .intel-stat { font-size: 18px; font-weight: 800; color: var(--teal); margin-bottom: 0.15rem; }
+  .intel-stat-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g400); margin-bottom: 0.5rem; }
+  .intel-desc { font-size: 11px; color: var(--g600); line-height: 1.5; }
+
+  /* ─── AGENT TEAM ──────────── */
+  .agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; margin-bottom: 1.25rem; }
+  .agent-card {
+    border: 1px solid var(--g200); border-radius: 6px; padding: 0.75rem 0.9rem;
+    position: relative; overflow: hidden;
+  }
+  .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--g200); }
+  .agent-card.ct::before { background: var(--teal); }
+  .agent-card.cg::before { background: var(--gold); }
+  .agent-card.cp::before { background: #6366f1; }
+  .agent-card.cr::before { background: var(--red); }
+  .agent-card.cn::before { background: var(--navy2); }
+  .agent-card.cx::before { background: linear-gradient(90deg, #6366f1, var(--teal)); }
+  .agent-card.cx { background: linear-gradient(145deg, rgba(13,27,42,0.96), rgba(26,47,74,0.96)); }
+  .ac-icon { font-size: 18px; margin-bottom: 0.35rem; display: block; }
+  .ac-name { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .agent-card.cx .ac-name { color: white; }
+  .ac-role { font-size: 10px; color: var(--teal); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .ac-desc { font-size: 11px; color: var(--g600); line-height: 1.45; }
+  .agent-card.cx .ac-desc { color: rgba(255,255,255,0.55); }
+  .ac-new { font-size: 9px; padding: 1px 6px; background: rgba(99,102,241,0.2); color: #818cf8; border-radius: 3px; font-weight: 600; display: inline-block; margin-bottom: 0.3rem; }
+
+  /* ─── PRICING ─────────────── */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .price-card {
+    border: 1px solid var(--g200); border-radius: 8px; overflow: hidden;
+  }
+  .price-card.featured { border-color: var(--teal); box-shadow: 0 0 0 1px var(--teal); }
+  .price-header { background: var(--g50); padding: 0.75rem 1rem; border-bottom: 1px solid var(--g200); }
+  .price-card.featured .price-header { background: var(--teal); border-color: var(--teal); }
+  .price-tier-name { font-weight: 700; font-size: 13px; color: var(--navy); margin-bottom: 2px; }
+  .price-card.featured .price-tier-name { color: var(--navy); }
+  .price-tag { font-size: 10px; padding: 1px 7px; background: rgba(13,27,42,0.08); color: var(--navy2); border-radius: 3px; font-weight: 600; display: inline-block; }
+  .price-card.featured .price-tag { background: rgba(13,27,42,0.15); }
+  .price-body { padding: 0.75rem 1rem; }
+  .price-amount { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--navy); margin-bottom: 0.15rem; }
+  .price-amount span { font-size: 13px; font-weight: 400; color: var(--g600); font-family: 'Inter', sans-serif; }
+  .price-note { font-size: 10px; color: var(--g400); margin-bottom: 0.75rem; }
+  .price-includes { list-style: none; padding: 0; }
+  .price-includes li { font-size: 11px; color: var(--g600); padding: 0.2rem 0; padding-left: 1.1rem; position: relative; border-bottom: 1px solid var(--g100); }
+  .price-includes li:last-child { border-bottom: none; }
+  .price-includes li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+
+  /* ─── MARKETS ─────────────── */
+  .market-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+  .mkt-tag { font-size: 11px; padding: 0.25rem 0.7rem; border-radius: 20px; background: var(--navy); color: white; font-weight: 600; }
+  .mkt-tag.active { background: var(--teal); color: var(--navy); }
+
+  /* ─── COMPARISON ──────────── */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 1rem; }
+  .compare-table th { background: var(--navy); color: white; padding: 0.5rem 0.75rem; text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .compare-table th.us-col { background: var(--teal); color: var(--navy); }
+  .compare-table td { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--g100); vertical-align: middle; }
+  .compare-table tr:nth-child(even) td { background: var(--g50); }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .check { color: var(--teal); font-weight: 700; font-size: 13px; }
+  .cross { color: var(--g400); font-size: 13px; }
+  .partial { color: var(--gold); font-size: 11px; }
+  .us-col-data { background: rgba(0,194,160,0.05); font-weight: 600; color: var(--navy); }
+
+  /* ─── PROOF ───────────────── */
+  .proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .proof-stat { text-align: center; border: 1px solid var(--g200); border-radius: 6px; padding: 0.75rem 0.5rem; }
+  .proof-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: var(--teal); line-height: 1; }
+  .proof-lbl { font-size: 10px; color: var(--g600); margin-top: 0.25rem; line-height: 1.35; }
+
+  /* ─── PROCESS ─────────────── */
+  .process-steps { display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+  .ps-row { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .ps-num { width: 28px; height: 28px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .ps-body { flex: 1; padding-top: 4px; }
+  .ps-title { font-weight: 600; color: var(--navy); font-size: 13px; margin-bottom: 2px; }
+  .ps-desc { font-size: 12px; color: var(--g600); line-height: 1.5; }
+
+  /* ─── CTA BLOCK ──────────── */
+  .cta-block {
+    background: var(--navy); border-radius: 8px; padding: 1.25rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cta-left { }
+  .cta-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .cta-right { text-align: right; }
+  .cta-email { font-size: 14px; font-weight: 600; color: var(--teal); }
+  .cta-phone { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .cta-dms { display: flex; gap: 0.4rem; margin-top: 0.5rem; justify-content: flex-end; }
+  .cta-dm { font-size: 10px; padding: 3px 9px; border-radius: 3px; background: rgba(0,194,160,0.15); color: var(--teal); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<button class="download-btn no-print" onclick="window.print()">Download PDF</button>
+
+<!-- ═══════════════ PAGE 1: COVER ══════════════════════ -->
+<div class="page cover">
+  <div class="cover-hd">
+    <div class="cover-mk"><span>DI</span></div>
+    <div class="cover-dt">Full Capability Overview — March 2026 · Confidential</div>
+  </div>
+  <div class="cover-bd">
+    <div class="cover-ey">Deal Intelligence · Commercial Real Estate</div>
+    <div class="cover-h1">Full Capability<br>Overview</div>
+    <div class="cover-rule"></div>
+    <div class="cover-desc">
+      Everything you need to understand what Deal Intelligence does, how the system works, what we deliver, and how to engage. Built for investors, partners, and anyone evaluating a deal sourcing relationship.
+    </div>
+    <div class="cover-stats">
+      <div class="cs-item"><div class="cs-val">3,000+</div><div class="cs-lbl">Listings scanned weekly</div></div>
+      <div class="cs-item"><div class="cs-val">8</div><div class="cs-lbl">Active deal files</div></div>
+      <div class="cs-item"><div class="cs-val">$14.1M</div><div class="cs-lbl">Owner-finance pipeline</div></div>
+      <div class="cs-item"><div class="cs-val">24h</div><div class="cs-lbl">Package turnaround</div></div>
+    </div>
+  </div>
+  <div class="cover-ft">
+    <div class="cf-brand">Deal Intelligence</div>
+    <div class="cf-meta">Jeromy Jordan Smith · jeromyjsmith@gmail.com · 720-998-2888<br>Denver, CO · Operating across all 50 states</div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 2: WHAT WE DO ═════════════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">01 — What We Do</div>
+  </div>
+  <div class="eyebrow">The Service</div>
+  <div class="sec-title">What Deal Intelligence Does</div>
+  <div class="sec-sub">We are a private commercial real estate deal-sourcing operation. We find cash-flowing commercial properties where the seller is already motivated to finance the deal — and deliver everything an investor needs to go from discovery to signed LOI in 24 hours.</div>
+
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="wc-num">01 · Discovery</div>
+      <div class="wc-title">Scan &amp; Filter 3,000+ Listings</div>
+      <div class="wc-desc">Every week, our pipeline scans thousands of active commercial listings across major platforms. Eight proprietary signals separate high-conviction opportunities from noise. Only deals that score above 60/100 advance.</div>
+    </div>
+    <div class="what-card gold">
+      <div class="wc-num gold-num">02 · Analysis</div>
+      <div class="wc-title">100-Point Deal Scoring</div>
+      <div class="wc-desc">Each surviving deal is scored across 8 dimensions: days on market, owner-finance availability, seller motivation language, cap rate, property type, price vs. comps, DOM trajectory, and financing signal strength.</div>
+    </div>
+    <div class="what-card navy">
+      <div class="wc-num navy-num">03 · Profiling</div>
+      <div class="wc-title">Seller Psychology &amp; Pain Mapping</div>
+      <div class="wc-desc">We pull county assessor records, entity filings, court records, and broker profiles to classify each seller into one of 5 archetypes. Each archetype gets a different conversation strategy and script.</div>
+    </div>
+    <div class="what-card red">
+      <div class="wc-num red-num">04 · Outreach</div>
+      <div class="wc-title">Scripts, Cadences &amp; Contact Trees</div>
+      <div class="wc-desc">A complete 3-call close script (stealth buyer voice), email and LinkedIn templates, stakeholder contact tree with 3 tiers of principals, and a 21-day multi-channel outreach cadence — delivered with every deal.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-num">05 · LOI</div>
+      <div class="wc-title">Pre-Filled Letter of Intent</div>
+      <div class="wc-desc">Not a template — a completed document. Purchase price, down payment, seller note amount, interest rate, amortization, balloon, and monthly payment all calculated and filled. DSCR verified. Ready to send.</div>
+    </div>
+    <div class="what-card gold">
+      <div class="wc-num gold-num">06 · Intelligence</div>
+      <div class="wc-title">Prediction Market &amp; Macro Signals</div>
+      <div class="wc-desc">We monitor Kalshi, Polymarket, and Polymarket-Parcl for forward-looking economic signals that affect deal timing, seller psychology, and outreach framing. This is the same data institutional investors pay $50K+/year to access.</div>
+    </div>
+  </div>
+
+  <div class="pipeline-flow">
+    <div class="pf-step active"><div class="pf-step-num">Phase 1</div><div class="pf-step-name">Discovery</div><div class="pf-step-detail">3,000+ listings scanned</div><div class="pf-step-agent">data-collector</div></div>
+    <div class="pf-step active"><div class="pf-step-num">Phase 2</div><div class="pf-step-name">Scoring</div><div class="pf-step-detail">100-point deal model</div><div class="pf-step-agent">deal-scout</div></div>
+    <div class="pf-step active"><div class="pf-step-num">Phase 3</div><div class="pf-step-name">Profiling</div><div class="pf-step-detail">Seller psychology</div><div class="pf-step-agent">market-analyst</div></div>
+    <div class="pf-step active"><div class="pf-step-num">Phase 4</div><div class="pf-step-name">Outreach</div><div class="pf-step-detail">Scripts + cadence</div><div class="pf-step-agent">outreach-specialist</div></div>
+    <div class="pf-step active"><div class="pf-step-num">Phase 5</div><div class="pf-step-name">LOI</div><div class="pf-step-detail">Pre-filled document</div><div class="pf-step-agent">lead-researcher</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 3: DEAL SCORING ═══════════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">02 — Deal Scoring Model</div>
+  </div>
+  <div class="eyebrow">The Filter</div>
+  <div class="sec-title">100-Point Deal Scoring Model</div>
+  <div class="sec-sub">Every deal that enters the pipeline is evaluated across 8 weighted categories. Only deals scoring 60+ advance to full package production. The score tells you how much conviction to bring to the conversation.</div>
+
+  <table class="signals-table">
+    <thead>
+      <tr>
+        <th>Signal Category</th>
+        <th>What We Measure</th>
+        <th>Max Points</th>
+        <th>Weight</th>
+        <th>Why It Matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Financing Signal</strong></td>
+        <td>Owner financing explicitly offered in listing</td>
+        <td><span class="sig-score">25</span></td>
+        <td><span class="sig-badge sb-high">High</span></td>
+        <td>Seller has already decided to carry. Removes the biggest conversation hurdle.</td>
+      </tr>
+      <tr>
+        <td><strong>Days on Market</strong></td>
+        <td>DOM, trajectory, and rate of extension</td>
+        <td><span class="sig-score">20</span></td>
+        <td><span class="sig-badge sb-high">High</span></td>
+        <td>437+ DOM = 14 months of carrying cost paid. Seller is ready to deal.</td>
+      </tr>
+      <tr>
+        <td><strong>Seller Motivation Language</strong></td>
+        <td>NLP scan of listing description for urgency signals</td>
+        <td><span class="sig-score">15</span></td>
+        <td><span class="sig-badge sb-high">High</span></td>
+        <td>"Must sell," "retiring," "below market," "motivated" — each phrase maps to an archetype.</td>
+      </tr>
+      <tr>
+        <td><strong>Cap Rate vs. Threshold</strong></td>
+        <td>Reported or implied cap rate vs. 8% minimum</td>
+        <td><span class="sig-score">15</span></td>
+        <td><span class="sig-badge sb-high">High</span></td>
+        <td>Cap rate above seller note rate = positive leverage = cash flow from day one.</td>
+      </tr>
+      <tr>
+        <td><strong>Price vs. Market Comps</strong></td>
+        <td>Asking price relative to comparable properties</td>
+        <td><span class="sig-score">10</span></td>
+        <td><span class="sig-badge sb-med">Med</span></td>
+        <td>Below-market pricing signals motivated seller or deferred price discovery.</td>
+      </tr>
+      <tr>
+        <td><strong>Property Type</strong></td>
+        <td>Essential service classification</td>
+        <td><span class="sig-score">8</span></td>
+        <td><span class="sig-badge sb-med">Med</span></td>
+        <td>Gas stations, self storage, MHPs, car washes = recession-resistant cash flow.</td>
+      </tr>
+      <tr>
+        <td><strong>Price Reduction History</strong></td>
+        <td>Number and recency of price cuts</td>
+        <td><span class="sig-score">5</span></td>
+        <td><span class="sig-badge sb-low">Low</span></td>
+        <td>Each reduction signals growing seller willingness to negotiate.</td>
+      </tr>
+      <tr>
+        <td><strong>DOM Trajectory</strong></td>
+        <td>Is DOM accelerating or decelerating?</td>
+        <td><span class="sig-score">2</span></td>
+        <td><span class="sig-badge sb-low">Low</span></td>
+        <td>Accelerating DOM = increasing urgency. Decelerating = renewed interest, act fast.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+    <div style="background:rgba(0,194,160,0.08);border:1px solid rgba(0,194,160,0.25);border-radius:5px;padding:0.75rem;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:0.3rem;">Score 85–100</div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:0.2rem;">Elite Opportunity</div>
+      <div style="font-size:11px;color:var(--g600);">Owner financing confirmed, 300+ DOM, explicit seller motivation. Move immediately.</div>
+    </div>
+    <div style="background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.2);border-radius:5px;padding:0.75rem;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:0.3rem;">Score 60–84</div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:0.2rem;">Strong Candidate</div>
+      <div style="font-size:11px;color:var(--g600);">Multiple strong signals present. Full package warranted. Outreach within 48 hours.</div>
+    </div>
+    <div style="background:rgba(108,117,125,0.07);border:1px solid var(--g200);border-radius:5px;padding:0.75rem;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--g600);margin-bottom:0.3rem;">Score &lt; 60</div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:0.2rem;">Disqualified</div>
+      <div style="font-size:11px;color:var(--g600);">Does not meet minimum deal quality threshold. Returns to watch list.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 4: DELIVERABLES ═══════════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">03 — What We Deliver</div>
+  </div>
+  <div class="eyebrow">The Output</div>
+  <div class="sec-title">What's In Every Deal Package</div>
+  <div class="sec-sub">Every deal that clears the 60-point threshold receives a full package. This is not a lead. It is a complete acquisition dossier — everything needed to execute from the moment you receive it.</div>
+
+  <div class="deliverable-grid">
+    <div class="del-card">
+      <div class="del-icon">📊</div>
+      <div class="del-body">
+        <div class="del-title">Deal Card + Score Breakdown</div>
+        <div class="del-desc">100-point score with weighted factor breakdown. DOM, price vs. comps, cap rate, financing status, property type, motivation signals — all quantified. Tells you exactly why this deal matters.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">🧠</div>
+      <div class="del-body">
+        <div class="del-title">Seller Psychological Profile</div>
+        <div class="del-desc">Archetype classification (1 of 5 types). Pain map: what the seller is experiencing financially, operationally, and personally. Optimal engagement approach: urgency, empathy, speed, or simplicity.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">📞</div>
+      <div class="del-body">
+        <div class="del-title">3-Call Close Script</div>
+        <div class="del-desc">Stealth buyer voice — never reveals our intelligence advantage. Three distinct calls: initial contact, follow-up, and closing conversation. Calibrated to seller archetype. Objection handling tree included.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">✉️</div>
+      <div class="del-body">
+        <div class="del-title">Email + LinkedIn Outreach Templates</div>
+        <div class="del-desc">First-contact email, follow-up sequence, LinkedIn message variation. Tone matches seller archetype. Subject lines tested for open rate. Each template is complete — not a fill-in-the-blank framework.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">👥</div>
+      <div class="del-body">
+        <div class="del-title">Stakeholder Contact Tree</div>
+        <div class="del-desc">Tier 1: Listing broker (name, firm, tenure, other active listings). Tier 2: Broker's attorney or associate for relationship-based approaches. Tier 3: Principal/seller direct contact where reachable.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">📅</div>
+      <div class="del-body">
+        <div class="del-title">21-Day Multi-Channel Cadence</div>
+        <div class="del-desc">Day-by-day outreach schedule mapping when to call, email, connect on LinkedIn, and follow up. Designed to maximize response rate without appearing aggressive. Silence protocols included.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">📄</div>
+      <div class="del-body">
+        <div class="del-title">Pre-Filled Letter of Intent</div>
+        <div class="del-desc">A completed LOI — not a template. Purchase price, down payment, seller note amount, interest rate, amortization period, balloon payment, and monthly payment calculated from actual deal figures. DSCR verified.</div>
+      </div>
+    </div>
+    <div class="del-card">
+      <div class="del-icon">🏛️</div>
+      <div class="del-body">
+        <div class="del-title">County Assessor + Entity Summary</div>
+        <div class="del-desc">Ownership history, entity registration date (LLC age = operator tenure), recent court records (liens, judgments), and broker background profile. Context that changes the entire conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--navy);border-radius:6px;padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-family:'Playfair Display',serif;font-size:15px;color:white;font-weight:700;">All of this. Every deal. 24 hours from identification.</div>
+    <div style="text-align:right;">
+      <div style="font-size:11px;color:rgba(255,255,255,0.5);">For any market. Any property type. Any deal size.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 5: SELLER ARCHETYPES ══════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">04 — Seller Intelligence</div>
+  </div>
+  <div class="eyebrow">Seller Psychology</div>
+  <div class="sec-title">The 5 Seller Archetypes</div>
+  <div class="sec-sub">Not every motivated seller is the same. Six years of cold calls, county record pulls, and closed conversations produced this framework. Each archetype gets a different script, a different opening, and a different structure.</div>
+
+  <div class="archetype-grid">
+    <div class="arch-card" style="border-top:3px solid var(--teal);">
+      <span class="arch-icon">🟢</span>
+      <div class="arch-name">The Retiring Operator</div>
+      <div class="arch-trigger">Owned 20+ years. Wants income, not a tax bill. Loves seller financing.</div>
+    </div>
+    <div class="arch-card" style="border-top:3px solid var(--gold);">
+      <span class="arch-icon">🟡</span>
+      <div class="arch-name">The Exhausted Holder</div>
+      <div class="arch-trigger">Tried to sell 3+ times. Energy gone. Responds to speed and simplicity.</div>
+    </div>
+    <div class="arch-card" style="border-top:3px solid var(--red);">
+      <span class="arch-icon">🔴</span>
+      <div class="arch-name">The Failed Speculator</div>
+      <div class="arch-trigger">Investment thesis didn't perform. Underwater. Wants out clean without a loss narrative.</div>
+    </div>
+    <div class="arch-card" style="border-top:3px solid #6366f1;">
+      <span class="arch-icon">🔵</span>
+      <div class="arch-name">The Portfolio Exit</div>
+      <div class="arch-trigger">Liquidating multiple assets. Wants repeatable, simple closes. Ideal for volume.</div>
+    </div>
+    <div class="arch-card" style="border-top:3px solid var(--g400);">
+      <span class="arch-icon">⚫</span>
+      <div class="arch-name">The Distressed Owner</div>
+      <div class="arch-trigger">Liens, code violations, financial pressure. Responds to certainty and no contingencies.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">Retiring Operator — Full Script Logic</div>
+      <div style="font-size:12px;color:var(--g600);line-height:1.6;margin-top:0.4rem;">
+        <p style="margin-bottom:0.4rem;"><strong style="color:var(--navy);">Opening:</strong> "You've built something real here. I'm not here to lowball you — I'm here to structure an exit that pays you every month for the next 20 years."</p>
+        <p style="margin-bottom:0.4rem;"><strong style="color:var(--navy);">The offer:</strong> Asking price (or close to it). 10% down. Seller note at 6%. 25-year amortization.</p>
+        <p><strong style="color:var(--navy);">Tax angle:</strong> Walk them through the installment sale math. Capital gains tax paid over 25 years vs. one check in April. For long-time operators, this is the conversation closer.</p>
+      </div>
+    </div>
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">Owner Finance — The Math</div>
+      <div style="font-size:12px;color:var(--g600);line-height:1.6;margin-top:0.4rem;">
+        <p style="margin-bottom:0.3rem;"><strong style="color:var(--navy);">Deal structure template:</strong></p>
+        <div style="font-family:'Inter',sans-serif;font-size:11px;color:var(--g800);border:1px solid var(--g100);border-radius:4px;padding:0.5rem;background:var(--g50);">
+          Purchase price: <strong>$X</strong><br>
+          Down payment: <strong>10–20%</strong><br>
+          Seller note: <strong>80–90% of PP</strong><br>
+          Rate: <strong>5–7%</strong> (below bank rates)<br>
+          Amortization: <strong>20–30 years</strong><br>
+          Balloon: <strong>5–10 years</strong><br>
+          Monthly payment: <strong>DSCR verified &gt; 1.0</strong>
+        </div>
+        <p style="margin-top:0.4rem;">Monthly NOI must exceed monthly debt service. We verify this in every LOI before delivery.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Target Property Types (Priority Order)</div>
+  <div class="prop-grid">
+    <div class="prop-card">
+      <span class="prop-icon">🏕️</span>
+      <div class="prop-name">Mobile Home Parks</div>
+      <div class="prop-why">Low management burden. Steady cash flow. Affordable housing demand inelastic to recession. Land-lease model = zero building maintenance.</div>
+      <div class="prop-tags"><span class="prop-tag">Passive</span><span class="prop-tag">Scalable</span><span class="prop-tag">Recession-proof</span></div>
+    </div>
+    <div class="prop-card">
+      <span class="prop-icon">📦</span>
+      <div class="prop-name">Self Storage</div>
+      <div class="prop-why">Lowest management overhead in CRE. Recession-resistant — people downsize into storage. Automated operations. Tenant churn is low friction.</div>
+      <div class="prop-tags"><span class="prop-tag">Automated</span><span class="prop-tag">Low-maintenance</span><span class="prop-tag">Scalable</span></div>
+    </div>
+    <div class="prop-card">
+      <span class="prop-icon">⛽</span>
+      <div class="prop-name">Gas Stations</div>
+      <div class="prop-why">Essential service with captive C-store revenue. Owner-operators retiring = prime seller financing candidates. Special purpose = conventional buyers eliminated.</div>
+      <div class="prop-tags"><span class="prop-tag">Essential</span><span class="prop-tag">Captive revenue</span><span class="prop-tag">Unlendable</span></div>
+    </div>
+    <div class="prop-card">
+      <span class="prop-icon">🚗</span>
+      <div class="prop-name">Car Washes</div>
+      <div class="prop-why">Simple operations, recurring revenue, high-traffic locations. Subscription model growing. Seller financing common among retiring owner-operators.</div>
+      <div class="prop-tags"><span class="prop-tag">Recurring</span><span class="prop-tag">Simple ops</span><span class="prop-tag">High margin</span></div>
+    </div>
+    <div class="prop-card">
+      <span class="prop-icon">🏠</span>
+      <div class="prop-name">Small Multifamily</div>
+      <div class="prop-why">Cash flow + appreciation + tax benefits. 5–20 unit buildings often owned by retiring operators who purchased 20+ years ago. Seller carry math is compelling.</div>
+      <div class="prop-tags"><span class="prop-tag">Cash flow</span><span class="prop-tag">Tax benefits</span><span class="prop-tag">Appreciation</span></div>
+    </div>
+    <div class="prop-card">
+      <span class="prop-icon">🏨</span>
+      <div class="prop-name">Motels</div>
+      <div class="prop-why">Deep value-add if distressed. Extended stay demand high. Unlendable for conventional buyers = maximum negotiating position. Owner-operated = retiring seller archetype.</div>
+      <div class="prop-tags"><span class="prop-tag">Value-add</span><span class="prop-tag">Unlendable</span><span class="prop-tag">High DOM</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 6: INTELLIGENCE LAYER ═════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">05 — Intelligence Layer</div>
+  </div>
+  <div class="eyebrow">Prediction Market Intelligence</div>
+  <div class="sec-title">The Intelligence Layer</div>
+  <div class="sec-sub">Most buyers look at the current market. We look at what the market will be in 90 days. Prediction market data gives us forward-looking economic signals that most CRE investors don't know exist — and that institutional shops pay $50K+/year to access.</div>
+
+  <div class="intel-grid">
+    <div class="intel-card">
+      <div class="intel-header">
+        <div class="ih-name">Kalshi</div>
+        <div class="ih-badge">Regulated Exchange</div>
+      </div>
+      <div class="intel-body">
+        <div class="intel-stat">100%</div>
+        <div class="intel-stat-lbl">FOMC prediction accuracy since 2022</div>
+        <div class="intel-desc">Federally regulated financial exchange. Traders bet real money on Fed rate decisions. When Kalshi shows 65%+ probability of a rate cut, cap rates are about to compress and property values will rise. We use this to time outreach and frame urgency.</div>
+      </div>
+    </div>
+    <div class="intel-card">
+      <div class="intel-header">
+        <div class="ih-name">Polymarket</div>
+        <div class="ih-badge">Macro Signals</div>
+      </div>
+      <div class="intel-body">
+        <div class="intel-stat">40.1%</div>
+        <div class="intel-stat-lbl">Lower CPI forecast error vs. economists</div>
+        <div class="intel-desc">Decentralized prediction market for macro and policy events. Provides crowd-sourced probability on inflation, unemployment, and policy changes. More accurate than traditional economist forecasts. Gives us the macro context before entering any market.</div>
+      </div>
+    </div>
+    <div class="intel-card">
+      <div class="intel-header">
+        <div class="ih-name">Polymarket-Parcl</div>
+        <div class="ih-badge">City-Level RE</div>
+      </div>
+      <div class="intel-body">
+        <div class="intel-stat">6–18mo</div>
+        <div class="intel-stat-lbl">Lead time over REIT price movements</div>
+        <div class="intel-desc">City-level real estate price prediction markets. Before we approach a seller in Denver, Phoenix, or any target market, we know what direction prices are moving and whether urgency framing is warranted. City-specific intelligence, not national averages.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">How We Use This Data</div>
+      <div style="font-size:12px;color:var(--g600);margin-top:0.4rem;line-height:1.6;">
+        <div style="margin-bottom:0.3rem;"><strong style="color:var(--navy);">Deal Timing:</strong> When Kalshi shows rate cut probability &gt; 65%, we accelerate outreach. Property values are about to rise — the seller's window to sell at current prices is closing.</div>
+        <div style="margin-bottom:0.3rem;"><strong style="color:var(--navy);">Seller Psychology:</strong> Rate cut probability becomes urgency framing in our scripts: "The rate environment is shifting. Buyers who couldn't finance this 90 days ago will be competing next quarter."</div>
+        <div><strong style="color:var(--navy);">LOI Pricing:</strong> Polymarket-Parcl city indices inform whether to offer asking price or negotiate. Rising market = tighter offer. Declining market = negotiate harder.</div>
+      </div>
+    </div>
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">The Signal → Action Chain</div>
+      <div style="margin-top:0.5rem;">
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:11px;">
+            <div style="background:rgba(0,194,160,0.15);color:var(--teal);padding:2px 8px;border-radius:3px;font-weight:700;font-size:10px;flex-shrink:0;">Kalshi 71%</div>
+            <div style="color:var(--g600);">→ Rate cut likely → Cap rates compressing → Accelerate outreach, frame urgency</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:11px;">
+            <div style="background:rgba(245,166,35,0.12);color:var(--gold);padding:2px 8px;border-radius:3px;font-weight:700;font-size:10px;flex-shrink:0;">Parcl Rising</div>
+            <div style="color:var(--g600);">→ Target market prices rising → Move fast → Offer at or near asking</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:11px;">
+            <div style="background:rgba(230,57,70,0.1);color:var(--red);padding:2px 8px;border-radius:3px;font-weight:700;font-size:10px;flex-shrink:0;">Parcl Flat</div>
+            <div style="color:var(--g600);">→ Market stalling → Negotiate harder → Seller has no rising market to wait for</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:11px;">
+            <div style="background:rgba(108,117,125,0.1);color:var(--g600);padding:2px 8px;border-radius:3px;font-weight:700;font-size:10px;flex-shrink:0;">Poly CPI Low</div>
+            <div style="color:var(--g600);">→ Inflation under control → Stable rate environment → Long-term note structure favorable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">Proof Points (Validated)</div>
+  <div class="proof-grid">
+    <div class="proof-stat"><div class="proof-val">100%</div><div class="proof-lbl">Kalshi FOMC accuracy since 2022</div></div>
+    <div class="proof-stat"><div class="proof-val">40.1%</div><div class="proof-lbl">Lower CPI error vs. economists (Polymarket)</div></div>
+    <div class="proof-stat"><div class="proof-val">6–18mo</div><div class="proof-lbl">Parcl lead time over REIT movements</div></div>
+    <div class="proof-stat"><div class="proof-val">$50K+</div><div class="proof-lbl">Cost to access this data at institutional level</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 7: THE TEAM ═══════════════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">06 — The System</div>
+  </div>
+  <div class="eyebrow">Multi-Agent Architecture</div>
+  <div class="sec-title">The Agent Team</div>
+  <div class="sec-sub">Six specialized AI agents work as an orchestrated team. Each agent has one job and one job only. The lead researcher coordinates the pipeline, delegates to specialists, and assembles the final package. This is not a chatbot — it is a production system.</div>
+
+  <div class="agent-grid">
+    <div class="agent-card ct">
+      <span class="ac-icon">🎯</span>
+      <div class="ac-name">Lead Researcher</div>
+      <div class="ac-role">Pipeline Orchestrator</div>
+      <div class="ac-desc">Coordinates all other agents. Defines search scope, delegates tasks, validates outputs, and assembles the final deal package. The hub of the operation.</div>
+    </div>
+    <div class="agent-card cg">
+      <span class="ac-icon">🔍</span>
+      <div class="ac-name">Data Collector</div>
+      <div class="ac-role">Scraping &amp; Discovery</div>
+      <div class="ac-desc">Scans commercial listing platforms weekly. Extracts structured data from 3,000+ listings. Applies initial filtering to identify candidates for scoring.</div>
+    </div>
+    <div class="agent-card cp">
+      <span class="ac-icon">📈</span>
+      <div class="ac-name">Market Analyst</div>
+      <div class="ac-role">Market Context</div>
+      <div class="ac-desc">Enriches listings with market comparables, cap rate benchmarks, and price-per-unit analysis. Provides regional context for deal evaluation.</div>
+    </div>
+    <div class="agent-card cr">
+      <span class="ac-icon">⭐</span>
+      <div class="ac-name">Deal Scout</div>
+      <div class="ac-role">Scoring &amp; Ranking</div>
+      <div class="ac-desc">Applies the 100-point scoring model to all candidates. Ranks deals by composite score. Only packages scoring 60+ advance to full production.</div>
+    </div>
+    <div class="agent-card cn">
+      <span class="ac-icon">✍️</span>
+      <div class="ac-name">Outreach Specialist</div>
+      <div class="ac-role">Scripts &amp; LOI</div>
+      <div class="ac-desc">Generates seller profiles, 3-call close scripts, email/LinkedIn templates, 21-day cadences, stakeholder contact trees, and pre-filled LOI documents.</div>
+    </div>
+    <div class="agent-card cx">
+      <span class="ac-icon">📡</span>
+      <div class="ac-name">Prediction Market Intel</div>
+      <div class="ac-role ac-role" style="color:#818cf8;">Market Intelligence</div>
+      <span class="ac-new">New</span>
+      <div class="ac-desc">Monitors Kalshi, Polymarket, and Polymarket-Parcl in real time. Translates macro signals into deal timing recommendations and urgency framing for outreach scripts.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">What 6 Years Built</div>
+      <div style="margin-top:0.4rem;">
+        <div style="font-size:12px;color:var(--g600);line-height:1.6;">
+          <div style="margin-bottom:0.3rem;"><strong style="color:var(--navy);">Years 1–2:</strong> 180+ cold calls to long-DOM sellers. Manual spreadsheets. Gut instinct. Learned what motivated sellers actually sound like.</div>
+          <div style="margin-bottom:0.3rem;"><strong style="color:var(--navy);">Years 3–4:</strong> County assessor templates. Broker profiling workflows. Seller psychology frameworks. Tools built once, reused on every deal.</div>
+          <div><strong style="color:var(--navy);">Years 5–6:</strong> Multi-agent AI pipelines replaced manual research. Discovery through LOI, automated. Now runs any market in under 24 hours.</div>
+        </div>
+      </div>
+    </div>
+    <div style="border:1px solid var(--g200);border-radius:6px;padding:0.9rem 1rem;">
+      <div class="eyebrow">Active Markets</div>
+      <div class="market-tags" style="margin-top:0.4rem;">
+        <span class="mkt-tag active">Nevada County, CA</span>
+        <span class="mkt-tag active">Colorado</span>
+        <span class="mkt-tag active">USA Nationwide</span>
+        <span class="mkt-tag">Dallas, TX</span>
+        <span class="mkt-tag">Las Vegas, NV</span>
+        <span class="mkt-tag">Atlanta, GA</span>
+        <span class="mkt-tag">Nashville, TN</span>
+        <span class="mkt-tag">+ Any US Market</span>
+      </div>
+      <div style="font-size:11px;color:var(--g600);margin-top:0.4rem;">Active (teal) = current pipeline deals. We can run the system for any market on request.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE 8: HOW TO HIRE US ════════════ -->
+<div class="page inner">
+  <div class="ph">
+    <div class="ph-brand"><div class="ph-mark"><span>DI</span></div><div class="ph-name">Deal Intelligence</div></div>
+    <div class="ph-right">07 — Engagement Options</div>
+  </div>
+  <div class="eyebrow">How to Work With Us</div>
+  <div class="sec-title">Engagement Options</div>
+  <div class="sec-sub">Three ways to work with Deal Intelligence, depending on your investment pace, market focus, and deal volume. All engagements begin with a buy box definition call.</div>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-tier-name">Single Deal Package</div>
+        <span class="price-tag">Per deal</span>
+      </div>
+      <div class="price-body">
+        <div class="price-amount">$1,500 <span>/ deal</span></div>
+        <div class="price-note">50% upfront · 50% on delivery</div>
+        <ul class="price-includes">
+          <li>Full 100-point scored deal card</li>
+          <li>Seller psychological profile</li>
+          <li>3-call close script</li>
+          <li>Email + LinkedIn templates</li>
+          <li>Stakeholder contact tree</li>
+          <li>21-day outreach cadence</li>
+          <li>Pre-filled Letter of Intent</li>
+          <li>County assessor + entity summary</li>
+        </ul>
+      </div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-header">
+        <div class="price-tier-name">Pipeline Subscription</div>
+        <span class="price-tag">Most popular</span>
+      </div>
+      <div class="price-body">
+        <div class="price-amount">$4,500 <span>/ month</span></div>
+        <div class="price-note">Billed monthly · No setup fee</div>
+        <ul class="price-includes">
+          <li>4–6 deal packages per month</li>
+          <li>Specific market + property type targeting</li>
+          <li>Buy box definition + refinement</li>
+          <li>Prediction market intelligence briefing</li>
+          <li>Priority on high-DOM pipeline deals</li>
+          <li>Direct access for deal questions</li>
+          <li>Monthly pipeline review call</li>
+          <li>Cancel anytime with 30-day notice</li>
+        </ul>
+      </div>
+    </div>
+    <div class="price-card">
+      <div class="price-header">
+        <div class="price-tier-name">Acquisition Partner</div>
+        <span class="price-tag">Equity only</span>
+      </div>
+      <div class="price-body">
+        <div class="price-amount">10–30% <span>equity split</span></div>
+        <div class="price-note">No upfront fee · Earned at close</div>
+        <ul class="price-includes">
+          <li>Full pipeline access, no per-deal fee</li>
+          <li>Deal sourcing through close support</li>
+          <li>Negotiation strategy consultation</li>
+          <li>LOI and term sheet review</li>
+          <li>Equity % negotiated by deal type</li>
+          <li>Ideal for first-deal investors</li>
+          <li>Vetted relationship required</li>
+          <li>Limited to 3 partners at a time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow" style="margin-bottom:0.4rem;">How to Start</div>
+  <div class="process-steps">
+    <div class="ps-row">
+      <div class="ps-num">1</div>
+      <div class="ps-body"><div class="ps-title">Define Your Buy Box</div><div class="ps-desc">Tell us your target markets, property types, price range, and down payment capacity. 20-minute call or email exchange. We scope the pipeline to match your parameters.</div></div>
+    </div>
+    <div class="ps-row">
+      <div class="ps-num">2</div>
+      <div class="ps-body"><div class="ps-title">Receive a Sample Package</div><div class="ps-desc">We'll pull a redacted deal from the active pipeline that matches your buy box. You'll see exactly what the deliverable looks like before committing to any engagement.</div></div>
+    </div>
+    <div class="ps-row">
+      <div class="ps-num">3</div>
+      <div class="ps-body"><div class="ps-title">Sign the MSA + Start</div><div class="ps-desc">Our Master Service Agreement covers scope, confidentiality, IP ownership, payment terms, and engagement terms. Typically a 15-minute review. First package delivered within 24 hours of kickoff.</div></div>
+    </div>
+  </div>
+
+  <div class="cta-block" style="margin-top:1rem;">
+    <div class="cta-left">
+      <div class="cta-title">Ready to define your scope?</div>
+      <div class="cta-sub">Not a course. Not a community. A deal sourcing operation that delivers packages you execute on.</div>
+      <div class="cta-dms">
+        <span class="cta-dm">DM "SCOPE"</span>
+        <span class="cta-dm">DM "PIPELINE"</span>
+      </div>
+    </div>
+    <div class="cta-right">
+      <div class="cta-email">jeromyjsmith@gmail.com</div>
+      <div class="cta-phone">720-998-2888</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:0.5rem;">Jeromy Jordan Smith · Denver, CO</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;text-align:center;">
+    <div style="font-size:10px;color:var(--g400);">Deal Intelligence · Full Capability Overview · March 2026 · Confidential — Do not distribute without authorization</div>
+  </div>
+</div>
+
+</body>
+</html>
