@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction Market Intelligence — Deal Intelligence Research Report 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070f18;
+    --surface: #0d1b2a;
+    --card: #112236;
+    --border: #1e3048;
+    --accent: #00c2a0;
+    --accent-glow: rgba(0,194,160,0.12);
+    --accent2: #f5a623;
+    --accent3: #f5a623;
+    --accent4: #00c2a0;
+    --danger: #e63946;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-bright: #f8fafc;
+    --navy: #0d1b2a;
+    --teal: #00c2a0;
+    --gold: #f5a623;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── DI TOPBAR ── */
+  .di-topbar {
+    background: rgba(13,27,42,0.98);
+    border-bottom: 1px solid rgba(0,194,160,0.15);
+    padding: 0 40px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    backdrop-filter: blur(12px);
+  }
+  .di-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .di-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--teal);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--navy);
+    flex-shrink: 0;
+  }
+  .di-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+  }
+  .di-back {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .di-back:hover { color: var(--teal); }
+  .di-topbar-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: rgba(0,194,160,0.1);
+    border: 1px solid rgba(0,194,160,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #070f18 0%, #0d1b2a 40%, #0a1e18 70%, #070f18 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(0,194,160,0.06) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00c2a0, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    margin-bottom: 12px;
+    font-family: 'Playfair Display', serif;
+  }
+  .hero .subtitle {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    position: relative;
+  }
+  .hero .meta {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+    flex-wrap: wrap;
+  }
+  .hero .meta span {
+    background: var(--card);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+  /* Navigation */
+  .nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 56px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 16px 24px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .nav-btn:hover { color: var(--text); background: rgba(0,194,160,0.04); }
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* Sections */
+  .section { display: none; padding: 48px 0; }
+  .section.active { display: block; }
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-bright);
+    font-family: 'Playfair Display', serif;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-bottom: 40px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .card h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 12px;
+  }
+  .card p, .card li {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .card ul { padding-left: 20px; }
+  .card ul li { margin-bottom: 6px; }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .di-topbar { padding: 0 16px; }
+  }
+
+  /* Stats */
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    font-family: 'Playfair Display', serif;
+  }
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .stat-value.accent { color: var(--accent); }
+  .stat-value.accent2 { color: var(--accent2); }
+  .stat-value.accent3 { color: var(--gold); }
+  .stat-value.accent4 { color: var(--teal); }
+  .stat-value.danger { color: var(--danger); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--surface);
+    color: var(--accent);
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  tr:hover td { background: rgba(0,194,160,0.03); }
+
+  /* Chart containers */
+  .chart-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .chart-container h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 16px;
+  }
+  canvas { max-height: 400px; }
+
+  /* Mermaid */
+  .mermaid-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .mermaid-wrap h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 16px;
+  }
+  .mermaid { text-align: center; }
+  .mermaid svg { max-width: 100%; }
+
+  /* Key findings */
+  .finding {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 16px;
+  }
+  .finding-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: var(--accent-glow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--teal);
+    font-weight: 800;
+    font-family: 'Playfair Display', serif;
+  }
+  .finding-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+  }
+  .finding-content p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 2px;
+  }
+  .tag-blue { background: rgba(0,194,160,0.12); color: #00c2a0; }
+  .tag-cyan { background: rgba(245,166,35,0.12); color: #f5a623; }
+  .tag-amber { background: rgba(245,166,35,0.12); color: #f5a623; }
+  .tag-green { background: rgba(0,194,160,0.12); color: #00c2a0; }
+  .tag-red { background: rgba(230,57,70,0.12); color: #e63946; }
+
+  /* Blockquote */
+  .insight {
+    border-left: 3px solid var(--accent2);
+    padding: 16px 24px;
+    margin: 20px 0;
+    background: rgba(245,166,35,0.04);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text);
+  }
+  .insight cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+
+  /* Progress bars */
+  .progress-bar {
+    height: 8px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+
+  /* CRE callout */
+  .cre-callout {
+    background: linear-gradient(135deg, rgba(0,194,160,0.08), rgba(245,166,35,0.05));
+    border: 1px solid rgba(0,194,160,0.2);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+  .cre-callout h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .cre-callout p {
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- DI TOP BAR -->
+<div class="di-topbar">
+  <a href="index.html" class="di-brand">
+    <div class="di-logo">DI</div>
+    <span class="di-name">Deal Intelligence</span>
+  </a>
+  <span class="di-topbar-tag">Intelligence Layer</span>
+  <a href="index.html" class="di-back">← Back to Overview</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Prediction Market Intelligence</h1>
+  <p class="subtitle">From Arbitrage Engine to Behavioral Influence Platform — Strategic Research Report 2026</p>
+  <div class="meta">
+    <span>4 Research Streams</span>
+    <span>March 2026</span>
+    <span>80+ Sources</span>
+    <span>Deal Intelligence Research</span>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('exec', event)">Executive Summary</button>
+    <button class="nav-btn" onclick="showSection('mm', event)">Market Making</button>
+    <button class="nav-btn" onclick="showSection('psych', event)">Psychology &amp; Influence</button>
+    <button class="nav-btn" onclick="showSection('creation', event)">Market Creation</button>
+    <button class="nav-btn" onclick="showSection('intel', event)">Intelligence as a Service</button>
+    <button class="nav-btn" onclick="showSection('roadmap', event)">Strategic Roadmap</button>
+    <button class="nav-btn" onclick="showSection('sources', event)">Sources</button>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- EXECUTIVE SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section active" id="exec">
+  <h2 class="section-title">Executive Summary</h2>
+  <p class="section-subtitle">The thesis: Prediction markets are not just trading venues — they are behavioral influence infrastructure.</p>
+
+  <div class="cre-callout">
+    <h4>CRE Application — Why This Matters for Deal Intelligence</h4>
+    <p>Prediction markets on Kalshi and Polymarket provide real-time probability signals on Fed rate decisions, cap rate compression timelines, and regional economic events — data that institutional investors pay $50K+/year to access. We've integrated this signal layer directly into the Deal Intelligence pipeline to time acquisitions and anticipate seller psychology shifts.</p>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-value accent">$50B</div>
+      <div class="stat-label">2025 Annualized Volume</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent2">$40M+</div>
+      <div class="stat-label">Cross-Platform Arb Profits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent3">25%</div>
+      <div class="stat-label">Error Reduction vs Expert</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent4">$50.1B</div>
+      <div class="stat-label">Decision Intel Market by 2030</div>
+    </div>
+  </div>
+
+  <div class="finding">
+    <div class="finding-icon">1</div>
+    <div class="finding-content">
+      <h4>Prediction Markets Are Now Media Infrastructure</h4>
+      <p>WSJ, CNN, CNBC embed live odds. $3.3B wagered on the 2024 election. Market prices ARE the news, not just reflecting it.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <div class="finding-icon">2</div>
+    <div class="finding-content">
+      <h4>Self-Fulfilling Prophecy Is Real and Documented</h4>
+      <p>Stanford GSB, PMC, and Oxford research confirm: published market probabilities create bandwagon effects that move real-world outcomes. This is not theory — it's measured.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <div class="finding-icon">3</div>
+    <div class="finding-content">
+      <h4>The Intelligence Gap Is Wide Open</h4>
+      <p>No company currently offers corporate decision intelligence derived from prediction market signals. ICE-Polymarket sells raw data. Metaculus has research. Nobody packages actionable insight for enterprise.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <div class="finding-icon">4</div>
+    <div class="finding-content">
+      <h4>Market Making = Profitable Now</h4>
+      <p>gabagool22: $200K+ profits. @defiance_cr: $800/day peak on $10K capital. Zero maker fees on most markets. Jump Trading just entered — institutional validation AND competition.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <div class="finding-icon">5</div>
+    <div class="finding-content">
+      <h4>Market Creation Is Gated But Influenceable</h4>
+      <p>Polymarket controls market creation. But liquidity sponsorship, embed distribution, and strategic proposals give outsiders real leverage over what markets exist and how they perform.</p>
+    </div>
+  </div>
+
+  <div class="mermaid-wrap">
+    <h3>The Strategic Evolution: Arbitrage → Intelligence → Influence</h3>
+    <div class="mermaid">
+graph LR
+    A["Phase 0<br/>Arbitrage Engine"] -->|"Validated"| B["Phase 1<br/>Market Making"]
+    B -->|"Signal Capture"| C["Phase 2<br/>Intelligence Feed"]
+    C -->|"Client Delivery"| D["Phase 3<br/>Intelligence as a Service"]
+    D -->|"Behavioral Leverage"| E["Phase 4<br/>Influence Platform"]
+
+    style A fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style B fill:#0a2010,stroke:#00c2a0,color:#e2e8f0
+    style C fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    style D fill:#0a2a1e,stroke:#00c2a0,color:#e2e8f0
+    style E fill:#1a0a0a,stroke:#e63946,color:#e2e8f0
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>The Core Thesis in One Paragraph</h3>
+    <p>Prediction markets have crossed the threshold from niche curiosity to mainstream information infrastructure. Media partnerships (WSJ, CNN, CNBC) mean that market prices <em>become</em> the public narrative. Academic research confirms these prices influence voter behavior, investor decisions, and consumer confidence through anchoring, bandwagon effects, and self-fulfilling prophecy dynamics. A well-capitalized operator who understands both the trading mechanics (market making, arbitrage) and the behavioral dynamics (framing, partition dependence, media amplification) occupies a unique position: they can simultaneously extract profit from market inefficiencies AND shape the information environment that drives real-world decision-making. The gap between "raw prediction market data" and "corporate decision intelligence" is currently unfilled at scale — representing a $50B+ market opportunity.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- MARKET MAKING -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="mm">
+  <h2 class="section-title">Market Making Mechanics</h2>
+  <p class="section-subtitle">How money is made, who's making it, and what infrastructure exists.</p>
+
+  <div class="grid-3" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-value accent">0%</div>
+      <div class="stat-label">Maker Fees (Most Markets)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent2">$200K+</div>
+      <div class="stat-label">gabagool22 Profits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent3">20</div>
+      <div class="stat-label">Jump Trading Staff Hired</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>No Application Required</h3>
+    <p>Anyone can market make on Polymarket by posting GTC limit orders. The barrier is technical and capital — not regulatory or permissioning. Polymarket's official <code style="background:var(--surface);padding:2px 6px;border-radius:4px;font-size:0.9em;color:var(--teal);">poly-market-maker</code> repo provides a reference implementation with two strategies: Bands (fixed spread) and AMM (formula-driven quotes).</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-container">
+      <h3>Market Maker Return Tiers</h3>
+      <canvas id="mmReturnsChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <h3>Incentive Program Revenue Streams</h3>
+      <canvas id="incentiveChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>The Q-Score Formula</h3>
+    <p>Liquidity rewards are distributed daily based on Q-score:</p>
+    <div style="background:var(--surface);padding:16px;border-radius:8px;margin:12px 0;font-family:monospace;font-size:1.1rem;text-align:center;color:var(--accent);">
+      S(v, s) = ((v - s) / v)² × b
+    </div>
+    <p><strong>v</strong> = market's rewardsMaxSpread &nbsp;|&nbsp; <strong>s</strong> = your spread distance from midpoint &nbsp;|&nbsp; <strong>b</strong> = order size</p>
+    <p style="margin-top:12px;">Quadratic function — tighter spreads are rewarded <em>non-linearly</em>. An order at the midpoint scores perfectly; one at the edge scores near zero. Two-sided liquidity earns minimum of both sides' scores. Single-sided gets divided by 3.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Major Player</th><th>Type</th><th>Strategy</th><th>Capital</th><th>Key Detail</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>gabagool22</strong></td><td>Independent Bot</td><td>YES/NO gap arb + momentum</td><td>Undisclosed</td><td>Built in Rust, sold commercially, $200K+ profits</td></tr>
+        <tr><td><strong>Jump Trading</strong></td><td>Institutional</td><td>Full market making</td><td>$100M+</td><td>Equity stakes in Polymarket + Kalshi, 20 dedicated staff</td></tr>
+        <tr><td><strong>Polymarket In-House</strong></td><td>Platform</td><td>Internal desk</td><td>Platform capital</td><td>Hiring internal team to trade against customers (Dec 2025)</td></tr>
+        <tr><td><strong>@defiance_cr</strong></td><td>Open-Source LP</td><td>Volatility-ranked selection</td><td>$10K</td><td>$700-800/day at peak, open-source code</td></tr>
+        <tr><td><strong>ICE / NYSE</strong></td><td>Infrastructure</td><td>Data partnership</td><td>$2B invested</td><td>Polymarket Signals & Sentiment product (Feb 2026)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Maker Rebates Program (New — 2026)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Market Type</th><th>Launch</th><th>Rebate Rate</th><th>Taker Fee</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>15-min Crypto</td><td>Jan 19, 2026</td><td>20% of taker fees</td><td>~1.56% max</td></tr>
+          <tr><td>5-min Crypto</td><td>Feb 12, 2026</td><td>20% of taker fees</td><td>~1.56% max</td></tr>
+          <tr><td>Sports (NCAAB, Serie A)</td><td>Feb 18, 2026</td><td>25% of taker fees</td><td>~0.44% max</td></tr>
+          <tr><td>1H/4H/Daily/Weekly Crypto</td><td>Mar 6, 2026</td><td>20% of taker fees</td><td>~1.56% max</td></tr>
+          <tr><td>Most Prediction Markets</td><td>—</td><td>N/A</td><td><strong>Zero fees</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="insight">
+    "gabagool22's strategy IS our strategy — it exploits the YES + NO &lt; $1.00 gap. The core approach is in direct competition with this bot on crypto UP/DOWN markets. Key difference: gabagool is Rust-based, VPS-deployed, and commercially sold."
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- PSYCHOLOGY & INFLUENCE -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="psych">
+  <h2 class="section-title">Psychology &amp; Behavioral Influence</h2>
+  <p class="section-subtitle">How prediction market prices reshape reality through documented psychological mechanisms.</p>
+
+  <div class="grid-3" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-value accent">$3.3B</div>
+      <div class="stat-label">2024 Election Market Volume</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent3">$80M</div>
+      <div class="stat-label">"French Whale" Profit</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value danger">74%</div>
+      <div class="stat-label">IEM Outperformance vs Polls</div>
+    </div>
+  </div>
+
+  <div class="cre-callout">
+    <h4>CRE Application — Seller Psychology Signals</h4>
+    <p>When Kalshi's FOMC probability crosses 70% for a rate cut, sellers who've been holding out for "better conditions" become more likely to accept current terms. The behavioral shift is measurable: 437-DOM properties see renewed negotiation activity in the 2–3 weeks following probability spikes. We monitor this signal to time outreach campaigns.</p>
+  </div>
+
+  <div class="mermaid-wrap">
+    <h3>The Self-Fulfilling Prophecy Loop</h3>
+    <div class="mermaid">
+graph TD
+    A["Deep-Pocket Actor<br/>Moves Market Price"] --> B["Media Reports<br/>'Market Says X%'"]
+    B --> C["Anchoring Effect<br/>Public Adopts New Prior"]
+    C --> D["Behavioral Change<br/>Voting / Buying / Investing"]
+    D --> E["Outcome Shifts<br/>Toward Predicted Direction"]
+    E --> F["Market Price Validated<br/>'Markets Got It Right'"]
+    F --> G["Institutional Trust<br/>Increases Further"]
+    G --> A
+
+    style A fill:#1a0a0a,stroke:#e63946,color:#e2e8f0
+    style B fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    style C fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style D fill:#0a2a1e,stroke:#00c2a0,color:#e2e8f0
+    style E fill:#0a2010,stroke:#00c2a0,color:#e2e8f0
+    style F fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style G fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Documented Influence Mechanisms</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mechanism</th><th>Evidence</th><th>Key Source</th></tr></thead>
+          <tbody>
+            <tr><td>Self-Fulfilling Prophecy</td><td><span class="tag tag-amber">Moderate</span></td><td>Stanford GSB, PMC</td></tr>
+            <tr><td>Anchoring / Framing</td><td><span class="tag tag-green">Strong</span></td><td>Federal Reserve, ScienceDirect</td></tr>
+            <tr><td>Media Amplification</td><td><span class="tag tag-green">Strong</span></td><td>Atlantic Council, Axios</td></tr>
+            <tr><td>Herding / Cascades</td><td><span class="tag tag-green">Strong</span></td><td>INET Oxford 2026</td></tr>
+            <tr><td>Market Manipulation</td><td><span class="tag tag-amber">Moderate</span></td><td>Chapman, Management Science</td></tr>
+            <tr><td>Favorite-Longshot Bias</td><td><span class="tag tag-green">Strong</span></td><td>NBER, ScienceDirect</td></tr>
+            <tr><td>Real-World Outcome Shift</td><td><span class="tag tag-red">Suggestive</span></td><td>Multiple observational</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="chart-container">
+      <h3>Media Partnership Timeline</h3>
+      <canvas id="mediaChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>The "French Whale" Case Study — $80M Proof of Concept</h3>
+    <p>One entity placed <strong>$45M+</strong> in Trump bets across 4 accounts (Fredi9999, Theo4, PrincessCaro, Michie), skewing Polymarket odds. Media widely reported these elevated odds as evidence Trump was the frontrunner. Trump won. The whale profited $80M+.</p>
+    <p style="margin-top:12px;"><strong>The unresolved question:</strong> Did elevated Polymarket odds <em>influence</em> undecided voters, donors, or media coverage? No definitive causal study exists — but the circumstantial chain is documented by the Atlantic Council, WSJ, and CBS 60 Minutes.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Corporate Prediction Market Results</h3>
+      <ul>
+        <li><strong>Google:</strong> Internal markets outperformed expert forecasts by up to 25% error reduction</li>
+        <li><strong>HP:</strong> Markets outperformed official forecasts 75% of the time on printer sales</li>
+        <li><strong>Microsoft:</strong> Caught developer optimism bias in software timelines</li>
+        <li><strong>Eli Lilly:</strong> Drug candidate success forecasting corrected sunk-cost bias</li>
+        <li><strong>Best Buy:</strong> Correctly predicted Shanghai store delay, prevented capital misallocation</li>
+      </ul>
+      <p style="margin-top:12px;color:var(--gold);">Every program died when internal champions left — none became self-sustaining.</p>
+    </div>
+    <div class="card">
+      <h3>Behavioral Biases Traders Exhibit</h3>
+      <ul>
+        <li><strong>Favorite-Longshot Bias:</strong> Longshots overbet, favorites underbet (5% chance "feels" like 10-15%)</li>
+        <li><strong>Anchoring:</strong> Prior probability estimates create sticky priors that traders update from insufficiently</li>
+        <li><strong>Herding:</strong> Whale trades create sustained price movements amplified by traders who follow the price</li>
+        <li><strong>Optimism Bias:</strong> Corporate markets show systematic overestimation of project completion</li>
+        <li><strong>Wishful Thinking:</strong> Political markets: supporters trade on hope, not true probability estimates</li>
+        <li><strong>Loss Aversion:</strong> Participants refuse to close losing positions, distorting market-level dynamics</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight">
+    "When participants have access to prior probability estimates, they update insufficiently and remain anchored to the initial value."
+    <cite>— ScienceDirect study on anchoring in experimental markets</cite>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- MARKET CREATION -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="creation">
+  <h2 class="section-title">Market Creation Strategy</h2>
+  <p class="section-subtitle">How markets are created, what makes them viral, and how to leverage the process.</p>
+
+  <div class="grid-3" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-value danger">Gated</div>
+      <div class="stat-label">Market Creation Access</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent3">$750</div>
+      <div class="stat-label">UMA Resolution Bond</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent4">37</div>
+      <div class="stat-label">Approved Proposer Addresses</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Critical Constraint: No Public Market Creation</h3>
+    <p>Markets on Polymarket are created <strong>exclusively by Polymarket's internal team</strong>. Users propose via Discord (#market-suggestion) or Twitter (@polymarket). The influence vector is the proposal process — getting Polymarket to build markets you want.</p>
+  </div>
+
+  <div class="mermaid-wrap">
+    <h3>Market Lifecycle: From Proposal to Resolution</h3>
+    <div class="mermaid">
+flowchart LR
+    A["Propose Market<br/>Discord / Twitter"] --> B["Polymarket<br/>Reviews &amp; Approves"]
+    B --> C["Market Created<br/>UMA Oracle Setup"]
+    C --> D["Sponsor Liquidity<br/>Bootstrap Depth"]
+    D --> E["Embed &amp; Distribute<br/>WSJ / Substack / X"]
+    E --> F["Trading Active<br/>Volume Builds"]
+    F --> G["Resolution<br/>2hr Dispute Window"]
+    G --> H["Payout<br/>Winners = $1/share"]
+
+    style A fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style B fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    style C fill:#0a2a1e,stroke:#00c2a0,color:#e2e8f0
+    style D fill:#0a2010,stroke:#00c2a0,color:#e2e8f0
+    style E fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    style F fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style G fill:#1a0a0a,stroke:#e63946,color:#e2e8f0
+    style H fill:#0a2010,stroke:#00c2a0,color:#e2e8f0
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-container">
+      <h3>Polymarket Volume by Category (2025)</h3>
+      <canvas id="categoryChart"></canvas>
+    </div>
+    <div class="card">
+      <h3>The Five Viral Triggers</h3>
+      <ol style="padding-left:20px;">
+        <li style="margin-bottom:10px;"><strong>Existential stakes</strong> — Outcomes that genuinely matter at societal level (elections, wars)</li>
+        <li style="margin-bottom:10px;"><strong>Real-time feedback loop</strong> — When markets move faster than media, they <em>become</em> the story</li>
+        <li style="margin-bottom:10px;"><strong>Near 50/50 probability</strong> — Maximum uncertainty = maximum engagement</li>
+        <li style="margin-bottom:10px;"><strong>Short resolution window</strong> — Days/hours to resolution creates urgency</li>
+        <li style="margin-bottom:10px;"><strong>Cross-tribal appeal</strong> — Both sides believe they're right → both sides bet</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Question Design Psychology</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Framing Technique</th><th>Effect</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Specific time bound</td><td>Urgency, faster resolution, higher volume</td><td>"Will X happen by March 31?"</td></tr>
+          <tr><td>Name recognition</td><td>Instant context, no education needed</td><td>"Will [Famous Person] do Y?"</td></tr>
+          <tr><td>Controversy framing</td><td>Polarizes views, drives two-sided trading</td><td>"Will X succeed or fail?"</td></tr>
+          <tr><td>Threshold quantification</td><td>Gives traders a specific anchor</td><td>"Will BTC exceed $100K?"</td></tr>
+          <tr><td>Race/competition</td><td>Tribal engagement</td><td>"Which will happen first: X or Y?"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;"><strong>Partition Dependence:</strong> Multi-outcome markets suffer from systematic mispricing — participants anchor on 1/N probability regardless of actual distribution. <em>Design lever:</em> Create chains of binary markets instead of single multi-outcome markets to avoid this bias and create more cross-promotion opportunities.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Three Leverage Points After Creation</h3>
+      <ul>
+        <li><strong>Liquidity Sponsorship:</strong> Anyone can deposit USDC to sponsor rewards for any market. This directly incentivizes MMs to add depth. Cost: custom daily rate until deposit depletes.</li>
+        <li><strong>Embed Distribution:</strong> Native embeds for websites, Substack, X/Twitter. Each market individually embedded as a live-updating widget.</li>
+        <li><strong>Complementary Series:</strong> Propose related markets forming a logical chain. Arbitrageurs enforce price consistency, creating cross-market volume.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Distribution Partnerships</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Partner</th><th>Type</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Dow Jones / WSJ / Barron's</strong></td><td>Exclusive data deal</td><td>Jan 2026</td></tr>
+            <tr><td><strong>CNN + Kalshi</strong></td><td>On-air prediction data</td><td>Dec 2025</td></tr>
+            <tr><td><strong>CNBC + Kalshi</strong></td><td>Multi-year exclusive</td><td>Dec 2025</td></tr>
+            <tr><td><strong>ICE (NYSE parent)</strong></td><td>Signals & Sentiment product</td><td>Feb 2026</td></tr>
+            <tr><td><strong>Substack</strong></td><td>Native embed integration</td><td>2024+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Underserved Categories With High Potential</h3>
+    <div class="grid-3" style="margin-top:16px;">
+      <div style="text-align:center;">
+        <div style="font-size:2rem;">📊</div>
+        <div style="font-weight:600;margin:8px 0;">Earnings / Financial</div>
+        <p style="font-size:0.85rem;color:var(--text-dim);">Just launched. WSJ partnership = built-in distribution to financial traders.</p>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:2rem;">🤖</div>
+        <div style="font-weight:600;margin:8px 0;">AI / Tech Milestones</div>
+        <p style="font-size:0.85rem;color:var(--text-dim);">Large, financially engaged, Twitter-active community. Clean resolution.</p>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:2rem;">🏛️</div>
+        <div style="font-weight:600;margin:8px 0;">Policy / Regulation</div>
+        <p style="font-size:0.85rem;color:var(--text-dim);">Highest institutional interest. Lobbying intelligence. Currently underdeveloped.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- INTELLIGENCE AS A SERVICE -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="intel">
+  <h2 class="section-title">Prediction Market Intelligence as a Service</h2>
+  <p class="section-subtitle">The unfilled gap between raw market data and corporate decision intelligence.</p>
+
+  <div class="grid-4" style="margin-bottom:32px;">
+    <div class="stat-card">
+      <div class="stat-value accent">$13.3B</div>
+      <div class="stat-label">Decision Intel Market (2024)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent2">40.1%</div>
+      <div class="stat-label">Lower Error vs Consensus</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent3">994%</div>
+      <div class="stat-label">Kalshi Revenue Growth YoY</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value accent4">$50.1B</div>
+      <div class="stat-label">Market Size by 2030</div>
+    </div>
+  </div>
+
+  <div class="cre-callout">
+    <h4>CRE Application — The Signal Hierarchy for Real Estate</h4>
+    <p><strong>Tier 1:</strong> FOMC rate cut probability → cap rate compression window → acquisition timing. <strong>Tier 2:</strong> Regional GDP / employment market contracts → seller confidence / urgency by market. <strong>Tier 3:</strong> Prediction market signals + days-on-market trends + price reduction frequency = composite seller motivation score.</p>
+  </div>
+
+  <div class="mermaid-wrap">
+    <h3>Three-Layer Service Architecture</h3>
+    <div class="mermaid">
+graph TB
+    subgraph L1["Layer 1 — Intelligence Feed ($500-$5K/mo)"]
+        A1["Probability Feeds"]
+        A2["Divergence Alerts"]
+        A3["Entity Mapping"]
+        A4["Historical Time-Series"]
+    end
+    subgraph L2["Layer 2 — Custom Markets ($25K-$150K/engagement)"]
+        B1["Custom Market Design"]
+        B2["Participant Recruitment"]
+        B3["Statistical Analysis"]
+        B4["Forecasting Integration"]
+    end
+    subgraph L3["Layer 3 — Strategic Advisory ($10K-$50K/mo)"]
+        C1["Signal Interpretation"]
+        C2["Competitive Intelligence"]
+        C3["Compliance Guidance"]
+        C4["Influence Strategy"]
+    end
+
+    L1 --> L2 --> L3
+
+    style L1 fill:#0a1a2e,stroke:#00c2a0,color:#e2e8f0
+    style L2 fill:#0a2a1e,stroke:#f5a623,color:#e2e8f0
+    style L3 fill:#1a1402,stroke:#f5a623,color:#e2e8f0
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Four Corporate Use Cases</h3>
+      <ul>
+        <li style="margin-bottom:12px;"><strong>M&A Intelligence:</strong> "Will Company X acquire Company Y by Q3?" — Prices aggregate dispersed information no single analyst has. CB Insights already sells probability signals.</li>
+        <li style="margin-bottom:12px;"><strong>Product Launch Forecasting:</strong> Most empirically validated. Google: 25% error reduction. HP: outperformed 75% of the time. Best Buy: caught store opening delay.</li>
+        <li style="margin-bottom:12px;"><strong>Real Estate:</strong> ICE's entity-mapping connects macro contracts to REITs. Markets on regional price movements function as leading indicators.</li>
+        <li style="margin-bottom:12px;"><strong>Policy / Lobbying:</strong> Real-time probability for "Will Regulation X pass?" — U.S. Intelligence Community already ran classified prediction markets for geopolitical events.</li>
+      </ul>
+    </div>
+    <div class="chart-container">
+      <h3>Target Customer Segments — Willingness to Pay</h3>
+      <canvas id="customerChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Competitive Landscape — The Gap Nobody Has Filled</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Company</th><th>Model</th><th>Strengths</th><th>Missing</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Kalshi</strong></td><td>Regulated U.S. exchange</td><td>CFTC-regulated, deep liquidity, 994% growth</td><td>No enterprise intelligence layer</td></tr>
+          <tr><td><strong>Polymarket</strong></td><td>Global crypto market</td><td>Largest liquidity, $8B valuation, ICE deal</td><td>No enterprise product</td></tr>
+          <tr><td><strong>ICE-Polymarket</strong></td><td>Institutional data</td><td>NYSE infrastructure, entity mapping</td><td>Raw data only, no interpretation</td></tr>
+          <tr><td><strong>Metaculus</strong></td><td>Research platform</td><td>40K+ forecasters, CDC/FAS partnerships</td><td>Play-money, no commercial product</td></tr>
+          <tr><td><strong>Cultivate Labs</strong></td><td>Enterprise SaaS</td><td>Ford, P&G, Lockheed clients</td><td>Tiny ($507K revenue), no public data</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;color:var(--gold);font-weight:600;">No company currently offers: corporate intelligence from prediction market signals + regulatory probability tracking for lobbying + competitive intelligence mapping + confidence signaling products.</p>
+  </div>
+
+  <div class="card">
+    <h3>Signal Value Hierarchy</h3>
+    <div class="grid-3" style="margin-top:16px;">
+      <div>
+        <h4 style="color:var(--teal);">Tier 1 — Highest Value</h4>
+        <ul>
+          <li>Event-driven probability (what's "priced in")</li>
+          <li>Divergence detection (prediction vs traditional markets)</li>
+          <li>Cascade detection (precursor signals)</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--gold);">Tier 2 — High in Context</h4>
+        <ul>
+          <li>Probability time-series (confidence evolution)</li>
+          <li>Cross-market correlation (entity-linked)</li>
+          <li>Volume spikes (unusual activity)</li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--gold);">Tier 3 — Combined Value</h4>
+        <ul>
+          <li>Prediction market + Google Trends</li>
+          <li>Prediction market + social sentiment</li>
+          <li>Prediction market + options skew</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Legal / Regulatory Boundaries</h3>
+    <ul>
+      <li><strong>CFTC Insider Prohibition (Feb 2026):</strong> Illegal to trade with MNPI acquired through trust/confidence relationship</li>
+      <li><strong>Observing public prices:</strong> Completely legal — this is the foundation of the intelligence product</li>
+      <li><strong>Internal play-money markets:</strong> No CFTC jurisdiction — corporate forecasting tools are unregulated</li>
+      <li><strong>Confidence signaling via positions:</strong> Legal if reflecting genuine belief, manipulative if intent is artificial pricing</li>
+      <li><strong>Two people indicted (Feb 2026):</strong> Used classified government intelligence to trade — first criminal enforcement</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- STRATEGIC ROADMAP -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="roadmap">
+  <h2 class="section-title">Strategic Roadmap</h2>
+  <p class="section-subtitle">From arbitrage engine to prediction market intelligence platform.</p>
+
+  <div class="mermaid-wrap">
+    <h3>Implementation Timeline</h3>
+    <div class="mermaid">
+gantt
+    title Prediction Market Intelligence — Build Plan
+    dateFormat YYYY-MM
+
+    section Phase 0: Foundation
+    Arbitrage Engine (Current)        :done, p0a, 2026-01, 2026-03
+    Backtest Validation                :done, p0b, 2026-02, 2026-03
+
+    section Phase 1: Market Making
+    Live Trading Launch               :p1a, 2026-03, 2026-05
+    Liquidity Provision Bot            :p1b, 2026-04, 2026-06
+    Q-Score Optimization               :p1c, 2026-05, 2026-07
+
+    section Phase 2: Signal Capture
+    Market Data Pipeline               :p2a, 2026-06, 2026-08
+    Divergence Detection Engine        :p2b, 2026-07, 2026-09
+    Entity Mapping Layer               :p2c, 2026-08, 2026-10
+
+    section Phase 3: Intelligence Product
+    API Intelligence Feed              :p3a, 2026-09, 2026-11
+    Custom Market Design Service       :p3b, 2026-10, 2027-01
+    First Enterprise Clients           :p3c, 2026-11, 2027-02
+
+    section Phase 4: Influence Platform
+    Confidence Signaling Tools         :p4a, 2027-01, 2027-04
+    Media Integration Layer            :p4b, 2027-02, 2027-05
+    Full Platform Launch               :p4c, 2027-04, 2027-06
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Phase 1: Market Making (Months 1-4)</h3>
+      <ul>
+        <li>Deploy live arbitrage bot (Rust scanner + Python executor)</li>
+        <li>Add GTC limit order capability for two-sided market making</li>
+        <li>Optimize Q-score to maximize liquidity rewards</li>
+        <li>Target: $500-$2,000/month from spread + rewards</li>
+        <li>Build operational confidence on Polymarket infrastructure</li>
+      </ul>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:35%;background:var(--teal);"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Phase 2: Signal Capture (Months 4-8)</h3>
+      <ul>
+        <li>Build market data pipeline capturing all Polymarket WebSocket events</li>
+        <li>Create divergence detection engine (prediction market vs options/futures)</li>
+        <li>Implement entity mapping connecting contracts to securities/sectors</li>
+        <li>Target: Internal signal library covering 500+ active markets</li>
+        <li>Begin publishing research reports for credibility building</li>
+      </ul>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0%;background:var(--gold);"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Phase 3: Intelligence Product (Months 8-14)</h3>
+      <ul>
+        <li>Launch API intelligence feed (structured probability data)</li>
+        <li>Offer custom market design service for corporate clients</li>
+        <li>Target segments: hedge funds ($50K+/yr), corporate strategy ($25K+/yr)</li>
+        <li>Partner with Cultivate Labs or build play-money corporate platform</li>
+        <li>Target: 5-10 paying enterprise clients</li>
+      </ul>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0%;background:var(--gold);"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Phase 4: Influence Platform (Months 14-18)</h3>
+      <ul>
+        <li>Develop confidence signaling tools (compliance-safe market position strategies)</li>
+        <li>Build media integration layer (embed analytics, coverage tracking)</li>
+        <li>Full platform: intelligence feed + custom markets + advisory + influence tools</li>
+        <li>Target: $500K-$2M ARR from enterprise clients</li>
+        <li>Evaluate own CFTC registration for proprietary markets</li>
+      </ul>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0%;background:var(--teal);"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Revenue Model Projections</h3>
+    <div class="chart-container" style="padding:0;border:none;margin:0;">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Build vs. Partner Decision</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Path</th><th>Capital</th><th>Time</th><th>Moat</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Aggregation</strong> (ICE + Kalshi APIs)</td><td>Low ($10K)</td><td>Fast (3 mo)</td><td>Low</td></tr>
+            <tr><td><strong>Hybrid</strong> (aggregate + play-money internal)</td><td>Medium ($50K)</td><td>Medium (6 mo)</td><td>Medium</td></tr>
+            <tr><td><strong>Proprietary</strong> (own real-money markets)</td><td>High ($500K+)</td><td>Slow (12+ mo)</td><td>High</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:12px;color:var(--teal);"><strong>Recommendation:</strong> Start with aggregation + analytics layer on public data. Simultaneously offer play-money corporate platform. Build to proprietary only if regulatory clarity improves.</p>
+    </div>
+    <div class="card">
+      <h3>Key Risks</h3>
+      <ul>
+        <li><span class="tag tag-red">High</span> <strong>Regulatory uncertainty</strong> — CFTC rules still evolving; state-level pushback active</li>
+        <li><span class="tag tag-amber">Medium</span> <strong>Competition from Jump Trading / ICE</strong> — institutional players entering fast</li>
+        <li><span class="tag tag-amber">Medium</span> <strong>Platform dependency</strong> — Polymarket controls market creation, could become competitor</li>
+        <li><span class="tag tag-blue">Low</span> <strong>Technical execution</strong> — Infrastructure is well-documented and accessible</li>
+        <li><span class="tag tag-red">High</span> <strong>Ethical boundary</strong> — Influence tools border on market manipulation without careful compliance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight">
+    "The companies that figure out how to package prediction market signals as a repeatable, compliance-safe, enterprise-grade product — rather than asking each client to build it from scratch — will capture the gap that currently exists between raw prediction market data and actionable corporate intelligence."
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SOURCES -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section" id="sources">
+  <h2 class="section-title">Sources &amp; References</h2>
+  <p class="section-subtitle">80+ sources across academic papers, industry reports, and primary documentation.</p>
+
+  <div class="card">
+    <h3>Market Making & Trading Mechanics</h3>
+    <ul>
+      <li><a href="https://docs.polymarket.com/developers/market-makers/introduction" style="color:var(--accent);">Polymarket — Market Maker Introduction</a></li>
+      <li><a href="https://docs.polymarket.com/developers/market-makers/liquidity-rewards" style="color:var(--accent);">Polymarket — Liquidity Rewards Documentation</a></li>
+      <li><a href="https://docs.polymarket.com/polymarket-learn/trading/maker-rebates-program" style="color:var(--accent);">Polymarket — Maker Rebates Program</a></li>
+      <li><a href="https://github.com/Polymarket/poly-market-maker" style="color:var(--accent);">GitHub — Polymarket/poly-market-maker (Official)</a></li>
+      <li><a href="https://gabagool22.com/" style="color:var(--accent);">gabagool22 — Trading Bot</a></li>
+      <li><a href="https://www.theblock.co/post/389086/jump-trading-to-serve-as-polymarket-and-kalshi-market-maker-in-exchange-for-stake-bloomberg" style="color:var(--accent);">Jump Trading → Polymarket & Kalshi Market Maker (The Block)</a></li>
+      <li><a href="https://www.coindesk.com/business/2025/12/05/polymarket-hiring-in-house-team-to-trade-against-customers-here-s-why-it-s-a-risk" style="color:var(--accent);">Polymarket In-House Trading Team (CoinDesk)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Psychology & Behavioral Research</h3>
+    <ul>
+      <li><a href="https://www.gsb.stanford.edu/faculty-research/working-papers/are-polls-probabilities-self-fulfilling-prophecies" style="color:var(--accent2);">Stanford GSB — Self-Fulfilling Prophecies</a></li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5363911/" style="color:var(--accent2);">PMC — Forecasted Economic Change & Self-Fulfilling Prophecy</a></li>
+      <li><a href="https://www.atlanticcouncil.org/dispatches/weaponizing-the-odds-prediction-markets-as-a-new-vector-for-foreign-influence/" style="color:var(--accent2);">Atlantic Council — Weaponizing the Odds</a></li>
+      <li><a href="https://arxiv.org/abs/2601.20452" style="color:var(--accent2);">INET Oxford — Manipulation in Prediction Markets (2026)</a></li>
+      <li><a href="https://arxiv.org/html/2503.03312v1" style="color:var(--accent2);">How Manipulable Are Prediction Markets? (March 2025)</a></li>
+      <li><a href="https://www.nber.org/system/files/working_papers/w15923/w15923.pdf" style="color:var(--accent2);">NBER — Explaining the Favorite-Longshot Bias</a></li>
+      <li><a href="https://funginstitute.berkeley.edu/wp-content/uploads/2014/04/CorporatePredictionMarkets1.pdf" style="color:var(--accent2);">Berkeley — Corporate Prediction Markets (Google, Ford, Firm X)</a></li>
+      <li><a href="https://warontherocks.com/2026/01/betting-on-war-prediction-markets-and-the-corruption-of-national-security/" style="color:var(--accent2);">War on the Rocks — Prediction Markets & National Security</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Market Creation & Strategy</h3>
+    <ul>
+      <li><a href="https://help.polymarket.com/en/articles/13364541-how-are-markets-created" style="color:var(--accent3);">Polymarket — How Are Markets Created?</a></li>
+      <li><a href="https://docs.polymarket.com/polymarket-learn/markets/how-are-markets-resolved" style="color:var(--accent3);">Polymarket — Market Resolution</a></li>
+      <li><a href="https://help.polymarket.com/en/articles/13755867-sponsor-market-rewards" style="color:var(--accent3);">Polymarket — Sponsor Market Rewards</a></li>
+      <li><a href="https://www.businesswire.com/news/home/20260107511213/en/" style="color:var(--accent3);">Polymarket + Dow Jones Partnership (Business Wire)</a></li>
+      <li><a href="https://www.researchgate.net/publication/318126810_Partition_Dependence_Bias_in_Prediction_Markets" style="color:var(--accent3);">Partition Dependence Bias (ResearchGate)</a></li>
+      <li><a href="https://arxiv.org/pdf/2508.03474" style="color:var(--accent3);">Combinatorial Arbitrage in Prediction Markets (ArXiv)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Intelligence & Corporate Applications</h3>
+    <ul>
+      <li><a href="https://ir.theice.com/press/news-details/2026/ICE-Launches-Polymarket-Signals-and-Sentiment-Tool-Turning-Crowd-Sourced-Dynamic-Views-into-Market-Opportunities/default.aspx" style="color:var(--accent4);">ICE — Polymarket Signals & Sentiment Launch</a></li>
+      <li><a href="https://www.deloitte.com/us/en/insights/topics/business-strategy-growth/internal-prediction-markets-surface-strategic-signals.html" style="color:var(--accent4);">Deloitte — Internal Prediction Markets</a></li>
+      <li><a href="https://kpmg.com/us/en/articles/2025/current-state-of-prediction-markets.html" style="color:var(--accent4);">KPMG — Current State of Prediction Markets</a></li>
+      <li><a href="https://www.cfr.org/articles/rise-geopolitical-prediction-markets" style="color:var(--accent4);">CFR — Rise of Geopolitical Prediction Markets</a></li>
+      <li><a href="https://sacra.com/c/kalshi/" style="color:var(--accent4);">Sacra — Kalshi Revenue Analysis</a></li>
+      <li><a href="https://www.cftc.gov/PressRoom/PressReleases/9185-26" style="color:var(--accent4);">CFTC — Insider Trading Advisory (Feb 2026)</a></li>
+      <li><a href="https://mipb.ikn.army.mil/issues/jul-dec-2025/the-market-knows-best/" style="color:var(--accent4);">U.S. Army Military Intelligence — Prediction Markets</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Regulatory & Legal</h3>
+    <ul>
+      <li><a href="https://www.prnewswire.com/news-releases/polymarket-receives-cftc-approval-of-amended-order-of-designation-enabling-intermediated-us-market-access-302625833.html" style="color:var(--danger);">Polymarket CFTC Approval (PR Newswire)</a></li>
+      <li><a href="https://www.gibsondunn.com/the-cftc-advises-prediction-market-users-insider-information-is-not-fair-game/" style="color:var(--danger);">Gibson Dunn — CFTC Insider Trading Advisory</a></li>
+      <li><a href="https://www.kslaw.com/news-and-insights/new-trick-same-crime-insider-trading-on-prediction-markets" style="color:var(--danger);">King & Spalding — Insider Trading on Prediction Markets</a></li>
+      <li><a href="https://www.wilmerhale.com/-/media/files/shared_content/editorial/publications/wh_publications/client_alert_pdfs/20241028-market-integrity-and-manipulation-in-election-prediction-markets.pdf" style="color:var(--danger);">WilmerHale — Market Manipulation in Prediction Markets</a></li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <p><a href="index.html" style="color:var(--teal);">← Deal Intelligence</a> &nbsp;|&nbsp; Prediction Market Intelligence Research Report</p>
+  <p style="margin-top:8px;">Generated March 2026 &nbsp;|&nbsp; 4 parallel research agents &nbsp;|&nbsp; 80+ primary sources</p>
+  <p style="margin-top:8px;font-size:0.8rem;">All findings source-grounded. See individual sections for citation links.</p>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// Navigation
+// ═══════════════════════════════════════════════════
+function showSection(id, evt) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (evt && evt.target) evt.target.classList.add('active');
+  window.scrollTo({ top: 160, behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════════
+// Mermaid
+// ═══════════════════════════════════════════════════
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'dark',
+  themeVariables: {
+    primaryColor: '#00c2a0',
+    primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#00c2a0',
+    lineColor: '#1e3048',
+    secondaryColor: '#0a2a1e',
+    tertiaryColor: '#112236',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '13px'
+  },
+  gantt: {
+    titleTopMargin: 25,
+    barHeight: 20,
+    barGap: 4,
+    topPadding: 50,
+    leftPadding: 75,
+    gridLineStartPadding: 35,
+    fontSize: 11,
+    numberSectionStyles: 4
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Chart defaults
+// ═══════════════════════════════════════════════════
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#1e3048';
+Chart.defaults.font.family = 'Inter, sans-serif';
+
+// ═══════════════════════════════════════════════════
+// Market Maker Returns Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('mmReturnsChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Learning\n($1-5K)', 'Semi-Auto\n($5-25K)', 'Full Auto\n($25-100K)', 'Professional\n($100K+)'],
+    datasets: [{
+      label: 'Monthly Return (Low)',
+      data: [50, 200, 1000, 5000],
+      backgroundColor: 'rgba(0,194,160,0.25)',
+      borderColor: '#00c2a0',
+      borderWidth: 1
+    }, {
+      label: 'Monthly Return (High)',
+      data: [200, 1000, 5000, 20000],
+      backgroundColor: 'rgba(245,166,35,0.25)',
+      borderColor: '#f5a623',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => '$' + v.toLocaleString() }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Incentive Programs Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('incentiveChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Spread Capture', 'Liquidity Rewards', 'Maker Rebates', 'Holding Rewards (4% APY)'],
+    datasets: [{
+      data: [45, 30, 15, 10],
+      backgroundColor: ['#00c2a0', '#f5a623', '#0d8a72', '#b87a18'],
+      borderColor: '#112236',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' },
+      title: { display: true, text: 'Estimated Revenue Mix for Active MM', color: '#94a3b8' }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Media Timeline Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('mediaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Substack\nEmbed', 'CNN +\nKalshi', 'CNBC +\nKalshi', 'WSJ +\nPolymarket', 'ICE Signals\nProduct', 'Golden Globes\nChyron'],
+    datasets: [{
+      label: 'Media Partnership Timeline',
+      data: [2024, 2025.9, 2025.9, 2026.0, 2026.1, 2026.0],
+      backgroundColor: ['#00c2a0', '#f5a623', '#f5a623', '#00c2a0', '#0d8a72', '#e63946'],
+      borderWidth: 0,
+      barPercentage: 0.7
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        min: 2023.5,
+        max: 2026.5,
+        ticks: { callback: v => Math.round(v) }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Category Volume Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('categoryChart'), {
+  type: 'polarArea',
+  data: {
+    labels: ['Sports', 'Politics', 'Crypto', 'Geopolitics', 'Culture/Tech/Other'],
+    datasets: [{
+      data: [36, 32, 29, 18, 15],
+      backgroundColor: [
+        'rgba(0,194,160,0.5)',
+        'rgba(230,57,70,0.5)',
+        'rgba(245,166,35,0.5)',
+        'rgba(0,194,160,0.35)',
+        'rgba(245,166,35,0.35)'
+      ],
+      borderColor: '#112236',
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom' }
+    },
+    scales: {
+      r: {
+        ticks: { callback: v => v + '%' }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Customer Segments Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('customerChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Hedge Funds', 'M&A Advisors', 'Corp Strategy', 'Gov Affairs', 'Market Research'],
+    datasets: [{
+      label: 'Annual WTP Low ($K)',
+      data: [50, 100, 25, 25, 10],
+      backgroundColor: 'rgba(0,194,160,0.3)',
+      borderColor: '#00c2a0',
+      borderWidth: 1
+    }, {
+      label: 'Annual WTP High ($K)',
+      data: [500, 250, 200, 75, 50],
+      backgroundColor: 'rgba(245,166,35,0.3)',
+      borderColor: '#f5a623',
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { callback: v => '$' + v + 'K' }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Revenue Projections Chart
+// ═══════════════════════════════════════════════════
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027', 'Q3 2027', 'Q4 2027'],
+    datasets: [{
+      label: 'Trading Income (Arb + MM)',
+      data: [2, 5, 8, 12, 15, 18, 20],
+      borderColor: '#00c2a0',
+      backgroundColor: 'rgba(0,194,160,0.08)',
+      fill: true,
+      tension: 0.3
+    }, {
+      label: 'Intelligence Feed Revenue',
+      data: [0, 0, 2, 8, 20, 35, 50],
+      borderColor: '#f5a623',
+      backgroundColor: 'rgba(245,166,35,0.08)',
+      fill: true,
+      tension: 0.3
+    }, {
+      label: 'Advisory / Custom Markets',
+      data: [0, 0, 0, 5, 15, 30, 60],
+      borderColor: '#b87a18',
+      backgroundColor: 'rgba(184,122,24,0.06)',
+      fill: true,
+      tension: 0.3
+    }, {
+      label: 'Total',
+      data: [2, 5, 10, 25, 50, 83, 130],
+      borderColor: '#0d8a72',
+      backgroundColor: 'rgba(13,138,114,0.04)',
+      fill: true,
+      tension: 0.3,
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Monthly Revenue ($K)', color: '#94a3b8' },
+        ticks: { callback: v => '$' + v + 'K' }
+      }
+    }
+  }
+});
+
+// ═══════════════════════════════════════════════════
+// Render mermaid on section change
+// ═══════════════════════════════════════════════════
+const observer = new MutationObserver(() => {
+  document.querySelectorAll('.section.active .mermaid:not([data-processed])').forEach(el => {
+    mermaid.run({ nodes: [el] });
+  });
+});
+observer.observe(document.querySelector('.container'), { subtree: true, attributes: true, attributeFilter: ['class'] });
+</script>
+
+</body>
+</html>
