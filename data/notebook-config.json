@@ -1,0 +1,25 @@
+{
+  "notebookId": "20df62c7-c167-4b61-accb-343d7e23b3bc",
+  "notebookUrl": "https://notebooklm.google.com/notebook/20df62c7-c167-4b61-accb-343d7e23b3bc",
+  "notebookName": "CREXI Deal Finder",
+  "created": "2026-03-03",
+  "autoUpload": {
+    "enabled": true,
+    "triggers": ["pipeline-complete", "report-generated", "new-leads-scored"],
+    "excludePatterns": ["node_modules/**", ".git/**", "*.log"]
+  },
+  "autoResearch": {
+    "enabled": true,
+    "triggers": ["sources-uploaded", "pipeline-complete"],
+    "defaultQueries": [
+      "What owner financing opportunities look most promising based on our latest leads?",
+      "What market trends should we be aware of for our target property types?",
+      "What due diligence items should we prioritize for our top-scored deals?"
+    ]
+  },
+  "artifactDefaults": {
+    "reportStyle": "briefing-doc",
+    "audioFormat": "deep-dive",
+    "downloadDir": "data/artifacts"
+  }
+}

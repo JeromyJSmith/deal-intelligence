@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Intelligence — Master Service Agreement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#0d1b2a;--teal:#00c2a0;--gold:#f5a623;--white:#fff;--off:#f8f9fb;--border:#e2e8f0;--text-1:#0d1b2a;--text-2:#3a4a5c;--text-3:#94a3b8;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:#d0d4d8;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @page{size:8.5in 11in;margin:0.75in 0.75in 0.75in 0.75in;}
+  @media print{body{background:white;font-size:10.5px;}.no-print{display:none!important;}.page-break{page-break-before:always;}}
+  @media screen{body{padding:40px;}.doc{box-shadow:0 16px 50px rgba(0,0,0,0.2);margin-bottom:40px;max-width:8.5in;margin:0 auto;}}
+  .doc{background:white;padding:1in 0.9in;}
+
+  /* LETTERHEAD */
+  .letterhead{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:18px;border-bottom:3px solid var(--navy);margin-bottom:28px;}
+  .lh-brand{display:flex;align-items:center;gap:12px;}
+  .lh-mark{width:44px;height:44px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:var(--navy);}
+  .lh-name{font-size:16px;font-weight:800;color:var(--navy);}
+  .lh-sub{font-size:9px;color:var(--text-3);font-weight:500;}
+  .lh-contact{text-align:right;font-size:9px;color:var(--text-3);line-height:1.8;}
+
+  /* TITLE BLOCK */
+  .title-block{text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
+  .doc-type{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+  .doc-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--navy);margin-bottom:8px;}
+  .doc-version{font-size:9px;color:var(--text-3);}
+
+  /* PARTIES */
+  .parties-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+  .party{border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+  .party-role{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+  .party-name{font-size:13px;font-weight:700;color:var(--text-1);margin-bottom:4px;}
+  .party-field{display:flex;gap:8px;align-items:baseline;margin-bottom:4px;}
+  .field-label{font-size:8px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.8px;min-width:52px;}
+  .field-line{flex:1;border-bottom:1px solid var(--border);min-width:80px;height:14px;}
+  .field-value{font-size:9px;color:var(--text-2);}
+
+  /* SECTIONS */
+  .section{margin-bottom:22px;}
+  .section-num{font-size:11px;font-weight:800;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .section-num::after{content:'';flex:1;height:1px;background:var(--border);}
+  .section-body{font-size:10px;color:var(--text-2);line-height:1.75;}
+  .section-body p{margin-bottom:8px;}
+  .section-body p:last-child{margin-bottom:0;}
+  .subsection{margin-left:16px;margin-bottom:8px;}
+  .subsection-label{font-size:9.5px;font-weight:700;color:var(--text-1);margin-bottom:3px;}
+
+  /* SIGNATURE BLOCK */
+  .sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;padding-top:24px;border-top:2px solid var(--navy);}
+  .sig-block{}
+  .sig-party-label{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+  .sig-line{border-bottom:1px solid var(--navy);margin-bottom:6px;height:36px;}
+  .sig-field{font-size:8.5px;color:var(--text-3);margin-bottom:10px;}
+
+  /* HIGHLIGHT */
+  .highlight{background:rgba(0,194,160,0.07);border-left:3px solid var(--teal);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:10px;color:var(--text-2);line-height:1.6;}
+
+  /* PAGE BREAK */
+  .page-break{page-break-before:always;padding-top:32px;}
+
+  /* NO-PRINT */
+  .no-print{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+  .no-print:hover{background:var(--teal);color:var(--navy);}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- LETTERHEAD -->
+  <div class="letterhead">
+    <div class="lh-brand">
+      <div class="lh-mark">DI</div>
+      <div>
+        <div class="lh-name">Deal Intelligence</div>
+        <div class="lh-sub">Proprietary Commercial Real Estate Acquisition System</div>
+      </div>
+    </div>
+    <div class="lh-contact">
+      Jeromy Jordan Smith<br>
+      jeromyjsmith@gmail.com · 720-998-2888<br>
+      Confidential · March 2026
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <div class="doc-type">Legal Agreement</div>
+    <div class="doc-title">Master Service Agreement</div>
+    <div class="doc-version">Version 1.0 · March 2026 · For Use With All Engagements</div>
+  </div>
+
+  <div class="section-body" style="margin-bottom:20px;">
+    <p>This Master Service Agreement (<strong>"Agreement"</strong>) is entered into as of the date signed below (<strong>"Effective Date"</strong>) by and between <strong>Jeromy Jordan Smith d/b/a Deal Intelligence</strong> (<strong>"Provider"</strong>) and the party identified below (<strong>"Client"</strong>). This Agreement governs all services provided by Provider to Client, including any Statements of Work, Deal Packages, Pipeline Subscriptions, or Partnership arrangements entered into hereunder.</p>
+  </div>
+
+  <!-- PARTIES -->
+  <div class="parties-box">
+    <div class="party">
+      <div class="party-role">Provider</div>
+      <div class="party-name">Deal Intelligence</div>
+      <div class="party-field"><span class="field-label">Legal Name</span><span class="field-value">Jeromy Jordan Smith</span></div>
+      <div class="party-field"><span class="field-label">Email</span><span class="field-value">jeromyjsmith@gmail.com</span></div>
+      <div class="party-field"><span class="field-label">Phone</span><span class="field-value">720-998-2888</span></div>
+    </div>
+    <div class="party">
+      <div class="party-role">Client</div>
+      <div class="party-field"><span class="field-label">Legal Name</span><span class="field-line"></span></div>
+      <div class="party-field"><span class="field-label">Entity</span><span class="field-line"></span></div>
+      <div class="party-field"><span class="field-label">Email</span><span class="field-line"></span></div>
+      <div class="party-field"><span class="field-label">Phone</span><span class="field-line"></span></div>
+      <div class="party-field"><span class="field-label">Address</span><span class="field-line"></span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-num">1. Services</div>
+    <div class="section-body">
+      <p>Provider agrees to perform commercial real estate deal sourcing, analysis, seller profiling, outreach intelligence, and related services as described in one or more Statements of Work (<strong>"SOW"</strong>) or Deal Package confirmations (<strong>"Order"</strong>) incorporated herein by reference. Each SOW or Order will specify the scope, deliverables, timeline, and compensation applicable to that engagement.</p>
+      <div class="subsection">
+        <div class="subsection-label">1.1 Standard Services</div>
+        <p>Services may include: deal identification and scoring; seller psychological profiling; outreach script development; stakeholder contact research; Letter of Intent preparation; public records analysis; macro economic signal analysis; and deal structure engineering.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">1.2 No Guarantee of Outcome</div>
+        <p>Provider does not guarantee that any identified deal will result in a successful acquisition, that any seller will respond to outreach, or that any deal structure will be accepted by a seller. Provider's obligation is to deliver high-quality intelligence and tools — execution outcomes depend on Client action and third-party responses beyond Provider's control.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">1.3 Not Real Estate Brokerage</div>
+        <p>Provider is not a licensed real estate broker or agent. Services constitute research, analysis, and strategic consulting — not brokerage services. Client is solely responsible for compliance with applicable real estate licensing laws in their jurisdiction.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-num">2. Compensation</div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="subsection-label">2.1 Fees</div>
+        <p>Client agrees to pay Provider the fees specified in the applicable SOW or Order. Fee structures may include: per-deal package fees, monthly retainer fees, or equity participation in closed acquisitions, as agreed in writing.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">2.2 Payment Terms</div>
+        <p>Unless otherwise specified: (a) per-deal packages require 50% payment upon Order confirmation and 50% upon delivery; (b) monthly retainers are due on the 1st of each month; (c) equity arrangements are documented in a separate written deal memo prior to execution.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">2.3 Late Payment</div>
+        <p>Payments not received within 7 days of the due date accrue interest at 1.5% per month. Provider reserves the right to suspend services for accounts more than 14 days past due.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">2.4 Expenses</div>
+        <p>Pre-approved expenses (database access fees, filing fees, third-party data costs) are reimbursable at cost with receipt documentation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-num">3. Confidentiality</div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="subsection-label">3.1 Mutual Confidentiality</div>
+        <p>Each party agrees to hold in strict confidence all non-public information received from the other party, including but not limited to: deal files, scoring methodology, buy box parameters, seller identities, outreach scripts, business strategies, financial information, and system architecture (<strong>"Confidential Information"</strong>).</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">3.2 Exceptions</div>
+        <p>Confidentiality obligations do not apply to information that: (a) is or becomes publicly available through no breach of this Agreement; (b) was rightfully known by the receiving party prior to disclosure; or (c) is required to be disclosed by law or court order (with prompt written notice to the other party).</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">3.3 Duration</div>
+        <p>Confidentiality obligations survive termination of this Agreement for a period of three (3) years.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break">
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <div class="section-num">4. Intellectual Property</div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="subsection-label">4.1 Provider IP</div>
+        <p>All scoring methodologies, psychological profiling frameworks, system architecture, software, and proprietary processes remain the exclusive property of Provider. No license to these underlying methods is granted by this Agreement.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">4.2 Deliverable License</div>
+        <p>Upon receipt of full payment, Provider grants Client a non-exclusive, non-transferable license to use the specific deliverables provided (deal cards, scripts, LOIs, contact trees) solely for Client's own acquisition activities on the specific property identified. Deliverables may not be resold, sublicensed, or distributed without prior written consent.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">4.3 Client Data</div>
+        <p>Client retains ownership of all data and information Client provides to Provider. Provider may use such data solely to perform services under this Agreement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <div class="section-num">5. Term &amp; Termination</div>
+    <div class="section-body">
+      <div class="subsection">
+        <div class="subsection-label">5.1 Term</div>
+        <p>This Agreement is effective as of the Effective Date and continues until terminated by either party.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">5.2 Termination for Convenience</div>
+        <p>Either party may terminate this Agreement with 14 days written notice. Client remains obligated for all fees incurred for services delivered through the termination date.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">5.3 Termination for Cause</div>
+        <p>Either party may terminate immediately upon material breach by the other party if such breach is not cured within 7 days of written notice specifying the breach.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-label">5.4 Survival</div>
+        <p>Sections 3 (Confidentiality), 4 (Intellectual Property), 6 (Limitation of Liability), and 7 (Governing Law) survive termination.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <div class="section-num">6. Limitation of Liability</div>
+    <div class="section-body">
+      <div class="highlight">Provider's total liability to Client for any claim arising under this Agreement shall not exceed the total fees paid by Client to Provider in the 90 days preceding the claim. In no event shall Provider be liable for indirect, incidental, consequential, special, or punitive damages, including lost profits, even if advised of the possibility of such damages.</div>
+      <p style="margin-top:10px;">Client acknowledges that commercial real estate investment involves significant risk, and that Provider's services constitute research and advisory support — not investment advice. Client is solely responsible for all acquisition decisions and their financial consequences.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section">
+    <div class="section-num">7. Governing Law &amp; Disputes</div>
+    <div class="section-body">
+      <p>This Agreement is governed by the laws of the State of Colorado, without regard to conflict of law principles. Any dispute arising under this Agreement shall first be subject to good-faith negotiation for a period of 30 days. If unresolved, disputes shall be submitted to binding arbitration in Denver, Colorado under the rules of the American Arbitration Association. The prevailing party shall be entitled to recover reasonable attorneys' fees.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section">
+    <div class="section-num">8. General Provisions</div>
+    <div class="section-body">
+      <p><strong>8.1 Independent Contractor.</strong> Provider is an independent contractor. Nothing in this Agreement creates an employment, partnership, joint venture, or agency relationship.</p>
+      <p><strong>8.2 Entire Agreement.</strong> This Agreement, together with any executed SOWs or Orders, constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements.</p>
+      <p><strong>8.3 Amendment.</strong> This Agreement may be amended only by a written instrument signed by both parties.</p>
+      <p><strong>8.4 Severability.</strong> If any provision of this Agreement is held unenforceable, the remaining provisions continue in full force and effect.</p>
+      <p><strong>8.5 Counterparts.</strong> This Agreement may be executed in counterparts, including electronic signatures, each of which shall be deemed an original.</p>
+    </div>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="sig-grid">
+    <div class="sig-block">
+      <div class="sig-party-label">Provider Signature</div>
+      <div class="sig-line"></div>
+      <div class="sig-field">Jeromy Jordan Smith · Deal Intelligence</div>
+      <div class="sig-line" style="height:20px;"></div>
+      <div class="sig-field">Date</div>
+    </div>
+    <div class="sig-block">
+      <div class="sig-party-label">Client Signature</div>
+      <div class="sig-line"></div>
+      <div class="sig-field">Authorized Signatory · Print Name &amp; Title</div>
+      <div class="sig-line" style="height:20px;"></div>
+      <div class="sig-field">Date</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border);font-size:8px;color:var(--text-3);text-align:center;line-height:1.6;">
+    Deal Intelligence · Master Service Agreement v1.0 · March 2026 · Confidential<br>
+    This document is a template. Consult qualified legal counsel before execution. Not legal advice.
+  </div>
+
+  </div><!-- /page-break -->
+</div><!-- /doc -->
+
+<button class="no-print" onclick="window.print()">⬇ Download PDF</button>
+</body>
+</html>

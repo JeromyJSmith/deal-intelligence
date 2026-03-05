@@ -1,0 +1,34 @@
+{
+  "watches": [
+    {
+      "type": "Mobile Home Park",
+      "states": [
+        "TX",
+        "OK"
+      ],
+      "maxPrice": 2000000,
+      "addedAt": "2026-03-01T09:00:00Z"
+    },
+    {
+      "type": "Gas Station",
+      "states": [
+        "AR",
+        "MO"
+      ],
+      "maxPrice": 1500000,
+      "addedAt": "2026-03-01T09:00:00Z"
+    },
+    {
+      "type": "Car Wash",
+      "states": [
+        "TX",
+        "MO",
+        "OK"
+      ],
+      "maxPrice": 1200000,
+      "addedAt": "2026-03-02T12:00:00Z"
+    }
+  ],
+  "createdAt": "2026-03-01T09:00:00Z",
+  "lastUpdated": "2026-03-02T12:00:00Z"
+}

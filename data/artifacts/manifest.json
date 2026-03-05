@@ -1,0 +1,16 @@
+{
+  "artifacts": [
+    {
+      "id": "prediction-market-intelligence-2026-03-04",
+      "type": "report",
+      "title": "Prediction Market Intelligence — Strategic Research Report 2026",
+      "file": "reports/2026-03-04_prediction-market-intelligence.html",
+      "source": "prediction-market-intel agent (PolyBot v2)",
+      "createdAt": "2026-03-04T00:00:00Z",
+      "topics": ["prediction-markets", "market-making", "behavioral-influence", "CRE-intelligence", "deal-timing"],
+      "notes": "4 research streams, 80+ sources. Covers market making mechanics, psychology/influence loops, market creation strategy, and intelligence-as-a-service opportunity. Relevant to CRE deal timing, seller psychology, and macro signals."
+    }
+  ],
+  "lastUpdated": "2026-03-04T00:00:00Z",
+  "notebookId": "20df62c7-c167-4b61-accb-343d7e23b3bc"
+}

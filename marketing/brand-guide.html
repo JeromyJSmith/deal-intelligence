@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Intelligence — Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0d1b2a;
+    --navy2:  #1a2f4a;
+    --teal:   #00c2a0;
+    --teal-dk:#009e82;
+    --gold:   #f5a623;
+    --red:    #e63946;
+    --white:  #ffffff;
+    --gray-50:#f8f9fa;
+    --gray-100:#e9ecef;
+    --gray-200:#dee2e6;
+    --gray-400:#adb5bd;
+    --gray-600:#6c757d;
+    --gray-800:#343a40;
+    --text:   #1a1a2e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.6;
+  }
+
+  /* ─── PRINT ──────────────────────────────────── */
+  @page { size: 8.5in 11in; margin: 0; }
+  @media print {
+    .no-print { display: none !important; }
+    .page { page-break-after: always; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page:last-of-type { page-break-after: avoid; }
+    a { text-decoration: none; color: inherit; }
+  }
+  @media screen {
+    body { background: #e5e7eb; }
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0.5in auto;
+      background: white;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    .download-btn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,194,160,0.3);
+      z-index: 100;
+    }
+    .download-btn:hover { background: var(--teal-dk); }
+  }
+
+  /* ─── SHARED LAYOUT ─────────────────────────── */
+  .page { position: relative; overflow: hidden; }
+
+  /* section label */
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  .section-sub {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* ─── PAGE 1 — COVER ─────────────────────────── */
+  .cover {
+    background: var(--navy);
+    width: 100%;
+    min-height: 11in;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+  .cover-header {
+    padding: 0.6in 0.65in 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cover-logo-mark {
+    width: 56px;
+    height: 56px;
+    background: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  .cover-logo-mark span {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .cover-doc-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding-top: 0.25rem;
+  }
+  .cover-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 0.65in;
+  }
+  .cover-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .cover-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+  }
+  .cover-rule {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .cover-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .cover-toc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 2rem;
+    max-width: 460px;
+  }
+  .cover-toc-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+  .cover-toc-num {
+    font-size: 10px;
+    color: var(--teal);
+    font-weight: 700;
+    width: 18px;
+    flex-shrink: 0;
+  }
+  .cover-footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 0.4in 0.65in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cover-footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+  }
+  .cover-footer-meta {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    text-align: right;
+  }
+
+  /* ─── INNER PAGE HEADER ───────────────────────── */
+  .inner-page {
+    padding: 0.5in 0.65in;
+  }
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.3in;
+    border-bottom: 2px solid var(--navy);
+    margin-bottom: 0.4in;
+  }
+  .page-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .page-header-logo {
+    width: 32px;
+    height: 32px;
+    background: var(--navy);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .page-header-logo span {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--teal);
+  }
+  .page-header-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .page-header-right {
+    font-size: 10px;
+    color: var(--gray-400);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ─── PAGE 2 — LOGO & MARK ────────────────────── */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .logo-box {
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    gap: 0.75rem;
+  }
+  .logo-box.dark { background: var(--navy); }
+  .logo-box.light { background: var(--gray-50); }
+  .logo-box.on-teal { background: var(--teal); }
+  .logo-mark-demo {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark-demo.navy-bg { background: var(--navy); }
+  .logo-mark-demo.teal-bg { background: var(--teal); }
+  .logo-mark-demo.white-bg { background: white; border: 2px solid var(--gray-200); }
+  .logo-mark-demo span {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 22px;
+  }
+  .logo-mark-demo.navy-bg span { color: var(--teal); }
+  .logo-mark-demo.teal-bg span { color: var(--navy); }
+  .logo-mark-demo.white-bg span { color: var(--navy); }
+  .logo-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .logo-wordmark.light-text { color: white; }
+  .logo-wordmark.dark-text { color: var(--navy); }
+  .logo-caption {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: 0.25rem;
+    text-align: center;
+  }
+  .logo-caption.light-caption { color: rgba(255,255,255,0.45); }
+
+  .logo-rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .logo-rule-card {
+    border-radius: 5px;
+    padding: 0.75rem 1rem;
+    border: 1px solid;
+  }
+  .logo-rule-card.do {
+    background: rgba(0,194,160,0.06);
+    border-color: rgba(0,194,160,0.25);
+  }
+  .logo-rule-card.dont {
+    background: rgba(230,57,70,0.05);
+    border-color: rgba(230,57,70,0.2);
+  }
+  .rule-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .rule-label.do { color: var(--teal); }
+  .rule-label.dont { color: var(--red); }
+  .rule-items {
+    list-style: none;
+    padding: 0;
+  }
+  .rule-items li {
+    font-size: 12px;
+    color: var(--gray-600);
+    padding: 0.15rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .rule-items li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gray-400);
+  }
+
+  .clearzone-demo {
+    background: var(--gray-50);
+    border: 1px dashed var(--gray-200);
+    border-radius: 5px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .clearzone-inner {
+    padding: 0.5rem;
+    border: 1px dashed rgba(0,194,160,0.4);
+    background: white;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .clearzone-label {
+    font-size: 10px;
+    color: var(--gray-400);
+    max-width: 160px;
+    line-height: 1.4;
+  }
+
+  /* ─── PAGE 3 — COLOR PALETTE ──────────────────── */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .color-swatch {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+  }
+  .swatch-block {
+    height: 70px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.4rem;
+  }
+  .swatch-role {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 5px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.85);
+  }
+  .swatch-role.dark-label {
+    background: rgba(0,0,0,0.1);
+    color: rgba(0,0,0,0.55);
+  }
+  .swatch-info {
+    padding: 0.5rem 0.6rem;
+    background: white;
+  }
+  .swatch-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 1px;
+  }
+  .swatch-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-400);
+  }
+  .swatch-use {
+    font-size: 10px;
+    color: var(--gray-600);
+    margin-top: 2px;
+  }
+
+  .color-usage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .color-usage-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .color-usage-preview {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.75rem;
+  }
+  .color-usage-demo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .color-usage-demo-sub {
+    font-size: 11px;
+  }
+  .color-usage-label {
+    padding: 0.5rem 0.75rem;
+    font-size: 11px;
+    color: var(--gray-600);
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+
+  .tints-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+  }
+  .tint-block {
+    height: 28px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tint-label {
+    font-size: 9px;
+    text-align: center;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  /* ─── PAGE 4 — TYPOGRAPHY ─────────────────────── */
+  .type-specimen {
+    margin-bottom: 1.5rem;
+  }
+  .type-spec-row {
+    display: flex;
+    gap: 1.5rem;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .type-spec-meta {
+    width: 130px;
+    flex-shrink: 0;
+  }
+  .type-spec-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+    margin-bottom: 2px;
+  }
+  .type-spec-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+  .type-spec-sample { flex: 1; }
+  .spec-display { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 36px; color: var(--navy); line-height: 1; }
+  .spec-h1     { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 26px; color: var(--navy); line-height: 1.2; }
+  .spec-h2     { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--navy); }
+  .spec-h3     { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; color: var(--navy); }
+  .spec-body   { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px; color: var(--gray-800); }
+  .spec-caption{ font-family: 'Inter', sans-serif; font-weight: 400; font-size: 11px; color: var(--gray-600); }
+  .spec-label  { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal); }
+  .spec-mono   { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--navy2); }
+
+  .font-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .font-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    padding: 1rem;
+    background: var(--gray-50);
+  }
+  .font-card-name {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gray-400);
+    margin-bottom: 0.4rem;
+  }
+  .font-card-family {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.3rem;
+  }
+  .font-card-use {
+    font-size: 11px;
+    color: var(--gray-600);
+    margin-bottom: 0.75rem;
+  }
+  .font-card-abc {
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--navy);
+  }
+  .font-card-abc.playfair { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .font-card-abc.inter { font-family: 'Inter', sans-serif; font-weight: 400; }
+  .font-card-abc.mono { font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 15px; }
+
+  /* ─── PAGE 5 — VOICE & VISUAL ─────────────────── */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .voice-card {
+    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid;
+  }
+  .voice-card.do {
+    background: rgba(0,194,160,0.04);
+    border-color: rgba(0,194,160,0.2);
+  }
+  .voice-card.dont {
+    background: rgba(230,57,70,0.04);
+    border-color: rgba(230,57,70,0.15);
+  }
+  .voice-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.6rem;
+  }
+  .voice-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+  .voice-badge.do-badge { background: rgba(0,194,160,0.15); color: var(--teal); }
+  .voice-badge.dont-badge { background: rgba(230,57,70,0.12); color: var(--red); }
+  .voice-examples { list-style: none; padding: 0; }
+  .voice-examples li {
+    font-size: 12px;
+    color: var(--gray-700);
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    line-height: 1.5;
+  }
+  .voice-examples li:last-child { border-bottom: none; }
+
+  .brand-adjectives {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .adj-tag {
+    padding: 0.3rem 0.8rem;
+    background: var(--navy);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+  }
+  .adj-tag.teal { background: var(--teal); color: var(--navy); }
+  .adj-tag.outline { background: transparent; border: 1px solid var(--gray-300); color: var(--gray-600); }
+
+  .prohibited-words {
+    background: rgba(230,57,70,0.05);
+    border: 1px solid rgba(230,57,70,0.15);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+  }
+  .prohibited-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+  }
+  .prohibited-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .prohibited-word {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: rgba(230,57,70,0.1);
+    color: var(--red);
+    border-radius: 3px;
+  }
+
+  .visual-rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .visual-rule-card {
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .visual-rule-preview {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    position: relative;
+    background: var(--navy);
+    overflow: hidden;
+  }
+  .vr-nav-bg { background: var(--navy); }
+  .vr-nav-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  .vr-deal-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(0,194,160,0.3);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.8);
+    width: 90px;
+    flex-shrink: 0;
+  }
+  .vr-deal-score { color: var(--teal); font-weight: 700; font-size: 11px; }
+  .vr-blurred {
+    filter: blur(2px);
+    font-size: 8px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+  .vr-filter {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0.5rem;
+    background: var(--navy);
+  }
+  .vr-fn { font-size: 11px; font-weight: 700; color: white; text-align: center; }
+  .vr-fn small { display: block; font-size: 8px; color: rgba(255,255,255,0.4); font-weight: 400; }
+  .vr-arrow { color: var(--teal); font-size: 10px; }
+  .vr-fn.highlight .vr-num { color: var(--teal); }
+  .dont-preview {
+    background: var(--gray-100);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+  .dont-slash { font-size: 24px; color: var(--red); opacity: 0.4; }
+  .dont-text { font-size: 10px; color: var(--gray-500); }
+  .visual-rule-body {
+    padding: 0.5rem 0.75rem;
+    font-size: 11px;
+    color: var(--gray-600);
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+  .visual-rule-title {
+    font-weight: 600;
+    color: var(--navy);
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  /* ─── PAGE 6 — COMPONENTS ─────────────────────── */
+  .components-section { margin-bottom: 1.25rem; }
+  .components-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--navy);
+    border-bottom: 1px solid var(--gray-200);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* buttons */
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .btn-demo {
+    padding: 0.45rem 1.1rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .btn-primary { background: var(--teal); color: var(--navy); border: none; }
+  .btn-secondary { background: transparent; color: var(--teal); border: 2px solid var(--teal); }
+  .btn-navy { background: var(--navy); color: white; border: none; }
+  .btn-gold { background: var(--gold); color: var(--navy); border: none; }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1px solid var(--gray-300); }
+  .btn-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--gray-400);
+    display: block;
+    margin-top: 2px;
+    text-align: center;
+  }
+  .btn-with-label { display: flex; flex-direction: column; align-items: center; }
+
+  /* deal card */
+  .deal-card-demo {
+    background: linear-gradient(145deg, rgba(13,27,42,0.97), rgba(26,47,74,0.97));
+    border: 1px solid rgba(0,194,160,0.25);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    max-width: 240px;
+    position: relative;
+  }
+  .deal-card-demo::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: var(--teal);
+    border-radius: 8px 8px 0 0;
+  }
+  .dcd-score-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.4rem;
+  }
+  .dcd-score { font-size: 22px; font-weight: 900; color: var(--teal); }
+  .dcd-score small { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .dcd-badge {
+    font-size: 9px;
+    padding: 2px 7px;
+    background: rgba(0,194,160,0.15);
+    color: var(--teal);
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .dcd-field { margin-bottom: 0.25rem; }
+  .dcd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.3); }
+  .dcd-value { font-size: 12px; color: white; font-weight: 500; }
+  .dcd-value.redacted {
+    filter: blur(3px);
+    user-select: none;
+  }
+
+  /* stat badge */
+  .stat-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .stat-badge {
+    background: var(--navy);
+    color: white;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    text-align: center;
+  }
+  .stat-badge-val { font-size: 18px; font-weight: 800; color: var(--teal); display: block; }
+  .stat-badge-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+
+  /* tags */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+  .tag { font-size: 11px; padding: 0.2rem 0.6rem; border-radius: 3px; font-weight: 600; }
+  .tag.teal-tag { background: rgba(0,194,160,0.12); color: var(--teal); }
+  .tag.gold-tag { background: rgba(245,166,35,0.12); color: var(--gold); }
+  .tag.red-tag  { background: rgba(230,57,70,0.1);  color: var(--red);  }
+  .tag.navy-tag { background: var(--navy); color: white; }
+
+  /* ─── PAGE 7 — PRINT & DIVIDER ────────────────── */
+  .divider-examples { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem; }
+  .divider-demo {
+    border: 1px solid var(--gray-200);
+    border-radius: 5px;
+    padding: 0.75rem 1rem;
+    background: var(--gray-50);
+  }
+  .divider-demo-label { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+  .hr-navy { border: none; height: 2px; background: var(--navy); margin: 0.4rem 0; }
+  .hr-teal { border: none; height: 2px; background: var(--teal); margin: 0.4rem 0; }
+  .hr-gold { border: none; height: 1px; background: var(--gold); margin: 0.4rem 0; }
+  .hr-dot  { border: none; height: 1px; border-top: 1px dashed var(--gray-300); margin: 0.4rem 0; }
+
+  .do-dont-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .dv-card {
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1.5px solid;
+  }
+  .dv-card.do-card { border-color: rgba(0,194,160,0.35); }
+  .dv-card.dont-card { border-color: rgba(230,57,70,0.3); }
+  .dv-header {
+    padding: 0.3rem 0.75rem;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .dv-header.do-header { background: rgba(0,194,160,0.1); color: var(--teal); }
+  .dv-header.dont-header { background: rgba(230,57,70,0.08); color: var(--red); }
+  .dv-body {
+    padding: 0.75rem;
+    font-size: 11px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    background: white;
+  }
+  .dv-example {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+  }
+  .dv-icon { font-size: 11px; flex-shrink: 0; margin-top: 1px; }
+  .dv-text { flex: 1; }
+</style>
+</head>
+<body>
+
+<button class="download-btn no-print" onclick="window.print()">Download PDF</button>
+
+<!-- ─────────────────── PAGE 1: COVER ────────────────── -->
+<div class="page cover">
+  <div class="cover-header">
+    <div class="cover-logo-mark"><span>DI</span></div>
+    <div class="cover-doc-type">Brand Standards — Version 1.0 · March 2026</div>
+  </div>
+  <div class="cover-body">
+    <div class="cover-eyebrow">Deal Intelligence · Official Brand Guide</div>
+    <div class="cover-headline">Brand<br>Standards</div>
+    <div class="cover-rule"></div>
+    <div class="cover-desc">
+      Everything the creative and content team needs to represent Deal Intelligence consistently across all touchpoints — print, digital, social, and outreach.
+    </div>
+    <div class="cover-toc">
+      <div class="cover-toc-item"><span class="cover-toc-num">01</span> Logo &amp; Mark</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">02</span> Color Palette</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">03</span> Typography</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">04</span> Voice &amp; Tone</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">05</span> Visual Direction</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">06</span> UI Components</div>
+      <div class="cover-toc-item"><span class="cover-toc-num">07</span> Do's &amp; Don'ts</div>
+    </div>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-footer-brand">Deal Intelligence</div>
+    <div class="cover-footer-meta">Confidential — For authorized creative partners only<br>jeromyjsmith@gmail.com · 720-998-2888</div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 2: LOGO ─────────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">01 — Logo &amp; Mark</div>
+  </div>
+
+  <div class="section-label">The Logo System</div>
+  <div class="section-title">Logo &amp; Mark</div>
+  <div class="section-sub">The DI mark is the anchor of the brand. Use it consistently. The wordmark is the full brand name in Playfair Display. The mark (DI alone) is used when space is tight or as an icon.</div>
+
+  <div class="logo-grid">
+    <div class="logo-box dark">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="logo-mark-demo teal-bg"><span>DI</span></div>
+        <div class="logo-wordmark light-text">Deal Intelligence</div>
+      </div>
+      <div class="logo-caption light-caption">Primary — Navy background, teal mark</div>
+    </div>
+    <div class="logo-box light">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="logo-mark-demo navy-bg"><span>DI</span></div>
+        <div class="logo-wordmark dark-text">Deal Intelligence</div>
+      </div>
+      <div class="logo-caption">Secondary — White/light background</div>
+    </div>
+    <div class="logo-box on-teal">
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <div class="logo-mark-demo navy-bg"><span>DI</span></div>
+        <div class="logo-wordmark dark-text" style="color:#0d1b2a;">Deal Intelligence</div>
+      </div>
+      <div class="logo-caption" style="color:rgba(13,27,42,0.5);">On teal — navy mark, navy wordmark</div>
+    </div>
+    <div class="logo-box light" style="background:white;">
+      <div style="display:flex;align-items:center;gap:1.5rem;">
+        <div class="logo-mark-demo teal-bg" style="width:44px;height:44px;"><span style="font-size:18px;">DI</span></div>
+        <div class="logo-mark-demo navy-bg" style="width:32px;height:32px;"><span style="font-size:13px;">DI</span></div>
+        <div class="logo-mark-demo teal-bg" style="width:24px;height:24px;"><span style="font-size:10px;">DI</span></div>
+      </div>
+      <div class="logo-caption">Icon-only — 44px / 32px / 24px minimums</div>
+    </div>
+  </div>
+
+  <div class="clearzone-demo">
+    <div class="clearzone-inner">
+      <div class="logo-mark-demo teal-bg" style="width:40px;height:40px;"><span style="font-size:16px;">DI</span></div>
+      <div class="logo-wordmark dark-text" style="font-size:16px;">Deal Intelligence</div>
+    </div>
+    <div class="clearzone-label">Always maintain clear space equal to the height of the "D" glyph around the mark. Never crowd the logo.</div>
+  </div>
+
+  <div class="logo-rules">
+    <div class="logo-rule-card do">
+      <div class="rule-label do">Do</div>
+      <ul class="rule-items">
+        <li>Use on navy, white, teal, or dark image backgrounds</li>
+        <li>Maintain the teal/navy color relationship of the mark</li>
+        <li>Use the wordmark + mark together whenever space allows</li>
+        <li>Minimum mark size: 24px height</li>
+        <li>Use Playfair Display 700 or 900 weight for wordmark</li>
+      </ul>
+    </div>
+    <div class="logo-rule-card dont">
+      <div class="rule-label dont">Don't</div>
+      <ul class="rule-items">
+        <li>Stretch, skew, rotate, or distort the mark</li>
+        <li>Use on busy photographic backgrounds without overlay</li>
+        <li>Use colors outside the brand palette for the mark</li>
+        <li>Add drop shadows, gradients, or effects to the mark</li>
+        <li>Use a font other than Playfair Display for "DI"</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 3: COLOR ────────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">02 — Color Palette</div>
+  </div>
+
+  <div class="section-label">The Color System</div>
+  <div class="section-title">Color Palette</div>
+  <div class="section-sub">Navy is the foundation — it communicates intelligence and authority. Teal is the signal — it marks success, data, and action. Gold is emphasis. Red is urgency only.</div>
+
+  <div class="color-grid">
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#0d1b2a;">
+        <span class="swatch-role">Primary</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Navy</div>
+        <div class="swatch-hex">#0d1b2a</div>
+        <div class="swatch-use">Backgrounds, text, authority</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#00c2a0;">
+        <span class="swatch-role">Accent</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Teal</div>
+        <div class="swatch-hex">#00c2a0</div>
+        <div class="swatch-use">Scores, CTAs, data highlights</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#f5a623;">
+        <span class="swatch-role dark-label">Emphasis</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Gold</div>
+        <div class="swatch-hex">#f5a623</div>
+        <div class="swatch-use">Key numbers, premium signals</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#e63946;">
+        <span class="swatch-role">Alert</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Red</div>
+        <div class="swatch-hex">#e63946</div>
+        <div class="swatch-use">Urgency, distress, alerts only</div>
+      </div>
+    </div>
+    <div class="color-swatch">
+      <div class="swatch-block" style="background:#1a2f4a;">
+        <span class="swatch-role">Secondary</span>
+      </div>
+      <div class="swatch-info">
+        <div class="swatch-name">Navy 2</div>
+        <div class="swatch-hex">#1a2f4a</div>
+        <div class="swatch-use">Cards, overlays, secondary bg</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="color-usage-grid">
+    <div class="color-usage-card">
+      <div class="color-usage-preview" style="background:#0d1b2a;">
+        <div>
+          <div class="color-usage-demo-text" style="color:#00c2a0;font-family:'Playfair Display',serif;">Deal Intelligence</div>
+          <div class="color-usage-demo-sub" style="color:rgba(255,255,255,0.5);">Navy background · Teal headline · White body</div>
+        </div>
+      </div>
+      <div class="color-usage-label">Primary combination — use for dark sections, hero areas, deal cards</div>
+    </div>
+    <div class="color-usage-card">
+      <div class="color-usage-preview" style="background:#ffffff;">
+        <div>
+          <div class="color-usage-demo-text" style="color:#0d1b2a;font-family:'Playfair Display',serif;">Deal Intelligence</div>
+          <div class="color-usage-demo-sub" style="color:#6c757d;">White background · Navy headline · Gray body</div>
+        </div>
+      </div>
+      <div class="color-usage-label">Light combination — use for print, proposals, light sections</div>
+    </div>
+    <div class="color-usage-card">
+      <div class="color-usage-preview" style="background:#00c2a0;">
+        <div>
+          <div class="color-usage-demo-text" style="color:#0d1b2a;font-family:'Playfair Display',serif;">Deal Intelligence</div>
+          <div class="color-usage-demo-sub" style="color:rgba(13,27,42,0.65);">Teal background · Navy text — use sparingly</div>
+        </div>
+      </div>
+      <div class="color-usage-label">Accent combination — CTAs, callouts, badges only. Never full pages.</div>
+    </div>
+    <div class="color-usage-card">
+      <div class="color-usage-preview" style="background:#0d1b2a;">
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <div style="font-size:20px;font-weight:800;color:#f5a623;">437</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);">avg days<br>on market</div>
+          <div style="font-size:16px;font-weight:700;color:#e63946;margin-left:0.5rem;">!!! URGENT</div>
+        </div>
+      </div>
+      <div class="color-usage-label">Gold = key metrics, data emphasis. Red = urgency signals only.</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-label" style="margin-bottom:0.4rem;">Navy Tints</div>
+    <div class="tints-row">
+      <div><div class="tint-block" style="background:#0d1b2a;"></div><div class="tint-label">100%</div></div>
+      <div><div class="tint-block" style="background:#1a2f4a;"></div><div class="tint-label">80%</div></div>
+      <div><div class="tint-block" style="background:#2d4a6e;"></div><div class="tint-label">60%</div></div>
+      <div><div class="tint-block" style="background:#5a7fa0;"></div><div class="tint-label">40%</div></div>
+      <div><div class="tint-block" style="background:#8fa8bf;"></div><div class="tint-label">25%</div></div>
+      <div><div class="tint-block" style="background:#c4d4df;border:1px solid #dee2e6;"></div><div class="tint-label">15%</div></div>
+      <div><div class="tint-block" style="background:#e0e8ef;border:1px solid #dee2e6;"></div><div class="tint-label">8%</div></div>
+      <div><div class="tint-block" style="background:#f2f5f8;border:1px solid #dee2e6;"></div><div class="tint-label">4%</div></div>
+    </div>
+    <div class="section-label" style="margin-bottom:0.4rem;margin-top:0.5rem;">Teal Tints</div>
+    <div class="tints-row">
+      <div><div class="tint-block" style="background:#00c2a0;"></div><div class="tint-label">100%</div></div>
+      <div><div class="tint-block" style="background:#1acbac;"></div><div class="tint-label">80%</div></div>
+      <div><div class="tint-block" style="background:#4dd9bf;"></div><div class="tint-label">60%</div></div>
+      <div><div class="tint-block" style="background:#80e6d4;"></div><div class="tint-label">40%</div></div>
+      <div><div class="tint-block" style="background:#a6eddf;border:1px solid #dee2e6;"></div><div class="tint-label">25%</div></div>
+      <div><div class="tint-block" style="background:#ccf3eb;border:1px solid #dee2e6;"></div><div class="tint-label">15%</div></div>
+      <div><div class="tint-block" style="background:#e0f8f3;border:1px solid #dee2e6;"></div><div class="tint-label">8%</div></div>
+      <div><div class="tint-block" style="background:#f0fcf9;border:1px solid #dee2e6;"></div><div class="tint-label">4%</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 4: TYPOGRAPHY ────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">03 — Typography</div>
+  </div>
+
+  <div class="section-label">Type System</div>
+  <div class="section-title">Typography</div>
+  <div class="section-sub">Headlines use Playfair Display serif for drama and authority. Body copy uses Inter for clarity and legibility. JetBrains Mono is reserved for data, codes, and technical values.</div>
+
+  <div class="font-stack">
+    <div class="font-card">
+      <div class="font-card-name">Display / Headlines</div>
+      <div class="font-card-family">Playfair Display</div>
+      <div class="font-card-use">Section heads, hero text, deal names, key statements. Use 700–900 weight.</div>
+      <div class="font-card-abc playfair">Aa Bb Cc<br>0123456789</div>
+    </div>
+    <div class="font-card">
+      <div class="font-card-name">Body / UI</div>
+      <div class="font-card-family">Inter</div>
+      <div class="font-card-use">All body copy, labels, navigation, buttons. Use 300–700 weight range.</div>
+      <div class="font-card-abc inter">Aa Bb Cc<br>0123456789</div>
+    </div>
+    <div class="font-card">
+      <div class="font-card-name">Data / Code</div>
+      <div class="font-card-family">JetBrains Mono</div>
+      <div class="font-card-use">Hex values, scores, financial figures in data tables, URLs.</div>
+      <div class="font-card-abc mono">Aa Bb Cc<br>0123456789</div>
+    </div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">Display</div>
+        <div class="type-spec-detail">Playfair Display 900<br>36px / 1.0<br>Tracking: −0.01em</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-display">437 Days on Market</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">H1 — Page Title</div>
+        <div class="type-spec-detail">Playfair Display 700<br>26px / 1.2<br>Color: Navy</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-h1">Commercial Deal Intelligence</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">H2 — Section</div>
+        <div class="type-spec-detail">Playfair Display 700<br>20px / 1.25<br>Color: Navy</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-h2">Owner-Finance Pipeline</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">H3 — Sub-section</div>
+        <div class="type-spec-detail">Inter 700<br>16px / 1.3<br>Color: Navy</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-h3">Seller Psychological Profile</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">Body</div>
+        <div class="type-spec-detail">Inter 400<br>14px / 1.65<br>Color: #343a40</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-body">The seller has been listed for 437 days. At this stage, they've had the conventional buyers. The bank financing fell through. They're not holding out for a higher price — they're holding out for a buyer who can close.</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">Caption / Fine Print</div>
+        <div class="type-spec-detail">Inter 400<br>11px / 1.5<br>Color: Gray-600</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-caption">Data sourced from public listing platforms. Days on market calculated from original listing date. Scores generated by proprietary 100-point model.</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">Label / Eyebrow</div>
+        <div class="type-spec-detail">Inter 700<br>10px / 1.0<br>UPPERCASE · 0.15em tracking</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-label">Active Pipeline · March 2026</div>
+      </div>
+    </div>
+    <div class="type-spec-row">
+      <div class="type-spec-meta">
+        <div class="type-spec-label">Mono / Data</div>
+        <div class="type-spec-detail">JetBrains Mono 400<br>12px<br>Data tables, values</div>
+      </div>
+      <div class="type-spec-sample">
+        <div class="spec-mono">#0d1b2a · Cap Rate: 0.0892 · DOM: 437 · Score: 95/100</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 5: VOICE ─────────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">04–05 — Voice &amp; Visual</div>
+  </div>
+
+  <div class="section-label">Brand Voice</div>
+  <div class="section-title">Voice &amp; Tone</div>
+  <div class="section-sub">Deal Intelligence sounds like a smart friend who knows the real estate game. Specific, confident, never salesy. The data does the selling — we just present it cleanly.</div>
+
+  <div class="brand-adjectives">
+    <span class="adj-tag">Specific</span>
+    <span class="adj-tag teal">Confident</span>
+    <span class="adj-tag">Direct</span>
+    <span class="adj-tag teal">Data-driven</span>
+    <span class="adj-tag">Authoritative</span>
+    <span class="adj-tag outline">Not salesy</span>
+    <span class="adj-tag outline">Not hypey</span>
+    <span class="adj-tag outline">Not vague</span>
+  </div>
+
+  <div class="voice-grid">
+    <div class="voice-card do">
+      <div class="voice-card-header">
+        <span class="voice-badge do-badge">DO — Sound Like This</span>
+      </div>
+      <ul class="voice-examples">
+        <li>"437 days on market. That's not a warning sign. That's leverage."</li>
+        <li>"Score: 95/100. 404 days on market. Confirmed seller financing."</li>
+        <li>"3,000 noise listings become 4 high-conviction opportunities."</li>
+        <li>"The seller has been waiting 13 months for the right buyer."</li>
+        <li>"Kalshi shows 71% probability of a rate cut. The window is closing."</li>
+        <li>"The bank said no. That's good news — 90% of buyers just left."</li>
+      </ul>
+    </div>
+    <div class="voice-card dont">
+      <div class="voice-card-header">
+        <span class="voice-badge dont-badge">DON'T — Avoid This</span>
+      </div>
+      <ul class="voice-examples">
+        <li>"Unlock the secret to finding amazing deals!"</li>
+        <li>"Our AI will crush the competition for you."</li>
+        <li>"This is a game-changer for real estate investors."</li>
+        <li>"Massive ROI potential in our pipeline right now!"</li>
+        <li>"We use cutting-edge AI technology to find deals."</li>
+        <li>"Trust us — we've seen it all in this market."</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prohibited-words">
+    <div class="prohibited-label">Never Use These Words</div>
+    <div class="prohibited-list">
+      <span class="prohibited-word">guru</span>
+      <span class="prohibited-word">secret</span>
+      <span class="prohibited-word">hack</span>
+      <span class="prohibited-word">crush it</span>
+      <span class="prohibited-word">game-changer</span>
+      <span class="prohibited-word">AI</span>
+      <span class="prohibited-word">CREXI</span>
+      <span class="prohibited-word">passive income</span>
+      <span class="prohibited-word">get rich</span>
+      <span class="prohibited-word">guaranteed returns</span>
+      <span class="prohibited-word">amazing</span>
+      <span class="prohibited-word">unlock</span>
+      <span class="prohibited-word">massive</span>
+      <span class="prohibited-word">synergy</span>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:1rem;">Visual Direction</div>
+  <div class="section-title" style="font-size:22px;">What We Show</div>
+
+  <div class="visual-rules-grid">
+    <div class="visual-rule-card">
+      <div class="visual-rule-preview vr-nav-bg">
+        <div class="vr-nav-content">
+          <div class="vr-deal-card">
+            <div class="vr-deal-score">95/100</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.6);margin-top:3px;">Denver, CO</div>
+            <div class="vr-blurred">▓▓▓▓▓▓▓▓▓▓▓<br>▓▓▓▓▓▓▓▓</div>
+          </div>
+          <div class="vr-deal-card">
+            <div class="vr-deal-score">87/100</div>
+            <div style="font-size:9px;color:rgba(255,255,255,0.6);margin-top:3px;">Phoenix, AZ</div>
+            <div class="vr-blurred">▓▓▓▓▓▓▓▓▓▓▓<br>▓▓▓▓▓▓▓▓</div>
+          </div>
+        </div>
+      </div>
+      <div class="visual-rule-body">
+        <div class="visual-rule-title">✓ Blurred deal cards</div>
+        Score and market visible. Everything else redacted. Creates curiosity without exposing IP.
+      </div>
+    </div>
+    <div class="visual-rule-card">
+      <div class="visual-rule-preview vr-nav-bg">
+        <div class="vr-filter">
+          <div class="vr-fn"><span class="vr-num" style="color:white;font-size:13px;font-weight:800;">3,000+</span><small>listings</small></div>
+          <div class="vr-arrow">→</div>
+          <div class="vr-fn"><span class="vr-num" style="color:white;font-size:13px;font-weight:800;">8</span><small>signals</small></div>
+          <div class="vr-arrow">→</div>
+          <div class="vr-fn highlight"><span class="vr-num" style="color:#00c2a0;font-size:13px;font-weight:800;">4</span><small style="color:#00c2a0;">deals</small></div>
+        </div>
+      </div>
+      <div class="visual-rule-body">
+        <div class="visual-rule-title">✓ Filter funnel graphic</div>
+        The 3,000→8→4 flow is our hero data visualization. Use it across social, print, and decks.
+      </div>
+    </div>
+    <div class="visual-rule-card">
+      <div class="dont-preview">
+        <div class="dont-slash">⊘</div>
+        <div class="dont-text">Handshake stock photos</div>
+        <div class="dont-text" style="font-size:9px;">Also: skylines, suits, generic "success" imagery</div>
+      </div>
+      <div class="visual-rule-body">
+        <div class="visual-rule-title">✗ No generic stock photos</div>
+        No handshakes, skylines, people in suits, or "success" imagery. This brand is data, not aspiration.
+      </div>
+    </div>
+    <div class="visual-rule-card">
+      <div class="dont-preview">
+        <div class="dont-slash">⊘</div>
+        <div class="dont-text">Bright backgrounds</div>
+        <div class="dont-text" style="font-size:9px;">Also: gradients, drop shadows on the mark, busy patterns</div>
+      </div>
+      <div class="visual-rule-body">
+        <div class="visual-rule-title">✗ No bright or busy backgrounds</div>
+        Navy, white, or teal backgrounds only. No loud gradients, patterns, or photographic backgrounds without dark overlay.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 6: COMPONENTS ──────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">06 — UI Components</div>
+  </div>
+
+  <div class="section-label">Component Library</div>
+  <div class="section-title">UI Components</div>
+  <div class="section-sub">Reference these approved components for all digital touchpoints — website, social graphics, decks, and print materials. Do not improvise variants.</div>
+
+  <div class="components-section">
+    <div class="components-section-title">Buttons</div>
+    <div class="btn-row">
+      <div class="btn-with-label">
+        <div class="btn-demo btn-primary">DM "SCOPE"</div>
+        <span class="btn-label">Primary CTA</span>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn-demo btn-secondary">View Pipeline</div>
+        <span class="btn-label">Secondary</span>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn-demo btn-navy">Download PDF</div>
+        <span class="btn-label">Tertiary Navy</span>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn-demo btn-gold">Request Package</div>
+        <span class="btn-label">Gold Emphasis</span>
+      </div>
+      <div class="btn-with-label">
+        <div class="btn-demo btn-ghost">Learn More</div>
+        <span class="btn-label">Ghost</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="components-section">
+    <div class="components-section-title">Deal Card</div>
+    <div style="display:flex;gap:1rem;align-items:flex-start;">
+      <div class="deal-card-demo">
+        <div class="dcd-score-row">
+          <div><span class="dcd-score">95</span><span class="dcd-score" style="font-size:14px;color:rgba(0,194,160,0.5);">/100</span></div>
+          <div class="dcd-badge">✓ Seller Finance</div>
+        </div>
+        <div class="dcd-field"><div class="dcd-label">Market</div><div class="dcd-value">Denver, CO</div></div>
+        <div class="dcd-field"><div class="dcd-label">Days on Market</div><div class="dcd-value">404</div></div>
+        <div class="dcd-field"><div class="dcd-label">Asking Price</div><div class="dcd-value">$1.95M</div></div>
+        <div class="dcd-field"><div class="dcd-label">Seller Profile</div><div class="dcd-value redacted">████████████</div></div>
+        <div class="dcd-field"><div class="dcd-label">Outreach Script</div><div class="dcd-value redacted">████████████</div></div>
+      </div>
+      <div style="flex:1;font-size:11px;color:var(--gray-600);line-height:1.6;">
+        <p style="margin-bottom:0.5rem;"><strong style="color:var(--navy);">Score + Market + DOM + Price</strong> are always visible. Everything proprietary (seller profile, scripts, LOI terms, contact tree) is blurred/redacted in public materials.</p>
+        <p style="margin-bottom:0.5rem;">The blurred content is the hook — it communicates depth without revealing IP.</p>
+        <p>Use this card pattern on social graphics, website, and print materials. Never show full unredacted cards in public.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="components-section">
+    <div class="components-section-title">Stat Badges</div>
+    <div class="stat-badges">
+      <div class="stat-badge"><span class="stat-badge-val">3,000+</span><span class="stat-badge-lbl">Listings Scanned</span></div>
+      <div class="stat-badge"><span class="stat-badge-val">437</span><span class="stat-badge-lbl">Avg Days on Market</span></div>
+      <div class="stat-badge"><span class="stat-badge-val">8</span><span class="stat-badge-lbl">Active Deals</span></div>
+      <div class="stat-badge"><span class="stat-badge-val">100%</span><span class="stat-badge-lbl">Kalshi FOMC Accuracy</span></div>
+      <div class="stat-badge"><span class="stat-badge-val">24h</span><span class="stat-badge-lbl">Package Delivery</span></div>
+    </div>
+  </div>
+
+  <div class="components-section">
+    <div class="components-section-title">Tags &amp; Labels</div>
+    <div class="tag-row">
+      <span class="tag teal-tag">Owner Financing</span>
+      <span class="tag teal-tag">Score: 95/100</span>
+      <span class="tag gold-tag">437 DOM</span>
+      <span class="tag gold-tag">$14.1M Pipeline</span>
+      <span class="tag red-tag">Distressed</span>
+      <span class="tag red-tag">Price Reduced</span>
+      <span class="tag navy-tag">Denver, CO</span>
+      <span class="tag navy-tag">Gas Station</span>
+      <span class="tag navy-tag">Self Storage</span>
+    </div>
+  </div>
+
+  <div class="components-section">
+    <div class="components-section-title">Taglines (Approved)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="background:var(--navy);border-radius:5px;padding:0.75rem 1rem;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;color:white;font-weight:700;margin-bottom:0.2rem;">"The Only Buyer in the Room<br>Who Did the Homework."</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);">Primary tagline — full use</div>
+      </div>
+      <div style="background:var(--navy);border-radius:5px;padding:0.75rem 1rem;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--teal);font-weight:700;margin-bottom:0.2rem;">"Zero to Closed Deal."</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.35);">Short form — social captions, subject lines</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── PAGE 7: DO & DON'T ───────────────── -->
+<div class="page inner-page">
+  <div class="page-header">
+    <div class="page-header-brand">
+      <div class="page-header-logo"><span>DI</span></div>
+      <div class="page-header-name">Deal Intelligence</div>
+    </div>
+    <div class="page-header-right">07 — Do's &amp; Don'ts</div>
+  </div>
+
+  <div class="section-label">Quick Reference</div>
+  <div class="section-title">Do's &amp; Don'ts</div>
+  <div class="section-sub">A summary of all brand rules for rapid review before publishing any content under the Deal Intelligence name.</div>
+
+  <div class="do-dont-visual">
+    <div class="dv-card do-card">
+      <div class="dv-header do-header">✓ DO</div>
+      <div class="dv-body">
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Use specific numbers (437 DOM, 95/100, $14.1M). Vagueness kills credibility.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Lead with the insight or data point, not the pitch. Let the number do the selling.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Use "multi-agent pipeline" or "intelligence system" — not "AI" alone.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Blur/redact proprietary deal details on all public-facing materials.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Use navy, white, or teal backgrounds. Dark + teal = the visual signature.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Use Playfair Display for all headlines and the DI mark.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Alternate content pillars: data → deal → thesis → system. Never two data posts in a row.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Include a CTA on every post: "DM SCOPE", "DM PIPELINE", or email.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Mention Kalshi, Polymarket, Parcl by name (they're public). Never mention CREXI.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Reference 6 years of iteration as proof of depth, not just "experience."</div></div>
+      </div>
+    </div>
+    <div class="dv-card dont-card">
+      <div class="dv-header dont-header">✗ DON'T</div>
+      <div class="dv-body">
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never mention CREXI by name in any public content. That's our source, not public knowledge.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never promise returns, yield guarantees, or specific deal outcomes to any audience.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never say "AI" without context. Say "multi-agent pipeline" or "intelligence system."</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never reveal the exact 8 scoring signals, CREXI URL parameters, or full outreach scripts.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never sound like a course sale or coaching pitch. This is a B2B service, not education.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never use stock photos of handshakes, skylines, or people in suits.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never use words: guru, secret, hack, crush it, game-changer, passive income, guaranteed.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never post seller names, specific addresses, or broker contact info publicly.</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never use off-brand colors (especially bright greens, blues, or reds not in the palette).</div></div>
+        <div class="dv-example"><div class="dv-icon">→</div><div class="dv-text">Never redesign the DI mark or wordmark. The mark is fixed. Use it as-is.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--navy);border-radius:8px;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:16px;color:white;font-weight:700;margin-bottom:0.2rem;">Questions about brand usage?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);">Contact before publishing anything you're uncertain about.</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:13px;font-weight:600;color:var(--teal);">jeromyjsmith@gmail.com</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.4);">720-998-2888</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;text-align:center;">
+    <div style="font-size:10px;color:var(--gray-400);">Deal Intelligence · Brand Standards v1.0 · March 2026 · Confidential — For authorized creative partners only</div>
+  </div>
+</div>
+
+</body>
+</html>

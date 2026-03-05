@@ -1,0 +1,40 @@
+# Local settings (not shared)
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/agent-memory-local/
+
+# Data files (too large for git)
+data/raw/
+data/exports/
+data/logs/
+
+# Keep processed data structure but not contents
+data/processed/*.json
+
+# Sensitive data
+.env
+.env.*
+data/contacts/
+data/dnc.json
+
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Generated files (may contain secrets from source snapshots)
+repomix-output.md
+*.repomix.*

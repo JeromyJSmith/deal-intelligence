@@ -1,0 +1,609 @@
+[
+  {
+    "score": 110,
+    "name": "73338 Highway 111, Palm Desert, CA 92260-3913",
+    "city": "Palm Desert",
+    "price": 2900000.0,
+    "types": [
+      "Retail",
+      "Mixed Use",
+      "Office",
+      "Hospitality",
+      "Special Purpose"
+    ],
+    "dom": 691,
+    "reasons": [
+      "EXPLICIT FINANCING (owner financing)",
+      "691d on market (1+ yr!)",
+      "Special Purpose (gas/car wash)",
+      "Hospitality (motel/hotel)",
+      "Mixed Use",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/1507806/california-73338-highway-111-palm-desert-ca-92260-3913",
+    "id": 1507806
+  },
+  {
+    "score": 108,
+    "name": "Select Storage Portfolio (Seller Financing)",
+    "city": "Twentynine Palms",
+    "price": 6950000.0,
+    "types": [
+      "Mixed Use",
+      "Industrial",
+      "Office",
+      "Business for Sale",
+      "Self Storage"
+    ],
+    "dom": 158,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "158d on market (4mo+)",
+      "Self Storage",
+      "Business operating",
+      "Mixed Use",
+      "Core JT area (Twentynine Palms)"
+    ],
+    "url": "https://www.crexi.com/properties/2188108/california-select-storage-portfolio",
+    "id": 2188108
+  },
+  {
+    "score": 95,
+    "name": "Great Investment Opportunity For Owner User",
+    "city": "Joshua Tree",
+    "price": 629000.0,
+    "types": [
+      "Multifamily"
+    ],
+    "dom": 215,
+    "reasons": [
+      "EXPLICIT FINANCING (owner financing)",
+      "215d on market (6mo+)",
+      "Multifamily",
+      "Price manageable (<$1.5M)",
+      "Core JT area (Joshua Tree)"
+    ],
+    "url": "https://www.crexi.com/properties/2072557/california-7608-olympic-road",
+    "id": 2072557
+  },
+  {
+    "score": 95,
+    "name": "Gift Shop Music Box & Clock Shoppe",
+    "city": "Palm Springs",
+    "price": 100000.0,
+    "types": [
+      "Business for Sale",
+      "Retail"
+    ],
+    "dom": 237,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "237d on market (6mo+)",
+      "Business operating",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/1992004/california-gift-shop-music-box-clock-shoppe",
+    "id": 1992004
+  },
+  {
+    "score": 85,
+    "name": "3724 W Ramsey Street",
+    "city": "Banning",
+    "price": 625000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 123,
+    "reasons": [
+      "EXPLICIT FINANCING (seller carry)",
+      "123d on market (4mo+)",
+      "Special Purpose (gas/car wash)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2238687/california-3724-w-ramsey-street",
+    "id": 2238687
+  },
+  {
+    "score": 80,
+    "name": "\u00b13,775 SF Building For Sale or Lease",
+    "city": "Hemet",
+    "price": 1390000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 770,
+    "reasons": [
+      "EXPLICIT FINANCING (owner financing)",
+      "770d on market (1+ yr!)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/1412416/california-3660-sf-building-for-sale-or-ground-lease",
+    "id": 1412416
+  },
+  {
+    "score": 80,
+    "name": "Jumpers Zone Party Rentals",
+    "city": "Palm Springs",
+    "price": 69000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 237,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "237d on market (6mo+)",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/1992065/california-jumpers-zone-party-rentals",
+    "id": 1992065
+  },
+  {
+    "score": 75,
+    "name": "\u00b14,370 SF Freestanding Building with $7,200 Monthly Income",
+    "city": "Hemet",
+    "price": 2500000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 539,
+    "reasons": [
+      "EXPLICIT FINANCING (owner financing)",
+      "539d on market (1+ yr!)",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/1664286/california-4370-sf-freestanding-building-with-7200-monthly-income",
+    "id": 1664286
+  },
+  {
+    "score": 75,
+    "name": "37,000 SF Mixed Light Cannabis Facility for Sale",
+    "city": "Desert Hot Springs",
+    "price": 2500000.0,
+    "types": [
+      "Industrial"
+    ],
+    "dom": 1231,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "1231d on market (1+ yr!)",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/950593/california-37000-sf-mixed-light-cannabis-facility-for-sale",
+    "id": 950593
+  },
+  {
+    "score": 72,
+    "name": "Relax Hotel & Spa",
+    "city": "Desert Hot Springs",
+    "price": 0,
+    "types": [
+      "Hospitality"
+    ],
+    "dom": 74,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "74d on market (2mo+)",
+      "Hospitality (motel/hotel)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2306854/california-relax-hotel-spa",
+    "id": 2306854
+  },
+  {
+    "score": 70,
+    "name": "Rancho Mirage Lane Office Development",
+    "city": "Rancho Mirage",
+    "price": 1293000.0,
+    "types": [
+      "Office",
+      "Land"
+    ],
+    "dom": 148,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "148d on market (4mo+)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2198467/california-rancho-mirage-lane-office-development",
+    "id": 2198467
+  },
+  {
+    "score": 70,
+    "name": "73489 29 Palms",
+    "city": "29 Palms",
+    "price": 460000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 691,
+    "reasons": [
+      "691d on market (1+ yr!)",
+      "Special Purpose (gas/car wash)",
+      "Price sweet spot (<$500k)",
+      "Core JT area (29 Palms)"
+    ],
+    "url": "https://www.crexi.com/properties/1507196/california-73489-29-palms",
+    "id": 1507196
+  },
+  {
+    "score": 70,
+    "name": "6719 Crestview Court Yucca Valley, CA 92284",
+    "city": "Yucca Valley",
+    "price": 499000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 369,
+    "reasons": [
+      "369d on market (1+ yr!)",
+      "Special Purpose (gas/car wash)",
+      "Price sweet spot (<$500k)",
+      "Core JT area (Yucca Valley)"
+    ],
+    "url": "https://www.crexi.com/properties/1816934/california-6719-crestview-court-yucca-valley-ca-92284",
+    "id": 1816934
+  },
+  {
+    "score": 65,
+    "name": "2,040 SF Commercial Bldg.",
+    "city": "Desert Hot Springs",
+    "price": 495000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 105,
+    "reasons": [
+      "EXPLICIT FINANCING (seller financing)",
+      "105d on market (2mo+)",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/2257355/california-2040-sf-commercial-bldg",
+    "id": 2257355
+  },
+  {
+    "score": 65,
+    "name": "72132 Twentynine Palms",
+    "city": "29 Palms",
+    "price": 550000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 461,
+    "reasons": [
+      "461d on market (1+ yr!)",
+      "Special Purpose (gas/car wash)",
+      "Price manageable (<$1.5M)",
+      "Core JT area (29 Palms)"
+    ],
+    "url": "https://www.crexi.com/properties/1724905/california-72132-twentynine-palms",
+    "id": 1724905
+  },
+  {
+    "score": 65,
+    "name": "4828 Newton",
+    "city": "Yucca Valley",
+    "price": 795000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 1256,
+    "reasons": [
+      "1256d on market (1+ yr!)",
+      "Special Purpose (gas/car wash)",
+      "Price manageable (<$1.5M)",
+      "Core JT area (Yucca Valley)"
+    ],
+    "url": "https://www.crexi.com/properties/908395/california-4828-newton-lane",
+    "id": 908395
+  },
+  {
+    "score": 57,
+    "name": "Sands Motel",
+    "city": "Yucca Valley",
+    "price": 1170000.0,
+    "types": [
+      "Hospitality"
+    ],
+    "dom": 203,
+    "reasons": [
+      "203d on market (6mo+)",
+      "Hospitality (motel/hotel)",
+      "Price manageable (<$1.5M)",
+      "Core JT area (Yucca Valley)"
+    ],
+    "url": "https://www.crexi.com/properties/2124427/california-sands-motel",
+    "id": 2124427
+  },
+  {
+    "score": 55,
+    "name": "Half Acre Hwy Lot in Joshua Tree",
+    "city": "Joshua Tree",
+    "price": 189000.0,
+    "types": [
+      "Retail",
+      "Land"
+    ],
+    "dom": 439,
+    "reasons": [
+      "439d on market (1+ yr!)",
+      "Price sweet spot (<$500k)",
+      "Core JT area (Joshua Tree)"
+    ],
+    "url": "https://www.crexi.com/properties/1737065/california-half-acre-hwy-lot-in-joshua-tree",
+    "id": 1737065
+  },
+  {
+    "score": 55,
+    "name": "210 W Florida Avenue",
+    "city": "Hemet",
+    "price": 50000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 234,
+    "reasons": [
+      "234d on market (6mo+)",
+      "Special Purpose (gas/car wash)",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/2013139/california-210-w-florida-avenue",
+    "id": 2013139
+  },
+  {
+    "score": 55,
+    "name": "170 W Ramsey Street",
+    "city": "Banning",
+    "price": 488000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 199,
+    "reasons": [
+      "199d on market (6mo+)",
+      "Special Purpose (gas/car wash)",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/2142976/california-170-w-ramsey-street",
+    "id": 2142976
+  },
+  {
+    "score": 50,
+    "name": "Billy Reed's Restaurant",
+    "city": "Palm Springs",
+    "price": 7500000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 91,
+    "reasons": [
+      "EXPLICIT FINANCING (owner financing)",
+      "91d on market (2mo+)"
+    ],
+    "url": "https://www.crexi.com/properties/2288228/california-billy-reeds-restaurante",
+    "id": 2288228
+  },
+  {
+    "score": 45,
+    "name": "622 Elm Avenue",
+    "city": "Beaumont",
+    "price": 600000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 123,
+    "reasons": [
+      "123d on market (4mo+)",
+      "Special Purpose (gas/car wash)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2238752/california-622-elm-avenue",
+    "id": 2238752
+  },
+  {
+    "score": 40,
+    "name": "400 E Florida Ave",
+    "city": "Hemet",
+    "price": 625000.0,
+    "types": [
+      "Retail",
+      "Office"
+    ],
+    "dom": 83,
+    "reasons": [
+      "MOTIVATED SELLER",
+      "83d on market (2mo+)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2297982/california-400-e-florida-ave",
+    "id": 2297982
+  },
+  {
+    "score": 35,
+    "name": "39935 Vista Del Sol - Mirage Center - Office",
+    "city": "Rancho Mirage",
+    "price": 0,
+    "types": [
+      "Office",
+      "Special Purpose"
+    ],
+    "dom": 91,
+    "reasons": [
+      "91d on market (2mo+)",
+      "Special Purpose (gas/car wash)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2288315/california-8556-sf-asc-space-available-at-mirage-center",
+    "id": 2288315
+  },
+  {
+    "score": 35,
+    "name": "19437 Newhall St",
+    "city": "Desert Hot Springs",
+    "price": 895000.0,
+    "types": [
+      "Industrial"
+    ],
+    "dom": 237,
+    "reasons": [
+      "237d on market (6mo+)",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2007420/california-19437-newhall-st",
+    "id": 2007420
+  },
+  {
+    "score": 33,
+    "name": "Retail / Mixed-Use Development Site",
+    "city": "Desert Hot Springs",
+    "price": 1750000.0,
+    "types": [
+      "Retail",
+      "Mixed Use",
+      "Land"
+    ],
+    "dom": 57,
+    "reasons": [
+      "MOTIVATED SELLER",
+      "Mixed Use",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/1938315/california-commercial-development-site",
+    "id": 1938315
+  },
+  {
+    "score": 30,
+    "name": "1531 E Florida Avenue",
+    "city": "Hemet",
+    "price": 475000.0,
+    "types": [
+      "Special Purpose"
+    ],
+    "dom": 3,
+    "reasons": [
+      "Special Purpose (gas/car wash)",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/2369825/california-1531-e-florida-avenue",
+    "id": 2369825
+  },
+  {
+    "score": 30,
+    "name": "77-840 Flora Road",
+    "city": "Palm Desert",
+    "price": 2995000.0,
+    "types": [
+      "Office"
+    ],
+    "dom": 219,
+    "reasons": [
+      "219d on market (6mo+)",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/2068916/california-77-840-flora-road",
+    "id": 2068916
+  },
+  {
+    "score": 28,
+    "name": "162 N. San Jacinto St",
+    "city": "Hemet",
+    "price": 1790000.0,
+    "types": [
+      "Retail",
+      "Mixed Use",
+      "Self Storage",
+      "Office"
+    ],
+    "dom": 36,
+    "reasons": [
+      "Self Storage",
+      "Mixed Use",
+      "Price feasible (<$3M)"
+    ],
+    "url": "https://www.crexi.com/properties/2330455/california-162-n-san-jacinto-st",
+    "id": 2330455
+  },
+  {
+    "score": 25,
+    "name": "Highway Frontage Commercial Duplex",
+    "city": "Twentynine Palms",
+    "price": 450000.0,
+    "types": [
+      "Retail"
+    ],
+    "dom": 21,
+    "reasons": [
+      "Price sweet spot (<$500k)",
+      "Core JT area (Twentynine Palms)"
+    ],
+    "url": "https://www.crexi.com/properties/2349182/california-highway-frontage-commercial-duplex",
+    "id": 2349182
+  },
+  {
+    "score": 23,
+    "name": "41267 State Highway 74",
+    "city": "Hemet",
+    "price": 499900.0,
+    "types": [
+      "Retail",
+      "Office",
+      "Mixed Use",
+      "Land"
+    ],
+    "dom": 36,
+    "reasons": [
+      "Mixed Use",
+      "Price sweet spot (<$500k)"
+    ],
+    "url": "https://www.crexi.com/properties/2330429/california-41267-state-highway-74",
+    "id": 2330429
+  },
+  {
+    "score": 18,
+    "name": "44518 State Highway 74",
+    "city": "Hemet",
+    "price": 980000.0,
+    "types": [
+      "Industrial",
+      "Mixed Use"
+    ],
+    "dom": 36,
+    "reasons": [
+      "Mixed Use",
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2330435/california-44518-state-highway-74",
+    "id": 2330435
+  },
+  {
+    "score": 10,
+    "name": "39755 Berkey Drive",
+    "city": "Palm Desert",
+    "price": 0,
+    "types": [
+      "Industrial",
+      "Office"
+    ],
+    "dom": 25,
+    "reasons": [
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2344613/california-39755-berkey-drive",
+    "id": 2344613
+  },
+  {
+    "score": 10,
+    "name": "Banning Ramsey Site",
+    "city": "Banning",
+    "price": 0,
+    "types": [
+      "Retail",
+      "Land"
+    ],
+    "dom": 38,
+    "reasons": [
+      "Price manageable (<$1.5M)"
+    ],
+    "url": "https://www.crexi.com/properties/2329524/california-banning-ramsey-site",
+    "id": 2329524
+  }
+]

@@ -1,0 +1,146 @@
+{
+  "investigation_date": "2026-03-04",
+  "title": "CREXI Undocumented Internal API Endpoints",
+  "status": "Protected",
+  "summary": "CREXI uses a protected REST API architecture behind Cloudflare WAF. Multiple endpoints exist but require solving Cloudflare Turnstile challenges.",
+  "endpoints": [
+    {
+      "endpoint": "/api/listings",
+      "method": "GET",
+      "status_code": 403,
+      "protection": "Cloudflare Turnstile",
+      "query_parameters": [
+        "limit",
+        "offset",
+        "types[]",
+        "subtypes[]",
+        "sort",
+        "term",
+        "page"
+      ],
+      "returns": "Cloudflare challenge page instead of JSON"
+    },
+    {
+      "endpoint": "/api/v1/listings",
+      "method": "GET",
+      "status_code": 403,
+      "protection": "Cloudflare Turnstile",
+      "query_parameters": [
+        "limit",
+        "offset"
+      ],
+      "returns": "Cloudflare challenge page instead of JSON"
+    },
+    {
+      "endpoint": "/api/v2/properties",
+      "method": "GET",
+      "status_code": 403,
+      "protection": "Cloudflare Turnstile",
+      "query_parameters": [
+        "limit"
+      ],
+      "returns": "Cloudflare challenge page instead of JSON"
+    },
+    {
+      "endpoint": "/search/api/listings",
+      "method": "GET",
+      "status_code": 403,
+      "protection": "Cloudflare Turnstile",
+      "returns": "Cloudflare challenge page instead of JSON"
+    }
+  ],
+  "cloudflare_protection": {
+    "type": "Managed Cloudflare Turnstile",
+    "challenge_type": "managed",
+    "requires_javascript": true,
+    "token_components": {
+      "cvId": "Challenge version (e.g., '3')",
+      "cZone": "Zone identifier (www.crexi.com)",
+      "cType": "Challenge type ('managed')",
+      "cRay": "Request ray ID for tracking",
+      "cH": "Challenge hash",
+      "cUPMDTk": "Update redirect token",
+      "cFPWv": "Fingerprint version (e.g., 'g')",
+      "cITimeS": "Challenge issue timestamp",
+      "md": "Encrypted challenge metadata",
+      "mdrd": "Redirect metadata"
+    },
+    "token_lifetime_seconds": 360,
+    "challenge_platform": "/cdn-cgi/challenge-platform/h/g/orchestrate/chl_page/v1"
+  },
+  "anti_bot_measures": [
+    "Cloudflare WAF blocking",
+    "Turnstile JavaScript challenge",
+    "TLS fingerprinting",
+    "Browser fingerprinting (Canvas, WebGL, Audio)",
+    "Behavioral analysis (mouse, click patterns)",
+    "IP reputation scoring",
+    "Rate limiting (100 pages/session)",
+    "Token expiration (360 seconds)"
+  ],
+  "viable_approaches": [
+    {
+      "approach": "Direct HTTP requests",
+      "status": "NOT VIABLE",
+      "reason": "Blocked immediately by Cloudflare WAF"
+    },
+    {
+      "approach": "Selenium/Puppeteer browser automation",
+      "status": "LIKELY VIABLE",
+      "pros": [
+        "Executes JavaScript",
+        "Solves Turnstile challenges",
+        "Can mimic real browser behavior"
+      ],
+      "cons": [
+        "Slow (3-5 second delays minimum)",
+        "Resource-intensive",
+        "May trigger fingerprinting detection",
+        "Higher cost per request"
+      ],
+      "recommendation": "Best current option for automated access"
+    },
+    {
+      "approach": "Token reuse/caching",
+      "status": "UNKNOWN",
+      "method": "Capture valid token, reuse for multiple requests",
+      "risk": "Tokens appear to be short-lived (360 seconds)",
+      "potential": "Could reduce computational overhead if feasible"
+    },
+    {
+      "approach": "Rotating proxy network with browser automation",
+      "status": "LIKELY VIABLE",
+      "cost": "High (proxy service required)",
+      "viability": "Likely to work but expensive"
+    },
+    {
+      "approach": "Official CREXI Intelligence API",
+      "status": "AVAILABLE",
+      "cost": "~$299/month",
+      "benefit": "Officially sanctioned, more data available",
+      "recommendation": "Best long-term solution for production"
+    }
+  ],
+  "recommendations": {
+    "immediate": [
+      "Implement Selenium/Puppeteer scraper for protected endpoints",
+      "Respect 3-5 second delays between requests",
+      "Cache results aggressively to minimize API calls",
+      "Implement maximum 100 pages per session",
+      "Use 30-minute cooldown after rate limiting"
+    ],
+    "long_term": [
+      "Contract official CREXI Intelligence API access",
+      "Build HTML parsing layer as fallback",
+      "Monitor security research communities for bypass techniques",
+      "Document any working patterns for future reference"
+    ]
+  },
+  "next_steps": [
+    "Implement Selenium/Puppeteer bridge",
+    "Test token reuse across requests",
+    "Analyze browser fingerprinting requirements",
+    "Monitor for API structure changes",
+    "Document working patterns"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "leadId": "crexi-9012445",
+      "propertyName": "QuikStop Gas & Convenience",
+      "brokerName": "Tom Rodriguez",
+      "brokerPhone": "(479) 555-1102",
+      "brokerEmail": "trod@arkcre.com",
+      "method": "email",
+      "status": "pending",
+      "generatedAt": "2026-03-03T10:00:00Z",
+      "scriptType": "owner-finance"
+    },
+    {
+      "leadId": "crexi-4410776",
+      "propertyName": "Roadrunner RV & Mobile Home Park",
+      "brokerName": "Karen White",
+      "brokerPhone": "(405) 555-3310",
+      "brokerEmail": "kwhite@okccommercial.com",
+      "method": "phone",
+      "status": "pending",
+      "generatedAt": "2026-03-03T10:05:00Z",
+      "scriptType": "retiring-owner"
+    },
+    {
+      "leadId": "crexi-7723104",
+      "propertyName": "Sunrise Car Wash & Detail Center",
+      "brokerName": "Lisa Chen",
+      "brokerPhone": "(417) 555-8833",
+      "brokerEmail": "lchen@ozarkcommercial.com",
+      "method": "email",
+      "status": "sent",
+      "generatedAt": "2026-03-02T16:00:00Z",
+      "sentAt": "2026-03-02T16:15:00Z",
+      "scriptType": "owner-finance"
+    }
+  ]
+}
