@@ -1,107 +1,126 @@
 ---
 name: seller-profiler
-description: >
-  Profile CREXI listing sellers to determine motivation level, likely
-  negotiation style, and optimal outreach approach. Use when you need to
-  understand who you're dealing with before making contact.
+description: Profiles motivated sellers to determine pain points, urgency level, and optimal negotiation approach. Identifies seller type from listing language — retiree, estate/probate, tired landlord, distressed, institutional — across any asset class. Use when user says "profile this seller", "analyze seller motivation", "who is the seller", "how motivated are they", "what is the seller situation", "how should I approach this deal", "what is driving this listing", or "rate seller motivation".
 allowed-tools: Read, Write, Glob, Grep, WebSearch
+metadata:
+  author: Deal Intelligence
+  version: 2.0.0
+  category: workflow-automation
+  tags: [seller-profiling, motivation, negotiation, behavioral-psychology]
 ---
 
 # Seller Profiler
 
-Builds seller profiles from listing data to inform outreach strategy.
+Analyzes listing data to profile seller motivation, urgency, and optimal approach strategy.
+Works for any asset class — real estate, businesses, land, notes.
 
-## Quick Start
+## Instructions
 
-1. Read listing data (description, highlights, broker info, DOM, price history)
-2. Classify seller type
-3. Estimate motivation level (1-10)
-4. Identify leverage points
-5. Recommend approach
+### Step 1: Load Listing Data
 
-## Seller Type Classification
+Read from `data/processed/` or accept URL/description from user.
 
-### Retiring Owner
-**Signals**: "retiring", "20+ years ownership", "self-managed", age indicators
-**Motivation**: Often high — wants out but needs tax-efficient exit
-**Leverage**: Installment sale tax benefits, no 1031 exchange pressure
-**Approach**: Respectful, acknowledge their work, offer legacy continuation
+Extract: listing description, DOM, price history, broker vs. FSBO, asset type, condition language.
 
-### Forced Seller
-**Signals**: "must sell", "health", "divorce", "partnership dissolution"
-**Motivation**: Very high — needs to transact regardless of terms
-**Leverage**: Speed and certainty of close
-**Approach**: Compassionate but business-focused, emphasize quick close
+### Step 2: Identify Seller Type
 
-### Estate/Trust
-**Signals**: "estate", "trust", "heirs", "executor", "probate"
-**Motivation**: High — beneficiaries want cash, not management responsibility
-**Leverage**: Simplicity, no management burden, steady distributions
-**Approach**: Professional, deal with executor/attorney, structured terms
+Match signal patterns to type:
 
-### Tired Landlord
-**Signals**: High DOM, deferred maintenance, below-market rents, vacancy issues
-**Motivation**: Medium-High — burned out on management
-**Leverage**: "I'll take the headache off your hands"
-**Approach**: Sympathetic, focus on relief from management burden
+**Type A: Retiree / Exiting Owner**
+- Signals: "retiring", "after X years", "ready for next chapter", "owner operated"
+- Pain: Tax hit from lump sum. Wants income continuity, not event.
+- Angle: "You become the bank — monthly checks, no tax event."
 
-### Investor Rebalancing
-**Signals**: Portfolio sale, 1031 exchange mention, upgrading/downsizing
-**Motivation**: Medium — strategic, not desperate
-**Leverage**: Clean transaction, no contingencies
-**Approach**: Professional, numbers-driven, competitive terms
+**Type B: Estate / Probate**
+- Signals: "estate sale", "trust", "heirs", "court approval"
+- Pain: Multiple decision-makers. Want fast, clean exit.
+- Angle: "Simplest possible close. Full price. No bank delays."
 
-### Bank/Institutional
-**Signals**: "REO", "bank owned", "lender", "FDIC"
-**Motivation**: Medium — wants off balance sheet but has time
-**Leverage**: Bulk purchase, quick close, no contingencies
-**Approach**: Formal, through proper channels, competitive bidding
+**Type C: Tired Landlord / Operator**
+- Signals: Long DOM (180+), deferred maintenance, "as-is", multiple price cuts
+- Pain: Done managing. Wants relief above maximum price.
+- Angle: "You walk away clean. We take over everything."
 
-## Motivation Scoring (1-10)
+**Type D: Distressed / Forced**
+- Signals: "must sell", "motivated", pre-foreclosure, tax default, divorce
+- Pain: Needs to transact on timeline. Stuck.
+- Angle: "I don't need a bank. We close on your timeline."
 
-| Score | Meaning | Action |
-|-------|---------|--------|
-| 9-10 | Desperate | Move fast, favorable terms possible |
-| 7-8 | Highly motivated | Good negotiating position |
-| 5-6 | Moderate motivation | Standard negotiation |
-| 3-4 | Low motivation | May need to sweeten offer |
-| 1-2 | Not motivated | Likely waste of time unless terms are perfect |
+**Type E: Institutional / Corporate**
+- Signals: Professional language, LLC/corp seller, broker-only, portfolio sale
+- Pain: Fiduciary duty. Needs clean, defensible transaction.
+- Angle: Full-price offer, no contingencies, minimize their liability.
 
-## Factors That Increase Motivation Score
+**Type F: Investor Exit**
+- Signals: "portfolio sale", "1031 exchange", multiple properties together
+- Pain: Tax strategy driven. Timeline matters.
+- Angle: Match their exchange timeline, clean terms.
 
-- Each 30 days DOM over 90: +1
-- Each price reduction: +1
+### Step 3: Score Motivation Level (1-10)
+
+Start at 1. Add points:
+- Each 30 days DOM over 90: +1 (max +4)
+- Each price reduction: +1 (max +3)
 - "Must sell" or "motivated" language: +2
-- Estate/retirement: +2
+- Estate/retirement signals: +2
 - Owner financing already offered: +1
-- Property vacant or declining occupancy: +1
-- Recent tax or regulatory issues: +1
+- Vacancy or declining occupancy: +1
 
-## Output
+Rate urgency: 1-4 = LOW | 5-6 = MEDIUM | 7-8 = HIGH | 9-10 = EXTREME
 
-Seller profile added to listing data:
+### Step 4: Recommend Deal Structure
+
+- Type A (Retiree): Owner finance. Monthly income. Low down. IRC 453 installment sale.
+- Type B (Estate): Cash or simple seller carry. Speed over terms.
+- Type C (Tired): Fast close. As-is. Seller carry to reduce friction.
+- Type D (Distressed): Solve their specific timeline problem. Maximum flexibility.
+- Type E (Institutional): Full price. Clean terms. No contingencies.
+- Type F (Investor): Match 1031 timeline. Clean close.
+
+### Step 5: Output Seller Profile
 
 ```json
 {
-  "sellerProfile": {
-    "type": "retiring",
-    "motivationScore": 8,
-    "estimatedOwnershipYears": 20,
-    "leveragePoints": [
-      "Tax benefits of installment sale",
-      "No 1031 exchange needed",
-      "Steady retirement income from note"
-    ],
-    "risks": [
-      "May have emotional attachment to property",
-      "Could have unrealistic price expectations"
-    ],
-    "recommendedApproach": "Empathetic, respectful of legacy, lead with tax benefits",
-    "keyTalkingPoints": [
-      "Acknowledge 20 years of work",
-      "IRC 453 installment sale benefits",
-      "Monthly passive income in retirement"
-    ]
-  }
+  "sellerType": "Type A — Retiree",
+  "motivationScore": 8,
+  "urgency": "HIGH",
+  "primaryPain": "one sentence — what drives this sale",
+  "recommendedAngle": "one sentence — how to frame the offer",
+  "dealStructureFit": "owner finance / auction / cash / creative",
+  "openingLine": "first thing to say — leads with their pain",
+  "keyTalkingPoints": [],
+  "avoid": "what NOT to say to this seller type",
+  "leveragePoints": []
 }
 ```
+
+Save profile to deal record and to `data/processed/profiles/[deal-id].json`.
+
+## Examples
+
+### Example 1: Profile from URL
+User: "profile this seller [URL]"
+Actions: Fetch listing → analyze signals → classify → score → output profile
+Result: Full seller profile with opening line and structure recommendation
+
+### Example 2: Profile top deals
+User: "profile all HOT deals"
+Actions: Load HOT tier from data/processed/ → profile each → save profiles
+Result: Profile file per HOT deal
+
+### Example 3: Quick motivation check
+User: "how motivated is the seller on the Nevada City property"
+Actions: Find matching deal → score motivation → return score + urgency rating
+Result: "Motivation: 8/10 — HIGH. Estate sale, 220 DOM, 2 price cuts."
+
+## Error Handling
+
+- No description available: Use DOM + price history only — note "limited data, estimate only"
+- Broker-only listing: Profile broker type + flag "seller profile requires direct contact"
+- Auction listing: Generate "auction bidder strategy" instead of seller profile
+
+## References
+
+- `references/seller-types.md` — Full signal library per seller type
+- `references/deal-structures.md` — Structure recommendation per seller type
+- `references/behavioral-science.md` — Psychology behind each type
