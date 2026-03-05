@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Intelligence — The Most Intelligent Way to Acquire Cash-Flowing Properties</title>
+<meta name="description" content="A proprietary six-year intelligence system for finding and closing owner-financed commercial real estate — zero bank dependency, automated from search to signed LOI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-2: #1a2f4a;
+    --navy-3: #0a1520;
+    --teal: #00c2a0;
+    --teal-2: #00a88a;
+    --gold: #f5a623;
+    --red: #e63946;
+    --white: #ffffff;
+    --off-white: #f8f9fb;
+    --border: #e5e8ec;
+    --text-1: #0d1b2a;
+    --text-2: #3a4a5c;
+    --text-3: #6b7a8d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-1);
+    background: white;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(13,27,42,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo {
+    width: 36px;
+    height: 36px;
+    background: var(--teal);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--navy);
+  }
+
+  .nav-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: white; }
+
+  .nav-cta {
+    background: var(--teal);
+    color: var(--navy) !important;
+    font-weight: 700 !important;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+
+  .nav-cta:hover {
+    background: var(--teal-2) !important;
+    transform: translateY(-1px);
+    color: var(--navy) !important;
+  }
+
+  /* ── HERO ─────────────────────────────────── */
+  .hero {
+    background: var(--navy-3);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 40px 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,194,160,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(245,166,35,0.06) 0%, transparent 60%);
+  }
+
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--teal);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 22px;
+  }
+
+  .hero-title em {
+    color: var(--teal);
+    font-style: normal;
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover { background: var(--teal-2); transform: translateY(-2px); }
+
+  .btn-secondary {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.4); color: white; }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .hero-stat {
+    background: rgba(255,255,255,0.03);
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .hero-stat-value {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+    color: white;
+  }
+
+  .hero-stat-value.teal { color: var(--teal); }
+  .hero-stat-value.gold { color: var(--gold); }
+
+  .hero-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ── SECTION COMMONS ───────────────────── */
+  section {
+    padding: 96px 40px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .section-title.light { color: white; }
+
+  .section-desc {
+    font-size: 17px;
+    color: var(--text-2);
+    line-height: 1.65;
+    max-width: 580px;
+  }
+
+  .section-desc.light { color: rgba(255,255,255,0.6); }
+
+  /* ── THE PROBLEM ────────────────────────── */
+  .problem {
+    background: var(--off-white);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 52px;
+  }
+
+  .problem-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+  }
+
+  .problem-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .problem-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .problem-card p {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.65;
+  }
+
+  /* ── HOW IT WORKS ───────────────────────── */
+  .how-it-works {
+    background: var(--navy);
+  }
+
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 52px;
+    position: relative;
+  }
+
+  .phases::before {
+    content: '';
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    right: 32px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    z-index: 0;
+  }
+
+  .phase {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .phase-num {
+    width: 64px;
+    height: 64px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+    margin: 0 auto 16px;
+    transition: background 0.3s;
+  }
+
+  .phase:hover .phase-num {
+    background: var(--teal);
+    color: var(--navy);
+    border-color: var(--teal);
+  }
+
+  .phase h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .phase p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  /* ── DEALS ──────────────────────────────── */
+  .deals {
+    background: white;
+  }
+
+  .deals-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 52px;
+  }
+
+  .deal-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 18px;
+    background: white;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .deal-card:hover {
+    box-shadow: 0 12px 40px rgba(13,27,42,0.1);
+    transform: translateY(-3px);
+  }
+
+  .deal-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .deal-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: white;
+  }
+
+  .deal-score {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -1px;
+  }
+
+  .deal-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .deal-market {
+    font-size: 11px;
+    color: var(--text-3);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .deal-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .deal-stat {
+    background: var(--off-white);
+    border-radius: 8px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .deal-stat-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .deal-stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-3);
+    margin-top: 2px;
+  }
+
+  .deal-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  /* ── INTELLIGENCE ───────────────────────── */
+  .intelligence {
+    background: var(--off-white);
+  }
+
+  .intel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 52px;
+    align-items: center;
+    margin-top: 52px;
+  }
+
+  .intel-features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .intel-feature {
+    display: flex;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .intel-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .intel-feature-text h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .intel-feature-text p {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  .intel-proof {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 32px 28px;
+    color: white;
+  }
+
+  .intel-proof h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 6px;
+  }
+
+  .intel-proof-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 24px;
+  }
+
+  .intel-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .intel-item:last-child { border-bottom: none; }
+
+  .intel-check {
+    width: 20px;
+    height: 20px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--navy);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  /* ── ABOUT ──────────────────────────────── */
+  .about {
+    background: white;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 52px;
+  }
+
+  .about-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .about-year {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-year:last-child { border-bottom: none; }
+
+  .about-year-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--teal);
+    padding-top: 3px;
+  }
+
+  .about-year-content h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .about-year-content p {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  .about-text {
+    font-size: 16px;
+    color: var(--text-2);
+    line-height: 1.75;
+  }
+
+  .about-text strong { color: var(--text-1); }
+
+  .about-text p { margin-bottom: 20px; }
+
+  .about-quote {
+    background: linear-gradient(135deg, rgba(13,27,42,0.97), rgba(26,47,74,0.97));
+    border-radius: 16px;
+    padding: 24px 26px;
+    margin-top: 24px;
+    border-left: 3px solid var(--teal);
+  }
+
+  .about-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .about-quote cite {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-style: normal;
+  }
+
+  /* ── PARTNERSHIP ────────────────────────── */
+  .partnership {
+    background: var(--navy);
+  }
+
+  .partner-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 52px;
+  }
+
+  .partner-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .partner-card:first-child {
+    background: rgba(0,194,160,0.08);
+    border-color: rgba(0,194,160,0.25);
+  }
+
+  .partner-card:hover {
+    background: rgba(255,255,255,0.07);
+  }
+
+  .partner-card:first-child:hover {
+    background: rgba(0,194,160,0.12);
+  }
+
+  .partner-option-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+
+  .partner-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .partner-card p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .partner-card-cta {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .partner-card-cta:hover { color: white; }
+
+  /* ── CTA ────────────────────────────────── */
+  .cta-section {
+    background: var(--navy-3);
+    text-align: center;
+    padding: 120px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,194,160,0.1) 0%, transparent 70%);
+  }
+
+  .cta-section .container { position: relative; z-index: 1; }
+
+  .cta-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .cta-subtitle {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    margin-bottom: 44px;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+
+  .btn-cta-primary {
+    background: var(--teal);
+    color: var(--navy);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 18px 36px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-cta-primary:hover { background: var(--teal-2); transform: translateY(-2px); }
+
+  .btn-cta-secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    font-size: 16px;
+    font-weight: 600;
+    padding: 18px 36px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-cta-secondary:hover { border-color: rgba(255,255,255,0.5); color: white; }
+
+  .cta-contact-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cta-contact-item {
+    text-align: center;
+  }
+
+  .cta-contact-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 4px;
+  }
+
+  .cta-contact-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .cta-contact-value a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .cta-contact-value a:hover { color: var(--teal); }
+
+  /* ── FOOTER ─────────────────────────────── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-logo {
+    width: 28px;
+    height: 28px;
+    background: rgba(0,194,160,0.15);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--teal);
+  }
+
+  .footer-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .footer-right {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ── RESPONSIVE ─────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 64px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-title { font-size: 40px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    section { padding: 64px 24px; }
+    .problem-grid,
+    .partner-options { grid-template-columns: 1fr; }
+    .phases { grid-template-columns: 1fr 1fr; }
+    .deals-grid { grid-template-columns: 1fr 1fr; }
+    .intel-grid,
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .section-title { font-size: 30px; }
+    .cta-title { font-size: 36px; }
+    .cta-contact-strip { flex-wrap: wrap; gap: 24px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────── -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">DI</div>
+    <span class="nav-name">Deal Intelligence</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how-it-works">System</a></li>
+    <li><a href="#deals">Active Deals</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#partnership">Partnership</a></li>
+    <li><a href="#contact" class="nav-cta">Get the Report →</a></li>
+  </ul>
+</nav>
+
+
+<!-- ─── HERO ─────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Six Years in Development</div>
+      <h1 class="hero-title">The Only Buyer<br>in the Room Who<br>Did the <em>Homework.</em></h1>
+      <p class="hero-subtitle">A proprietary commercial real estate acquisition system — automated from market scan to signed Letter of Intent. Zero bank dependency. Every deal owner-financed.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get the Full Report →</a>
+        <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+      </div>
+    </div>
+    <div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-value teal">8</div>
+          <div class="hero-stat-label">Active Deal Files</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">3</div>
+          <div class="hero-stat-label">Target Markets</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value gold">$14M</div>
+          <div class="hero-stat-label">In Asset Value</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">$0</div>
+          <div class="hero-stat-label">Bank Financing Needed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── THE PROBLEM ──────────────────────────── -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-eyebrow">The Intelligence Gap</div>
+    <h2 class="section-title">Most Investors Are Blind<br>to the Best Deals.</h2>
+    <p class="section-desc">The commercial real estate market is full of motivated sellers — they're just invisible to buyers who don't know where to look, what to read, or how to structure the offer.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📊</div>
+        <h3>Days-on-Market Is a Signal, Not a Warning</h3>
+        <p>A property listed 400+ days isn't broken — it hasn't found the right buyer with the right structure. The average DOM across our 8 active deals is 437 days. That's not a red flag. That's leverage.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🏦</div>
+        <h3>Bank Financing Walls Out Most Buyers</h3>
+        <p>Restaurant buildings. Raw land. Special purpose properties. Banks routinely decline these. That's not a deal-killer — it's a filter. The buyers who clear it have no competition. We clear it every time.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🧠</div>
+        <h3>Seller Psychology Is Publicly Available</h3>
+        <p>DOM history, price reductions, brokerage patterns, listing language — every motivated seller leaves fingerprints. Most buyers don't look. We built a system that reads every signal, on every deal, automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── HOW IT WORKS ─────────────────────────── -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <div class="section-eyebrow">The Five-Phase Pipeline</div>
+    <h2 class="section-title light">From Raw Platform Data<br>to a Signed Letter of Intent.</h2>
+    <p class="section-desc light">Every deal runs through the same five-phase pipeline — discovery, scoring, seller profiling, outreach intelligence, and contractual framing — automatically, in under 24 hours.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">1</div>
+        <h4>Discovery</h4>
+        <p>Multi-platform scan for motivated seller signals: high DOM, price reductions, seller financing terms, target property types</p>
+      </div>
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <h4>Deal Scoring</h4>
+        <p>100-point scoring model: DOM weight, price-to-market ratio, financing signals, seller motivation language, property quality</p>
+      </div>
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <h4>Seller Profiling</h4>
+        <p>Psychological archetype mapping: Retiring Operator, Failed Speculator, Exhausted Holder, Portfolio Exit, Distressed Owner</p>
+      </div>
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <h4>Outreach Intel</h4>
+        <p>3-call close scripts, email templates, full stakeholder contact tree, 21-day multi-channel cadence — calibrated to archetype</p>
+      </div>
+      <div class="phase">
+        <div class="phase-num">5</div>
+        <h4>LOI Ready</h4>
+        <p>Pre-filled Letter of Intent with deal-specific numbers: price, down, seller note, rate, amortization, balloon, monthly payment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── ACTIVE DEALS ──────────────────────────── -->
+<section class="deals" id="deals">
+  <div class="container">
+    <div class="section-eyebrow">The Active Pipeline</div>
+    <h2 class="section-title">Eight Deals. Three Markets.<br>Every One Profiled and LOI-Ready.</h2>
+    <p class="section-desc">These aren't hypothetical — they're active listings with analyzed sellers, complete outreach scripts, and pre-populated Letters of Intent ready to send.</p>
+
+    <div class="deals-grid">
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#0d1b2a;">01</div>
+          <div class="deal-score" style="color:#00c2a0;">92</div>
+        </div>
+        <div class="deal-name">Twentynine Palms Hotel</div>
+        <div class="deal-market">High Desert, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$6.95M</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value">203</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(0,194,160,0.1);color:#00a88a;">Owner Carry</div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#7b68ee;">02</div>
+          <div class="deal-score" style="color:#7b68ee;">78</div>
+        </div>
+        <div class="deal-name">Joshua Tree Duplex</div>
+        <div class="deal-market">High Desert, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$629K</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value">215</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(123,104,238,0.1);color:#7b68ee;">Owner Carry</div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#d4a017;color:#0d1b2a;">03</div>
+          <div class="deal-score" style="color:#f5a623;">71</div>
+        </div>
+        <div class="deal-name">Sands Motel</div>
+        <div class="deal-market">Yucca Valley, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$1.17M</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value">203</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(245,166,35,0.1);color:#c8851c;">Tired Operator</div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#2d8a4e;color:white;">04</div>
+          <div class="deal-score" style="color:#2d8a4e;">68</div>
+        </div>
+        <div class="deal-name">Relax Hotel &amp; Spa</div>
+        <div class="deal-market">Desert Hot Springs, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">POA</div>
+            <div class="deal-stat-label">Price</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value">310+</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(45,138,78,0.1);color:#2d8a4e;">Owner Carry</div>
+      </div>
+
+      <div class="deal-card" style="border-color:rgba(230,57,70,0.2);">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#e63946;">05</div>
+          <div class="deal-score" style="color:#e63946;">88</div>
+        </div>
+        <div class="deal-name">Golden Triangle Assemblage</div>
+        <div class="deal-market">Denver, CO</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$1.11M</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value" style="color:#e63946;">518</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(230,57,70,0.1);color:#e63946;">17 Months</div>
+      </div>
+
+      <div class="deal-card" style="border-color:rgba(230,57,70,0.3);background:rgba(230,57,70,0.02);">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#e63946;">06</div>
+          <div class="deal-score" style="color:#e63946;">95</div>
+        </div>
+        <div class="deal-name">N Broadway Restaurant</div>
+        <div class="deal-market">Denver, CO · Top Rated</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$1.95M</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value" style="color:#e63946;">404</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(230,57,70,0.15);color:#e63946;">Confirmed SF ★</div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#00c2a0;color:#0d1b2a;">07</div>
+          <div class="deal-score" style="color:#00c2a0;">65</div>
+        </div>
+        <div class="deal-name">Village Drive Flex</div>
+        <div class="deal-market">Sonora, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$699K</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value" style="color:#e63946;">1,138</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(230,57,70,0.1);color:#e63946;">3.1 Years</div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-card-header">
+          <div class="deal-num" style="background:#f5a623;color:#0d1b2a;">08</div>
+          <div class="deal-score" style="color:#f5a623;">55</div>
+        </div>
+        <div class="deal-name">US-50 Restaurant</div>
+        <div class="deal-market">Placerville, CA</div>
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="deal-stat-value">$1.3M</div>
+            <div class="deal-stat-label">Asking</div>
+          </div>
+          <div class="deal-stat">
+            <div class="deal-stat-value">602</div>
+            <div class="deal-stat-label">DOM</div>
+          </div>
+        </div>
+        <div class="deal-badge" style="background:rgba(245,166,35,0.1);color:#c8851c;">Turn-Key</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── INTELLIGENCE ─────────────────────────── -->
+<section class="intelligence">
+  <div class="container">
+    <div class="intel-grid">
+      <div>
+        <div class="section-eyebrow">The Intelligence Layer</div>
+        <h2 class="section-title">We Know What the Seller<br>Needs Before We Call.</h2>
+        <p class="section-desc" style="margin-bottom:36px;">Every deal comes with a complete psychological profile of the seller. We know their archetype, their pain, and exactly what to say — without ever revealing that we know.</p>
+
+        <div class="intel-features">
+          <div class="intel-feature">
+            <div class="intel-icon">🗺️</div>
+            <div class="intel-feature-text">
+              <h4>Seller Pain Maps</h4>
+              <p>Archetype identification, pain signal analysis, and a calibrated opening line for every deal — built before the first call is made.</p>
+            </div>
+          </div>
+          <div class="intel-feature">
+            <div class="intel-icon">📞</div>
+            <div class="intel-feature-text">
+              <h4>3-Call Close Sequence</h4>
+              <p>Contact & Qualify → Explore & Align → Propose & Structure. A script for each call, each adapted to the seller's specific psychology.</p>
+            </div>
+          </div>
+          <div class="intel-feature">
+            <div class="intel-icon">🌐</div>
+            <div class="intel-feature-text">
+              <h4>Multi-Channel Outreach</h4>
+              <p>Phone, email, LinkedIn, text, direct-to-seller. A 21-day cadence with channel-specific templates. If the phone doesn't close it, one of these does.</p>
+            </div>
+          </div>
+          <div class="intel-feature">
+            <div class="intel-icon">📋</div>
+            <div class="intel-feature-text">
+              <h4>LOI Pre-Populated</h4>
+              <p>Every deal has a ready-to-send Letter of Intent with calculated terms. No scrambling after a verbal yes — the paperwork is already done.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="intel-proof">
+          <h3>What's in Every Deal File</h3>
+          <div class="intel-proof-subtitle">29-page report · 8 complete deal packages</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Deal card with 100-point score</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Money-making implementation plan (3 steps)</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Seller pain map and archetype identification</div>
+          <div class="intel-item"><div class="intel-check">✓</div>3-call close script (stealth buyer voice)</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Email template + LinkedIn outreach note</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Stakeholder contact tree (3 tiers)</div>
+          <div class="intel-item"><div class="intel-check">✓</div>21-day multi-channel cadence</div>
+          <div class="intel-item"><div class="intel-check">✓</div>Pre-filled LOI with deal-specific numbers</div>
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px;">Stealth Principle</div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65;">Every script is calibrated to the seller's exact pain points — but never reveals that we know them. We show up as a curious buyer who happened to find the listing. The intelligence stays internal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── ABOUT ─────────────────────────────────── -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-eyebrow">The Creator</div>
+        <h2 class="section-title">Six Years of Iteration.<br>One System That Works.</h2>
+
+        <div class="about-text">
+          <p>I didn't set out to build a real estate technology system. I set out to buy a cash-flowing property with no money down. That first deal — owner-financed, motivated seller, zero bank involvement — taught me everything I needed to know about where the real opportunity lives.</p>
+          <p>Every project after that became a laboratory. What could I systematize? What could I automate? What took me 40 hours to research could be done in 40 minutes — if the right tools existed. So I built them.</p>
+        </div>
+
+        <div class="about-quote">
+          <p>"The scope of what's possible with automation isn't scope creep — it's the whole point. When you can analyze everything from every angle, why wouldn't you? Especially when the decision involves significant capital at risk."</p>
+          <cite>— On why comprehensive analysis is never too much</cite>
+        </div>
+      </div>
+
+      <div>
+        <div class="about-timeline">
+          <div class="about-year">
+            <div class="about-year-label">Year 1–2</div>
+            <div class="about-year-content">
+              <h4>Manual Discovery</h4>
+              <p>Cold calls to 180+ DOM sellers. Spreadsheets. Learning what motivated sellers actually sound like — and what deal structures they respond to.</p>
+            </div>
+          </div>
+          <div class="about-year">
+            <div class="about-year-label">Year 3–4</div>
+            <div class="about-year-content">
+              <h4>Building Reusable Tools</h4>
+              <p>County assessor research templates. Broker profiling workflows. Seller psychology frameworks. Each tool built once, reused on every deal after.</p>
+            </div>
+          </div>
+          <div class="about-year">
+            <div class="about-year-label">Year 5–6</div>
+            <div class="about-year-content">
+              <h4>AI-Powered Automation</h4>
+              <p>Multi-agent pipelines replaced manual research. The entire acquisition workflow — discovery through LOI — now runs automatically for any target market.</p>
+            </div>
+          </div>
+          <div class="about-year">
+            <div class="about-year-label">Now</div>
+            <div class="about-year-content">
+              <h4>Deal Intelligence v1.0</h4>
+              <p>Fully operational. 8 active deal files. 3 markets. The first formal deployment of a system that took six years to build — and gets smarter with every deal closed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── PARTNERSHIP ──────────────────────────── -->
+<section class="partnership" id="partnership">
+  <div class="container">
+    <div class="section-eyebrow">The Opportunity</div>
+    <h2 class="section-title light">This System Produces What<br>Most Buyers Spend Months Assembling.</h2>
+    <p class="section-desc light">Eight deals are ready to pursue right now. The infrastructure is built. The question is: who is positioned to execute?</p>
+
+    <div class="partner-options">
+      <div class="partner-card">
+        <div class="partner-option-label">Option A · Recommended</div>
+        <h3>Capital Partner</h3>
+        <p>You provide acquisition capital — down payments, earnest money, operating reserves. I deploy the system, execute outreach, and manage the close. We structure equity participation in each closed deal.</p>
+        <a href="#contact" class="partner-card-cta">Let's Structure This →</a>
+      </div>
+      <div class="partner-card">
+        <div class="partner-option-label">Option B</div>
+        <h3>System Licensee</h3>
+        <p>Acquire the right to use Deal Intelligence for your own acquisition pipeline. Full training, ongoing system access, and per-deal consultation included. Build your own deal flow on proven infrastructure.</p>
+        <a href="#contact" class="partner-card-cta">Learn More →</a>
+      </div>
+      <div class="partner-card">
+        <div class="partner-option-label">Option C</div>
+        <h3>Strategic Partner</h3>
+        <p>You bring market access, relationships, or operational expertise. I bring intelligence and deal structuring. We build a joint pipeline targeting specific markets, property types, or deal sizes.</p>
+        <a href="#contact" class="partner-card-cta">Let's Talk →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── CTA ───────────────────────────────────── -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-label">Ready to Deploy This Together?</div>
+    <h2 class="cta-title">Say Yes to the Deal<br>No One Else Saw.</h2>
+    <p class="cta-subtitle">The 29-page Deal Intelligence Report covers every deal in depth. Review it, pick the one that resonates, and let's talk. The first deal we close together demonstrates the system better than any briefing can.</p>
+
+    <div class="cta-buttons">
+      <a href="mailto:jeromyjsmith@gmail.com?subject=Deal Intelligence — I'd Like the Full Report" class="btn-cta-primary">
+        Request the Full Report →
+      </a>
+      <a href="mailto:jeromyjsmith@gmail.com?subject=Deal Intelligence — Let's Schedule a Call" class="btn-cta-secondary">
+        Schedule a Call
+      </a>
+    </div>
+
+    <div class="cta-contact-strip">
+      <div class="cta-contact-item">
+        <div class="cta-contact-label">Prepared By</div>
+        <div class="cta-contact-value">Jerome Jordan Smith</div>
+      </div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
+      <div class="cta-contact-item">
+        <div class="cta-contact-label">Email</div>
+        <div class="cta-contact-value"><a href="mailto:jeromyjsmith@gmail.com">jeromyjsmith@gmail.com</a></div>
+      </div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
+      <div class="cta-contact-item">
+        <div class="cta-contact-label">Phone</div>
+        <div class="cta-contact-value">720-998-2888</div>
+      </div>
+      <div style="width:1px;height:32px;background:rgba(255,255,255,0.08);"></div>
+      <div class="cta-contact-item">
+        <div class="cta-contact-label">Schedule</div>
+        <div class="cta-contact-value"><a href="mailto:jeromyjsmith@gmail.com?subject=Deal Intelligence — Let's Schedule a Google Meet">Schedule a Google Meet</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER ────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">DI</div>
+    <span class="footer-name">Deal Intelligence</span>
+  </div>
+  <div class="footer-right">Confidential — For Stakeholder Review · March 2026</div>
+</footer>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Nav background on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(10,21,32,0.98)'
+      : 'rgba(13,27,42,0.95)';
+  });
+</script>
+
+</body>
+</html>
