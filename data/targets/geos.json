@@ -1,0 +1,146 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-03-04",
+  "zones": [
+    {
+      "id": "NCA",
+      "name": "Nevada County, California",
+      "label": "Grass Valley / Nevada City / Auburn",
+      "priority": 1,
+      "counties": ["Nevada County CA", "Placer County CA"],
+      "cities": [
+        "Grass Valley",
+        "Nevada City",
+        "Penn Valley",
+        "Rough and Ready",
+        "Lake of the Pines",
+        "Auburn",
+        "Colfax"
+      ],
+      "zipCodes": ["95945", "95946", "95959", "95960", "95975", "95613", "95603", "95722"],
+      "state": "CA",
+      "region": "Sierra Foothills",
+      "thesis": "Sierra Foothills emerging market — retirees, remote workers moving in, underpriced vs Bay Area. Long DOM typical but motivated sellers real. Strong hidden gem potential for residential conversions, small commercial, land, and special purpose.",
+      "searchTerms": {
+        "crexi": "Nevada County CA",
+        "auction": "Nevada County California",
+        "bizBuySell": "Grass Valley CA",
+        "loopnet": "Grass Valley CA"
+      },
+      "dealTypes": ["owner-finance", "auction", "pain-point", "land", "residential", "small-commercial", "business"],
+      "redFlags": ["Steep terrain without road access", "wildfire risk Zone 4-5 without insurance solutions"],
+      "opportunity": "Remote work migration creating demand that hasn't repriced assets yet. Buy before repricing."
+    },
+    {
+      "id": "CO",
+      "name": "Colorado",
+      "label": "Denver Metro + Front Range + Western Slope",
+      "priority": 2,
+      "subZones": [
+        {
+          "id": "CO-DENVER",
+          "name": "Denver Metro",
+          "cities": ["Denver", "Aurora", "Lakewood", "Arvada", "Westminster", "Englewood", "Littleton"],
+          "thesis": "High demand, diverse asset types. Hunt for pain-point sellers in transitional neighborhoods."
+        },
+        {
+          "id": "CO-FRONTRANGE",
+          "name": "Front Range",
+          "cities": ["Colorado Springs", "Fort Collins", "Boulder", "Pueblo", "Greeley", "Loveland"],
+          "thesis": "Mil/defense around Springs. Fort Collins growth node. Pueblo underpriced — value-add heavy."
+        },
+        {
+          "id": "CO-WESTERN",
+          "name": "Western Slope",
+          "cities": ["Grand Junction", "Durango", "Montrose", "Glenwood Springs", "Steamboat Springs"],
+          "thesis": "Tourism + remote work + energy. Grand Junction underpriced. Steamboat vacation rental play."
+        }
+      ],
+      "state": "CO",
+      "dealTypes": ["owner-finance", "auction", "pain-point", "multifamily", "mobile-home-park", "business", "storage", "hospitality"],
+      "opportunity": "Migration inflows from CA, TX, IL. Diverse economy. Motivated sellers exist across all sub-zones."
+    },
+    {
+      "id": "USA",
+      "name": "Nationwide Wide Net",
+      "label": "Best 3 Deals — Any State, Any Type",
+      "priority": 3,
+      "states": "all",
+      "quota": 3,
+      "dealTypes": ["auction", "owner-finance", "pain-point", "any"],
+      "thesis": "No geographic filter. Pure deal quality. Looking for the best 3 opportunities in the entire US regardless of type — the deal must stand alone on fundamentals + hidden gem overlay.",
+      "minimumScore": 70,
+      "diversityRule": "The 3 deals must be different asset classes — no duplicates allowed."
+    }
+  ],
+  "globalKeywords": [
+    "owner financing",
+    "seller financing",
+    "owner will carry",
+    "motivated seller",
+    "below market",
+    "must sell",
+    "price reduced",
+    "price reduction",
+    "value add",
+    "distressed",
+    "as-is",
+    "as is",
+    "estate sale",
+    "bank owned",
+    "REO",
+    "retiring",
+    "portfolio sale",
+    "auction",
+    "foreclosure",
+    "tax default",
+    "probate",
+    "divorce sale",
+    "relocation",
+    "investor special"
+  ],
+  "scanSources": [
+    {
+      "name": "CREXI",
+      "url": "https://www.crexi.com/properties",
+      "types": ["commercial", "land", "multifamily", "business"],
+      "notes": "Primary for commercial. Use type filters + keyword search."
+    },
+    {
+      "name": "Auction.com",
+      "url": "https://www.auction.com",
+      "types": ["foreclosure", "REO", "bank-owned"],
+      "notes": "Bank-owned and foreclosure auctions. Filter by county/state."
+    },
+    {
+      "name": "Hubzu",
+      "url": "https://www.hubzu.com",
+      "types": ["foreclosure", "auction"],
+      "notes": "Similar to auction.com. Good for residential distress."
+    },
+    {
+      "name": "BizBuySell",
+      "url": "https://www.bizbuysell.com",
+      "types": ["business", "business-with-realestate"],
+      "notes": "Businesses for sale. Filter for 'real estate included' — owner finance common here."
+    },
+    {
+      "name": "LoopNet",
+      "url": "https://www.loopnet.com",
+      "types": ["commercial", "land", "multifamily"],
+      "notes": "Secondary to CREXI. Good for redundancy and coverage."
+    },
+    {
+      "name": "County Tax Auctions",
+      "url": "varies by county",
+      "types": ["tax-default", "auction"],
+      "notes": "Search '[county name] tax sale auction 2026'. Nevada County CA: nevadacountytax.com. Colorado: search by county."
+    },
+    {
+      "name": "Zillow / Redfin",
+      "url": "https://www.zillow.com",
+      "types": ["residential-distress", "pre-foreclosure", "FSBO"],
+      "notes": "Residential pre-foreclosure, price cuts, FSBO. Filter for 90+ days on market."
+    }
+  ]
+}

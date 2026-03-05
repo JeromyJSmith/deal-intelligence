@@ -1,56 +1,107 @@
 ---
-description: Run the full CREXI deal-finding pipeline — scrape, analyze, score, and generate outreach
-argument-hint: "[property-type] [location]"
+description: Run the full Deal Intelligence pipeline — multi-source scan, regional intel, prediction markets, hidden gem detection, ranked output
+argument-hint: "[zone] [deal-type]"
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Agent, WebSearch, WebFetch
 ---
 
-# Full Pipeline Hunt
+# Deal Intelligence — Full Pipeline Hunt
 
-Run the complete deal-finding pipeline for CREXI listings.
+Runs the complete 6-stage pipeline defined in `.claude/skills/deal-pipeline/SKILL.md`.
 
 ## Arguments
 
-- `$0` — Property type (optional): mobile-home-park, gas-station, car-wash, self-storage, all
-- `$1` — Location (optional): state abbreviation or "nationwide"
+- `$0` — Zone filter (optional): `NCA`, `CO`, `USA`, or omit for all zones
+- `$1` — Deal type filter (optional): `auction`, `owner-finance`, `pain-point`, `hidden-gems`, or omit for all
 
-Default: all property types, nationwide
+Default: all zones, all deal types
 
-## Pipeline Steps
+## Active Zones (from `data/targets/geos.json`)
 
-1. **Scrape**: Delegate to `data-collector` agent to gather current listings
-   - Target property types: $0 or all target types
-   - Target location: $1 or nationwide
-   - Keywords: owner financing, motivated seller, must sell
-   - Save to `data/raw/`
+| Zone | Area |
+|------|------|
+| NCA | Grass Valley / Nevada City / Auburn, CA — Nevada County |
+| CO | Denver Metro + Front Range + Western Slope, Colorado |
+| USA | Nationwide — best 3 deals, any type, must be different asset classes |
 
-2. **Analyze**: Delegate to `market-analyst` agent to enrich with market context
-   - Compare prices to market benchmarks
-   - Validate cap rates and NOI
-   - Identify distress signals
-   - Save to `data/processed/`
+## Pipeline Execution
 
-3. **Score**: Delegate to `deal-scout` agent to rank opportunities
-   - Apply 100-point scoring rubric
-   - Classify into hot/warm/cold tiers
-   - Save to `data/processed/`
+### STAGE 1 — Data Collection
 
-4. **Outreach**: Delegate to `outreach-specialist` for top deals (score >= 70)
-   - Profile seller type
-   - Generate phone scripts and email drafts
-   - Create follow-up plans
-   - Save to `data/exports/`
+Read `data/targets/geos.json` to get zone configs.
 
-5. **Report**: Compile final summary
-   - Total listings found
-   - Top 10 opportunities with scores
-   - Outreach scripts for hot leads
-   - Save report to `data/exports/`
+For each active zone, run `data-collector` agent to scan:
+- CREXI (all asset types — NOT just commercial)
+- Auction.com + Hubzu (foreclosure, REO, tax default)
+- BizBuySell (businesses with real estate)
+- Zillow (residential distress, 90+ DOM, price cuts)
+- County tax auction listings (WebSearch)
+
+Use `globalKeywords` from geos.json. Respect 3-second rate limit between requests.
+
+Save raw data: `data/raw/YYYY-MM-DD_[zone]_[source].json`
+
+### STAGE 2 — Regional Intelligence
+
+For each zone, `market-analyst` agent pulls:
+- Population trend for target counties/cities (Census QuickFacts)
+- Employment data (BLS)
+- News: new employers, infrastructure, development (WebSearch)
+- Building permit activity
+- Area narrative: is this place getting better or worse?
+
+Output per deal: `regionalScore` (0-100) + 3-sentence context
+
+### STAGE 3 — Prediction Market Signals
+
+`prediction-market-intel` agent fetches current data from Kalshi and Polymarket:
+- Fed rate decision probabilities
+- Recession odds
+- California housing index (for NCA)
+- Colorado economic indicators
+
+Output: `marketSignal` object + timing recommendation (act now / wait / monitor)
+
+### STAGE 4 — Hidden Gem Detection
+
+Cross-reference all three layers per deal.
+Flag `isHiddenGem: true` if 2+ hidden gem criteria met (see scoring rubric).
+These are deals that look bad on the surface but are exceptional in context.
+
+### STAGE 5 — Scoring & Ranking
+
+Apply full scoring rubric from `references/scoring-rubric.md`.
+Classify all deals into HOT / WARM / WATCH / PASS tiers.
+
+### STAGE 6 — Deal Packages
+
+For every HOT and WARM deal, generate:
+1. One-page deal summary
+2. Personalized outreach script (phone + email)
+3. Suggested offer structure (owner finance terms)
+4. Risk flags and verification checklist
+
+## Output
+
+Save final report: `data/exports/YYYY-MM-DD_deal-intelligence-report.md`
+
+Report sections:
+- Pipeline summary (deals found, sources, date)
+- Zone NCA: Grass Valley / Nevada City results
+- Zone CO: Colorado results
+- Zone USA: Top 3 nationwide (different asset classes)
+- Hidden Gems flagged
+- Prediction market context and timing recommendation
 
 ## Usage
 
 ```
-/hunt                           # All types, nationwide
-/hunt mobile-home-park          # MHP only, nationwide
-/hunt gas-station TX            # Gas stations in Texas
-/hunt all CA                    # All types in California
+/hunt                   # Full pipeline — all zones, all types
+/hunt NCA               # Nevada County CA only
+/hunt CO                # Colorado only
+/hunt USA               # Nationwide top 3 only
+/hunt auction           # Auction deals only, all zones
+/hunt owner-finance     # Owner finance deals only, all zones
+/hunt hidden-gems       # Re-score existing data for hidden gems
+/hunt NCA auction       # Auction deals in Nevada County CA
+/hunt CO owner-finance  # Owner finance in Colorado
 ```
