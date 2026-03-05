@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Intelligence — Scope of Work & Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#0d1b2a; --navy-2:#1a2f4a; --teal:#00c2a0; --teal-2:#00a88a;
+    --gold:#f5a623; --red:#e63946; --white:#fff; --off:#f8f9fb;
+    --border:#e2e8f0; --text-1:#0d1b2a; --text-2:#3a4a5c; --text-3:#94a3b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:#d0d4d8;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @page{size:8.5in 11in;margin:0;}
+  @media print{body{background:white;}.no-print{display:none!important;}.page{box-shadow:none;margin:0;}}
+  @media screen{body{padding:40px 0;}.page{box-shadow:0 16px 50px rgba(0,0,0,0.2);margin-bottom:40px;}}
+
+  .page{width:8.5in;min-height:11in;margin:0 auto;background:white;overflow:hidden;page-break-after:always;break-after:page;position:relative;}
+  .page-inner{padding:0.55in 0.7in;}
+
+  /* COVER PAGE */
+  .cover{background:var(--navy);height:11in;display:flex;flex-direction:column;padding:0.65in 0.75in;}
+  .cover-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:auto;}
+  .logo-row{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:44px;height:44px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:var(--navy);}
+  .brand-name{font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);}
+  .conf-badge{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--navy);background:var(--gold);padding:4px 12px;border-radius:4px;}
+  .cover-main{flex:1;display:flex;flex-direction:column;justify-content:center;}
+  .cover-eyebrow{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:20px;}
+  .cover-title{font-family:'Playfair Display',serif;font-size:56px;font-weight:900;color:white;line-height:1.05;margin-bottom:24px;}
+  .cover-title em{color:var(--teal);font-style:normal;}
+  .cover-sub{font-size:16px;color:rgba(255,255,255,0.5);line-height:1.6;max-width:5in;margin-bottom:0.5in;}
+  .cover-rule{width:48px;height:3px;background:var(--teal);margin-bottom:0.5in;}
+  .cover-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:0.5in;}
+  .meta-item{border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;}
+  .meta-label{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:5px;}
+  .meta-value{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);}
+  .cover-footer{border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;display:flex;align-items:center;justify-content:space-between;}
+  .cover-footer-contact{font-size:9px;color:rgba(255,255,255,0.3);line-height:1.8;}
+
+  /* PAGE HEADER */
+  .page-hdr{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid var(--navy);margin-bottom:28px;}
+  .page-hdr-brand{display:flex;align-items:center;gap:10px;}
+  .page-hdr-mark{width:26px;height:26px;background:var(--teal);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:var(--navy);font-family:'Playfair Display',serif;}
+  .page-hdr-name{font-size:10px;font-weight:700;color:var(--navy);}
+  .page-hdr-section{font-size:9px;color:var(--text-3);}
+  .eyebrow{font-size:8.5px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+  .page-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:6px;}
+  .rule{width:36px;height:3px;background:var(--teal);margin-bottom:20px;}
+  .body-text{font-size:10.5px;color:var(--text-2);line-height:1.75;margin-bottom:14px;}
+  .body-text strong{color:var(--text-1);}
+  .page-footer{border-top:1px solid var(--border);padding-top:12px;display:flex;align-items:center;justify-content:space-between;font-size:8px;color:var(--text-3);margin-top:auto;}
+  .page-num{font-size:9px;font-weight:600;color:var(--text-3);}
+
+  /* TIER CARDS */
+  .tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:18px 0;}
+  .tier{border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .tier.featured{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal);}
+  .tier-header{padding:16px 14px;background:var(--off);}
+  .tier.featured .tier-header{background:var(--navy);}
+  .tier-badge{font-size:7.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;}
+  .tier.featured .tier-badge{color:var(--teal);}
+  .tier-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .tier.featured .tier-name{color:white;}
+  .tier-price{font-size:20px;font-weight:900;color:var(--teal);letter-spacing:-0.5px;line-height:1;}
+  .tier-price span{font-size:10px;font-weight:500;color:var(--text-3);}
+  .tier.featured .tier-price span{color:rgba(255,255,255,0.4);}
+  .tier-body{padding:14px;}
+  .tier-desc{font-size:9px;color:var(--text-2);line-height:1.6;margin-bottom:10px;}
+  .tier-items{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .tier-item{font-size:9px;color:var(--text-2);padding-left:14px;position:relative;line-height:1.4;}
+  .tier-item::before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:700;}
+
+  /* DELIVERABLES TABLE */
+  .del-table{width:100%;border-collapse:collapse;font-size:9.5px;margin:14px 0;}
+  .del-table thead tr{background:var(--navy);color:white;}
+  .del-table th{padding:8px 10px;text-align:left;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+  .del-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text-2);vertical-align:top;}
+  .del-table tr:hover td{background:rgba(0,194,160,0.03);}
+  .check{color:var(--teal);font-weight:700;}
+  .dash{color:var(--text-3);}
+
+  /* CAPABILITY LIST */
+  .cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+  .cap-item{border:1px solid var(--border);border-radius:8px;padding:12px 12px;border-left:3px solid var(--teal);}
+  .cap-item.gold-accent{border-left-color:var(--gold);}
+  .cap-item.red-accent{border-left-color:var(--red);}
+  .cap-item.purple-accent{border-left-color:#7b68ee;}
+  .cap-title{font-size:10.5px;font-weight:700;color:var(--text-1);margin-bottom:4px;}
+  .cap-desc{font-size:9px;color:var(--text-2);line-height:1.55;}
+
+  /* TERMS */
+  .terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+  .term-item{background:var(--off);border-radius:6px;padding:10px 12px;}
+  .term-label{font-size:8px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:4px;}
+  .term-value{font-size:10px;color:var(--text-2);line-height:1.5;}
+
+  /* NO-PRINT */
+  .no-print{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+  .no-print:hover{background:var(--teal);color:var(--navy);}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="page cover">
+  <div class="cover-top">
+    <div class="logo-row">
+      <div class="logo-mark">DI</div>
+      <span class="brand-name">Deal Intelligence</span>
+    </div>
+    <div class="conf-badge">Proprietary &amp; Confidential</div>
+  </div>
+  <div class="cover-main">
+    <div class="cover-eyebrow">Scope of Work &amp; Services</div>
+    <div class="cover-title">What We Do.<br>What You <em>Get.</em><br>What It Costs.</div>
+    <div class="cover-sub">A complete menu of Deal Intelligence capabilities — from one-time deal sourcing to full acquisition pipeline builds. Every engagement is scoped to your buy box, your markets, and your deal criteria.</div>
+    <div class="cover-rule"></div>
+    <div class="cover-meta">
+      <div class="meta-item">
+        <div class="meta-label">Service Model</div>
+        <div class="meta-value">Flexible — Fee, Equity, Retainer</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Turnaround</div>
+        <div class="meta-value">24 Hours Per Deal File</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">Coverage</div>
+        <div class="meta-value">All 50 States · Any Property Type</div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-footer-contact">Jeromy Jordan Smith · jeromyjsmith@gmail.com · 720-998-2888</div>
+    <div class="conf-badge">March 2026</div>
+  </div>
+</div>
+
+<!-- ══ PAGE 2: SERVICE TIERS ══ -->
+<div class="page">
+  <div class="page-inner" style="display:flex;flex-direction:column;min-height:11in;">
+    <div class="page-hdr">
+      <div class="page-hdr-brand"><div class="page-hdr-mark">DI</div><div class="page-hdr-name">Deal Intelligence</div></div>
+      <div class="page-hdr-section">Service Tiers</div>
+    </div>
+
+    <div class="eyebrow">Choose Your Engagement</div>
+    <div class="page-title">Three Ways to Work Together.</div>
+    <div class="rule"></div>
+    <p class="body-text">Every engagement starts with a scope conversation. We define your buy box — geography, property type, price range, cap rate floor, deal structure preference — and the system is configured to find exactly what you're looking for.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-badge">Tier 1 · Entry</div>
+          <div class="tier-name">Deal Package</div>
+          <div class="tier-price">$1,500 <span>/ per deal</span></div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-desc">One fully analyzed deal file, delivered within 24 hours of identification. Best for investors who want to evaluate the system before committing to a pipeline arrangement.</div>
+          <ul class="tier-items">
+            <li class="tier-item">100-point deal score with factor breakdown</li>
+            <li class="tier-item">Seller archetype + psychological pain map</li>
+            <li class="tier-item">3-call close script in stealth buyer voice</li>
+            <li class="tier-item">Email + LinkedIn outreach templates</li>
+            <li class="tier-item">Stakeholder contact tree (3 tiers)</li>
+            <li class="tier-item">21-day multi-channel cadence</li>
+            <li class="tier-item">Pre-filled Letter of Intent</li>
+            <li class="tier-item">County assessor + entity structure summary</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-header">
+          <div class="tier-badge">Tier 2 · Recommended</div>
+          <div class="tier-name">Pipeline Subscription</div>
+          <div class="tier-price">$4,500 <span>/ month</span></div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-desc">Ongoing deal flow tuned to your exact buy box. Minimum 4 qualified deal packages per month, with macro intelligence signals layered in for timing and negotiation.</div>
+          <ul class="tier-items">
+            <li class="tier-item">Everything in Tier 1, per deal</li>
+            <li class="tier-item">4+ qualified deal packages / month</li>
+            <li class="tier-item">Custom buy box configuration</li>
+            <li class="tier-item">Monthly market signal report (Fed, macro, city-level)</li>
+            <li class="tier-item">Prediction market timing analysis</li>
+            <li class="tier-item">Seller motivation trend report</li>
+            <li class="tier-item">Priority access + deal ranking</li>
+            <li class="tier-item">2 strategy calls per month</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-header">
+          <div class="tier-badge">Tier 3 · Partnership</div>
+          <div class="tier-name">Acquisition Partner</div>
+          <div class="tier-price">Equity Split <span>/ per close</span></div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-desc">You provide capital. We deploy the system, execute outreach, manage the close, and structure the deal. Equity split negotiated per deal based on capital provided and complexity.</div>
+          <ul class="tier-items">
+            <li class="tier-item">Full pipeline + outreach execution</li>
+            <li class="tier-item">Deal structuring and negotiation support</li>
+            <li class="tier-item">LOI drafting and seller follow-through</li>
+            <li class="tier-item">Equity participation: 10–30% depending on structure</li>
+            <li class="tier-item">No monthly fee while deal is in pursuit</li>
+            <li class="tier-item">Post-close operations roadmap</li>
+            <li class="tier-item">Profit-based alignment — no close, no fee</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text" style="margin-top:4px;"><strong>Custom engagements available.</strong> System licensing for investors who want to build their own deal flow infrastructure, white-label arrangements for broker teams, and advisory retainers for family offices and fund managers. All structured to fit the client's existing workflow.</p>
+
+    <div class="page-footer">
+      <div>Deal Intelligence · Scope of Work · Confidential · March 2026</div>
+      <div class="page-num">2</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 3: FULL CAPABILITY MATRIX ══ -->
+<div class="page">
+  <div class="page-inner" style="display:flex;flex-direction:column;min-height:11in;">
+    <div class="page-hdr">
+      <div class="page-hdr-brand"><div class="page-hdr-mark">DI</div><div class="page-hdr-name">Deal Intelligence</div></div>
+      <div class="page-hdr-section">Full Capability Matrix</div>
+    </div>
+
+    <div class="eyebrow">What We Can Do</div>
+    <div class="page-title">The Complete Scope.</div>
+    <div class="rule"></div>
+
+    <div class="cap-grid">
+      <div class="cap-item">
+        <div class="cap-title">🔍 Multi-Platform Deal Discovery</div>
+        <div class="cap-desc">Continuous monitoring of commercial listing platforms. 3,000+ active listings filtered in real time for 8 deal-quality signals. Custom property type, geography, and price filters per client.</div>
+      </div>
+      <div class="cap-item gold-accent">
+        <div class="cap-title">⚡ 100-Point Deal Scoring</div>
+        <div class="cap-desc">Every opportunity scored across DOM weight, price-to-market ratio, seller-motivation language, financing flexibility, property fundamentals, and cap rate. Only top scores advance.</div>
+      </div>
+      <div class="cap-item red-accent">
+        <div class="cap-title">🧠 Seller Psychological Profiling</div>
+        <div class="cap-desc">Five archetype system: Retiring Operator, Failed Speculator, Exhausted Holder, Portfolio Exit, Distressed Owner. Full pain map including personal motivations, negotiation posture, and optimal outreach approach.</div>
+      </div>
+      <div class="cap-item purple-accent">
+        <div class="cap-title">📞 Outreach Intelligence Package</div>
+        <div class="cap-desc">3-call close script in stealth buyer voice. Email and LinkedIn templates. Full stakeholder contact tree across 3 tiers (broker → attorney → principal). 21-day multi-channel cadence.</div>
+      </div>
+      <div class="cap-item">
+        <div class="cap-title">📄 Letter of Intent Generation</div>
+        <div class="cap-desc">Pre-filled LOI with deal-specific numbers: purchase price, down payment, seller note amount, interest rate, amortization, balloon date, and monthly payment — calculated and ready to send.</div>
+      </div>
+      <div class="cap-item gold-accent">
+        <div class="cap-title">🏛️ Public Records Deep Dive</div>
+        <div class="cap-desc">County assessor records, Secretary of State entity structures, UCC filings, court liens, and broker license verification. Every record surface that reveals seller financial pressure.</div>
+      </div>
+      <div class="cap-item red-accent">
+        <div class="cap-title">🔮 Prediction Market Intelligence</div>
+        <div class="cap-desc">Fed rate path probabilities (Kalshi), city-level RE price signals (Polymarket-Parcl), macro event timing. Applied to deal timing, cap rate projection, valuation, and urgency framing in outreach.</div>
+      </div>
+      <div class="cap-item purple-accent">
+        <div class="cap-title">💼 Deal Structure Engineering</div>
+        <div class="cap-desc">Owner-finance deal structure designed per seller archetype. DSCR verification, cash-on-cash modeling, balloon risk analysis, and hybrid structure options (partial seller carry + bridge).</div>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:10px;">Tier Comparison</div>
+    <table class="del-table">
+      <thead>
+        <tr>
+          <th>Deliverable</th>
+          <th>Deal Package ($1,500)</th>
+          <th>Pipeline ($4,500/mo)</th>
+          <th>Partner (Equity)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Scored deal card</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Seller psychological profile</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Outreach scripts + cadence</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Pre-filled LOI</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>County records summary</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Minimum 4 deals/month</td><td class="dash">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Monthly macro signal report</td><td class="dash">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Prediction market timing analysis</td><td class="dash">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Strategy calls</td><td class="dash">—</td><td class="check">2/month</td><td class="check">Unlimited</td></tr>
+        <tr><td>Outreach execution (we make the calls)</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+        <tr><td>Deal close management</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+        <tr><td>Equity participation in deal</td><td class="dash">—</td><td class="dash">—</td><td class="check">10–30%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="page-footer">
+      <div>Deal Intelligence · Scope of Work · Confidential · March 2026</div>
+      <div class="page-num">3</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE 4: ENGAGEMENT TERMS ══ -->
+<div class="page">
+  <div class="page-inner" style="display:flex;flex-direction:column;min-height:11in;">
+    <div class="page-hdr">
+      <div class="page-hdr-brand"><div class="page-hdr-mark">DI</div><div class="page-hdr-name">Deal Intelligence</div></div>
+      <div class="page-hdr-section">Engagement Terms &amp; How We Work</div>
+    </div>
+
+    <div class="eyebrow">Engagement Terms</div>
+    <div class="page-title">Clear Structure.<br>No Surprises.</div>
+    <div class="rule"></div>
+
+    <div class="terms-grid">
+      <div class="term-item">
+        <div class="term-label">Payment — Deal Package</div>
+        <div class="term-value">50% upfront upon scope agreement. 50% upon delivery of the complete deal file. Net 3 days on delivery.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Payment — Pipeline Subscription</div>
+        <div class="term-value">Monthly retainer billed on the 1st. No contract lock-in after month one. Cancel with 14 days written notice.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Payment — Acquisition Partner</div>
+        <div class="term-value">No upfront fee. Equity participation documented in a signed deal memo before outreach begins. Equity distributes at close.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Turnaround Commitment</div>
+        <div class="term-value">Standard deal packages delivered within 24 hours of identification. Rush delivery available for time-sensitive opportunities.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Geographic Scope</div>
+        <div class="term-value">All 50 states. No geographic restriction. International available on custom arrangement with adjusted pricing.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Exclusivity</div>
+        <div class="term-value">Deals delivered to one client per deal file by default. Non-exclusive unless client requests exclusivity arrangement (additional fee applies).</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Intellectual Property</div>
+        <div class="term-value">All scoring methodology, profiling frameworks, and system architecture remain proprietary to Deal Intelligence. Deliverables are licensed to client for use on the specific deal.</div>
+      </div>
+      <div class="term-item">
+        <div class="term-label">Confidentiality</div>
+        <div class="term-value">Mutual NDA available upon request. All client buy box information and deal pursuit activity held in strict confidence.</div>
+      </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:18px;">Getting Started — Three Steps</div>
+    <div style="display:flex;flex-direction:column;gap:0;margin:14px 0;">
+      <div style="display:grid;grid-template-columns:36px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+        <div style="width:32px;height:32px;background:var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white;flex-shrink:0;">1</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:3px;">Define Your Scope</div>
+          <div style="font-size:10px;color:var(--text-2);line-height:1.55;">30-minute call to document your buy box: geography, property type, price range, cap rate floor, deal structure preference, and timeline. We configure the system to your exact criteria.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:36px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+        <div style="width:32px;height:32px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--navy);flex-shrink:0;">2</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:3px;">Receive Your First Deal Package</div>
+          <div style="font-size:10px;color:var(--text-2);line-height:1.55;">Within 24–48 hours of scope finalization, you receive the first qualified deal file. Review it, give feedback, and we calibrate accordingly. The system gets sharper with every iteration.</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:36px 1fr;gap:14px;padding:12px 0;">
+        <div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:var(--navy);flex-shrink:0;">3</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-1);margin-bottom:3px;">Execute and Close</div>
+          <div style="font-size:10px;color:var(--text-2);line-height:1.55;">Use the outreach scripts, contact trees, and LOI we provide. Or engage us for full execution support (Tier 3). The first deal we close together demonstrates the system better than any document can.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(13,27,42,0.97),rgba(26,47,74,0.97));border-radius:12px;padding:20px 24px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+      <div>
+        <div style="font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">Ready to Start?</div>
+        <div style="font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:4px;">Let's define your scope.</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.4);">Schedule a 30-minute call. No pressure. No pitch. Just a conversation about what you're looking for.</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:11px;font-weight:700;color:white;margin-bottom:4px;">Jeromy Jordan Smith</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.4);line-height:1.8;">jeromyjsmith@gmail.com<br>720-998-2888</div>
+      </div>
+    </div>
+
+    <div class="page-footer" style="margin-top:16px;">
+      <div>Deal Intelligence · Scope of Work · Confidential · March 2026</div>
+      <div class="page-num">4</div>
+    </div>
+  </div>
+</div>
+
+<button class="no-print" onclick="window.print()">⬇ Download PDF</button>
+</body>
+</html>

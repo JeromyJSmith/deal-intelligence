@@ -1,0 +1,2282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deal Intelligence — Command Center</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+  <!-- D3.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.576.0/dist/umd/lucide.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       DESIGN SYSTEM — Warm Cream Professional
+       ============================================ */
+    :root {
+      /* Core Palette */
+      --bg-primary: #FAF7F2;
+      --bg-secondary: #F5F0E8;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #FEFCF9;
+      --bg-sidebar: #2C2418;
+      --bg-sidebar-hover: #3D3225;
+      --bg-sidebar-active: #4A3D2E;
+
+      /* Text */
+      --text-primary: #1A1510;
+      --text-secondary: #6B5E4F;
+      --text-tertiary: #9C8E7C;
+      --text-inverse: #FAF7F2;
+      --text-sidebar: #C4B8A8;
+      --text-sidebar-active: #FAF7F2;
+
+      /* Pipeline Stage Colors */
+      --color-scrape: #3B82F6;
+      --color-scrape-bg: #EFF6FF;
+      --color-scrape-border: #BFDBFE;
+      --color-analyze: #8B5CF6;
+      --color-analyze-bg: #F5F3FF;
+      --color-analyze-border: #DDD6FE;
+      --color-score: #F59E0B;
+      --color-score-bg: #FFFBEB;
+      --color-score-border: #FDE68A;
+      --color-outreach: #10B981;
+      --color-outreach-bg: #ECFDF5;
+      --color-outreach-border: #A7F3D0;
+
+      /* Lead Tiers */
+      --color-hot: #EF4444;
+      --color-hot-bg: #FEF2F2;
+      --color-warm: #F59E0B;
+      --color-warm-bg: #FFFBEB;
+      --color-cold: #6B7280;
+      --color-cold-bg: #F9FAFB;
+
+      /* Status */
+      --color-active: #10B981;
+      --color-idle: #9C8E7C;
+      --color-running: #3B82F6;
+      --color-error: #EF4444;
+
+      /* Borders & Shadows */
+      --border-light: #E8E0D4;
+      --border-medium: #D4C9B8;
+      --shadow-sm: 0 1px 2px rgba(26, 21, 16, 0.04);
+      --shadow-md: 0 4px 12px rgba(26, 21, 16, 0.06);
+      --shadow-lg: 0 8px 24px rgba(26, 21, 16, 0.08);
+      --shadow-glow: 0 0 20px rgba(212, 163, 115, 0.15);
+
+      /* Radius */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+
+      /* Typography */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       LAYOUT — Sidebar + Main
+       ============================================ */
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ============================================
+       SIDEBAR
+       ============================================ */
+    .sidebar {
+      background: var(--bg-sidebar);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      padding: 8px 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-brand h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-sidebar-active);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-brand p {
+      font-size: 11px;
+      color: var(--text-sidebar);
+      margin-top: 2px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .sidebar-section {
+      padding: 12px 12px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-sidebar);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-sidebar);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-link:hover {
+      background: var(--bg-sidebar-hover);
+      color: var(--text-sidebar-active);
+    }
+
+    .sidebar-link.active {
+      background: var(--bg-sidebar-active);
+      color: var(--text-sidebar-active);
+    }
+
+    .sidebar-link .lucide { width: 18px; height: 18px; }
+
+    .sidebar-link .badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .sidebar-link .badge.hot { background: var(--color-hot); color: white; }
+    .sidebar-link .badge.warm { background: var(--color-warm); color: white; }
+
+    .sidebar-spacer { flex: 1; }
+
+    /* ============================================
+       MAIN CONTENT
+       ============================================ */
+    .main {
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    .main-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .main-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .main-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn .lucide { width: 16px; height: 16px; }
+
+    .btn-primary {
+      background: var(--bg-sidebar);
+      color: var(--text-inverse);
+    }
+    .btn-primary:hover { background: var(--bg-sidebar-hover); box-shadow: var(--shadow-md); }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
+    }
+    .btn-secondary:hover { background: var(--bg-secondary); }
+
+    .btn-danger {
+      background: var(--color-hot);
+      color: white;
+    }
+
+    .btn-stage-scrape { background: var(--color-scrape); color: white; }
+    .btn-stage-analyze { background: var(--color-analyze); color: white; }
+    .btn-stage-score { background: var(--color-score); color: white; }
+    .btn-stage-outreach { background: var(--color-outreach); color: white; }
+
+    /* ============================================
+       CARDS
+       ============================================ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover { box-shadow: var(--shadow-md); }
+
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-header h3 .lucide { width: 16px; height: 16px; color: var(--text-tertiary); }
+
+    .card-body { padding: 20px; }
+    .card-body.flush { padding: 0; }
+
+    /* ============================================
+       STAT CARDS (KPI Row)
+       ============================================ */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+    .stat-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .stat-card-icon .lucide { width: 18px; height: 18px; }
+
+    .stat-card-icon.scrape { background: var(--color-scrape-bg); color: var(--color-scrape); }
+    .stat-card-icon.analyze { background: var(--color-analyze-bg); color: var(--color-analyze); }
+    .stat-card-icon.score { background: var(--color-score-bg); color: var(--color-score); }
+    .stat-card-icon.outreach { background: var(--color-outreach-bg); color: var(--color-outreach); }
+
+    .stat-card .value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .stat-card .label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    /* ============================================
+       GRID LAYOUTS
+       ============================================ */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 24px; }
+    .mb-24 { margin-bottom: 24px; }
+
+    /* ============================================
+       PIPELINE TRACKER
+       ============================================ */
+    .pipeline {
+      display: flex;
+      gap: 4px;
+      padding: 20px;
+    }
+
+    .pipeline-stage {
+      flex: 1;
+      text-align: center;
+      padding: 16px 12px;
+      border-radius: var(--radius-md);
+      position: relative;
+    }
+
+    .pipeline-stage.scrape { background: var(--color-scrape-bg); border: 1px solid var(--color-scrape-border); }
+    .pipeline-stage.analyze { background: var(--color-analyze-bg); border: 1px solid var(--color-analyze-border); }
+    .pipeline-stage.score { background: var(--color-score-bg); border: 1px solid var(--color-score-border); }
+    .pipeline-stage.outreach { background: var(--color-outreach-bg); border: 1px solid var(--color-outreach-border); }
+
+    .pipeline-stage .stage-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+    }
+
+    .pipeline-stage .stage-icon .lucide { width: 20px; height: 20px; }
+
+    .pipeline-stage.scrape .stage-icon { background: var(--color-scrape); color: white; }
+    .pipeline-stage.analyze .stage-icon { background: var(--color-analyze); color: white; }
+    .pipeline-stage.score .stage-icon { background: var(--color-score); color: white; }
+    .pipeline-stage.outreach .stage-icon { background: var(--color-outreach); color: white; }
+
+    .pipeline-stage .stage-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .pipeline-stage .stage-count {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .pipeline-stage .stage-status {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .pipeline-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--border-medium);
+      font-size: 20px;
+      padding: 0 4px;
+    }
+
+    /* ============================================
+       TABLES
+       ============================================ */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-tertiary);
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+
+    .data-table tr:hover td { background: var(--bg-card-hover); }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    /* ============================================
+       TAGS / BADGES
+       ============================================ */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .tag-hot { background: var(--color-hot-bg); color: var(--color-hot); }
+    .tag-warm { background: var(--color-warm-bg); color: var(--color-warm); }
+    .tag-cold { background: var(--color-cold-bg); color: var(--color-cold); }
+    .tag-scrape { background: var(--color-scrape-bg); color: var(--color-scrape); }
+    .tag-analyze { background: var(--color-analyze-bg); color: var(--color-analyze); }
+    .tag-score { background: var(--color-score-bg); color: var(--color-score); }
+    .tag-outreach { background: var(--color-outreach-bg); color: var(--color-outreach); }
+    .tag-active { background: #ECFDF5; color: var(--color-active); }
+    .tag-idle { background: #F5F0E8; color: var(--text-tertiary); }
+
+    .score-bar {
+      width: 60px;
+      height: 6px;
+      background: var(--bg-secondary);
+      border-radius: 99px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+
+    /* ============================================
+       AGENT STATUS CARDS
+       ============================================ */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .agent-card:hover { box-shadow: var(--shadow-md); }
+
+    .agent-card .agent-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      border: 2px solid var(--border-light);
+    }
+
+    .agent-card .agent-avatar .lucide { width: 20px; height: 20px; }
+
+    .agent-card .agent-name { font-size: 12px; font-weight: 600; }
+    .agent-card .agent-role { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+    .agent-card .agent-stats { font-size: 11px; color: var(--text-secondary); margin-top: 8px; }
+
+    /* ============================================
+       TEAM PROFILES
+       ============================================ */
+    .team-hero {
+      background: linear-gradient(135deg, #2C2418 0%, #4A3D2E 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      color: var(--text-inverse);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-hero::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(212, 163, 115, 0.07);
+      pointer-events: none;
+    }
+    .team-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; left: 200px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(212, 163, 115, 0.04);
+      pointer-events: none;
+    }
+    .team-hero-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(212, 184, 168, 0.6);
+      margin-bottom: 10px;
+    }
+    .team-hero-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .team-hero-sub {
+      font-size: 13px;
+      color: rgba(212, 184, 168, 0.75);
+      line-height: 1.7;
+      max-width: 580px;
+    }
+    .team-hero-badges {
+      display: flex;
+      gap: 8px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .hero-badge {
+      padding: 5px 13px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(212, 163, 115, 0.25);
+      color: rgba(212, 184, 168, 0.85);
+      background: rgba(212, 163, 115, 0.08);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1100px) { .profile-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 680px) { .profile-grid { grid-template-columns: 1fr; } }
+
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .profile-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--border-medium);
+      transform: translateY(-2px);
+    }
+
+    .profile-card-top {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .profile-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin-bottom: 12px;
+    }
+    .profile-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid rgba(0,0,0,0.06);
+    }
+    .profile-avatar .lucide { width: 22px; height: 22px; }
+
+    .profile-meta { flex: 1; min-width: 0; }
+    .profile-title-text {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+    .profile-dept {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 7px;
+    }
+    .profile-badges { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+    .profile-id-badge {
+      font-size: 10px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      background: var(--bg-secondary);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+    }
+    .profile-status-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .profile-status-badge.idle { background: #F3F4F6; color: #6B7280; }
+    .profile-status-badge.active { background: #ECFDF5; color: #059669; }
+    .profile-status-badge.running { background: #EFF6FF; color: #2563EB; }
+    .profile-status-badge::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .profile-bio {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .profile-card-mid {
+      padding: 11px 18px;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--bg-primary);
+    }
+    .profile-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+    .profile-contact-row:last-child { margin-bottom: 0; }
+    .profile-contact-row .lucide { width: 11px; height: 11px; color: var(--text-tertiary); flex-shrink: 0; }
+    .profile-contact-row a { color: var(--color-scrape); text-decoration: none; }
+    .profile-contact-row a:hover { text-decoration: underline; }
+
+    .profile-card-bottom { padding: 12px 18px; }
+    .profile-skills-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      margin-bottom: 7px;
+    }
+    .profile-skills { display: flex; flex-wrap: wrap; gap: 4px; }
+    .profile-skill-tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+    }
+
+    .soa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .soa-card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .soa-card-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .soa-card-header h3 .lucide { width: 15px; height: 15px; color: var(--text-tertiary); }
+    .soa-doc-id {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+    }
+    .soa-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 800px) { .soa-grid { grid-template-columns: 1fr 1fr; } }
+    .soa-section {
+      padding: 18px 20px;
+      border-right: 1px solid var(--border-light);
+    }
+    .soa-section:last-child { border-right: none; }
+    .soa-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      margin-bottom: 7px;
+    }
+    .soa-value {
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .soa-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .soa-deliverables { list-style: none; }
+    .soa-deliverables li {
+      font-size: 11px;
+      color: var(--text-secondary);
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .soa-deliverables li::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--color-outreach);
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       ACTIVITY FEED
+       ============================================ */
+    .activity-list { list-style: none; }
+
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+      align-items: flex-start;
+      font-size: 13px;
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .activity-dot.scrape { background: var(--color-scrape); }
+    .activity-dot.analyze { background: var(--color-analyze); }
+    .activity-dot.score { background: var(--color-score); }
+    .activity-dot.outreach { background: var(--color-outreach); }
+    .activity-dot.system { background: var(--text-tertiary); }
+
+    .activity-time {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ============================================
+       DIRECTORY TREE
+       ============================================ */
+    .tree {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.8;
+      padding: 16px;
+    }
+
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 0;
+      cursor: pointer;
+    }
+
+    .tree-item:hover { color: var(--color-scrape); }
+    .tree-item .lucide { width: 14px; height: 14px; color: var(--text-tertiary); }
+    .tree-folder > .lucide { color: var(--color-score); }
+    .tree-indent { padding-left: 20px; }
+
+    /* ============================================
+       CHART CONTAINERS
+       ============================================ */
+    .chart-container { position: relative; width: 100%; }
+    .chart-container canvas { max-height: 280px; }
+
+    /* ============================================
+       SECTION VIEWS (tab panels)
+       ============================================ */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ============================================
+       EMPTY STATE
+       ============================================ */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-state .lucide { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
+    .empty-state h3 { font-size: 16px; color: var(--text-secondary); margin-bottom: 4px; }
+    .empty-state p { font-size: 13px; }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1200px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .agent-grid { grid-template-columns: repeat(3, 1fr); }
+      .grid-2, .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .agent-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================
+       SIDEBAR
+       ============================================ -->
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <h1>Deal Intelligence</h1>
+      <p>Command Center</p>
+    </div>
+
+    <div class="sidebar-section">Overview</div>
+    <a class="sidebar-link active" onclick="showView('dashboard')">
+      <i data-lucide="layout-dashboard"></i> Dashboard
+    </a>
+    <a class="sidebar-link" onclick="showView('pipeline')">
+      <i data-lucide="git-branch"></i> Pipeline
+    </a>
+
+    <div class="sidebar-section">Research</div>
+    <a class="sidebar-link" onclick="showView('leads')">
+      <i data-lucide="target"></i> Leads
+      <span class="badge hot" id="sidebar-hot-count">0</span>
+    </a>
+    <a class="sidebar-link" onclick="showView('outreach')">
+      <i data-lucide="phone-outgoing"></i> Outreach
+    </a>
+    <a class="sidebar-link" onclick="showView('watchlist')">
+      <i data-lucide="eye"></i> Watchlist
+    </a>
+
+    <div class="sidebar-section">System</div>
+    <a class="sidebar-link" onclick="showView('agents')">
+      <i data-lucide="users"></i> Our Team
+    </a>
+    <a class="sidebar-link" onclick="showView('activity')">
+      <i data-lucide="activity"></i> Activity
+    </a>
+    <a class="sidebar-link" onclick="showView('project')">
+      <i data-lucide="folder-tree"></i> Project Files
+    </a>
+
+    <div class="sidebar-spacer"></div>
+
+    <a class="sidebar-link" onclick="loadData()">
+      <i data-lucide="refresh-cw"></i> Refresh Data
+    </a>
+  </nav>
+
+  <!-- ============================================
+       MAIN CONTENT AREA
+       ============================================ -->
+  <main class="main">
+
+    <!-- ========== DASHBOARD VIEW ========== -->
+    <div class="view active" id="view-dashboard">
+      <div class="main-header">
+        <h2>Dashboard</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-primary" onclick="showView('pipeline')">
+            <i data-lucide="play"></i> Run Pipeline
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Stats Row -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon scrape"><i data-lucide="database"></i></div>
+          <div class="value" id="kpi-scraped">0</div>
+          <div class="label">Listings Scraped</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon analyze"><i data-lucide="bar-chart-3"></i></div>
+          <div class="value" id="kpi-analyzed">0</div>
+          <div class="label">Analyzed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon score"><i data-lucide="flame"></i></div>
+          <div class="value" id="kpi-hot">0</div>
+          <div class="label">Hot Leads</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon outreach"><i data-lucide="send"></i></div>
+          <div class="value" id="kpi-outreach">0</div>
+          <div class="label">Outreach Ready</div>
+        </div>
+      </div>
+
+      <!-- Pipeline + Agent Status -->
+      <div class="grid-2">
+        <!-- Pipeline Status -->
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="git-branch"></i> Pipeline Status</h3>
+          </div>
+          <div class="pipeline">
+            <div class="pipeline-stage scrape">
+              <div class="stage-icon"><i data-lucide="download"></i></div>
+              <div class="stage-name">Scrape</div>
+              <div class="stage-count" id="pipe-scrape-count">0</div>
+              <div class="stage-status" id="pipe-scrape-status">Idle</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-stage analyze">
+              <div class="stage-icon"><i data-lucide="microscope"></i></div>
+              <div class="stage-name">Analyze</div>
+              <div class="stage-count" id="pipe-analyze-count">0</div>
+              <div class="stage-status" id="pipe-analyze-status">Idle</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-stage score">
+              <div class="stage-icon"><i data-lucide="star"></i></div>
+              <div class="stage-name">Score</div>
+              <div class="stage-count" id="pipe-score-count">0</div>
+              <div class="stage-status" id="pipe-score-status">Idle</div>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-stage outreach">
+              <div class="stage-icon"><i data-lucide="phone"></i></div>
+              <div class="stage-name">Outreach</div>
+              <div class="stage-count" id="pipe-outreach-count">0</div>
+              <div class="stage-status" id="pipe-outreach-status">Idle</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deal Score Distribution -->
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="pie-chart"></i> Lead Distribution</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="chart-lead-dist"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="trending-up"></i> Cap Rate by Property Type</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="chart-caprate"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="map-pin"></i> Listings by State</h3>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="chart-states"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity + Top Leads -->
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="flame"></i> Top Opportunities</h3>
+            <button class="btn btn-secondary" onclick="showView('leads')">View All</button>
+          </div>
+          <div class="card-body flush">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Type</th>
+                  <th>Price</th>
+                  <th>Cap Rate</th>
+                  <th>Score</th>
+                  <th>Tier</th>
+                </tr>
+              </thead>
+              <tbody id="top-leads-table">
+                <tr>
+                  <td colspan="6">
+                    <div class="empty-state">
+                      <i data-lucide="search"></i>
+                      <h3>No leads yet</h3>
+                      <p>Run /hunt to start finding deals</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i data-lucide="activity"></i> Recent Activity</h3>
+          </div>
+          <div class="card-body flush">
+            <ul class="activity-list" id="recent-activity">
+              <li class="activity-item">
+                <span class="activity-dot system"></span>
+                <div>
+                  <div>Project initialized</div>
+                  <div class="activity-time">Just now</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PIPELINE VIEW ========== -->
+    <div class="view" id="view-pipeline">
+      <div class="main-header">
+        <h2>Pipeline</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-stage-scrape"><i data-lucide="download"></i> Scrape</button>
+          <button class="btn btn-stage-analyze"><i data-lucide="microscope"></i> Analyze</button>
+          <button class="btn btn-stage-score"><i data-lucide="star"></i> Score</button>
+          <button class="btn btn-stage-outreach"><i data-lucide="phone"></i> Outreach</button>
+        </div>
+      </div>
+
+      <!-- Pipeline Visual -->
+      <div class="card mb-24">
+        <div class="card-header"><h3><i data-lucide="git-branch"></i> Pipeline Flow</h3></div>
+        <div class="pipeline">
+          <div class="pipeline-stage scrape">
+            <div class="stage-icon"><i data-lucide="download"></i></div>
+            <div class="stage-name">1. Scrape</div>
+            <div class="stage-count" id="pipe2-scrape">0</div>
+            <div class="stage-status">data-collector agent</div>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-stage analyze">
+            <div class="stage-icon"><i data-lucide="microscope"></i></div>
+            <div class="stage-name">2. Analyze</div>
+            <div class="stage-count" id="pipe2-analyze">0</div>
+            <div class="stage-status">market-analyst agent</div>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-stage score">
+            <div class="stage-icon"><i data-lucide="star"></i></div>
+            <div class="stage-name">3. Score</div>
+            <div class="stage-count" id="pipe2-score">0</div>
+            <div class="stage-status">deal-scout agent</div>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-stage outreach">
+            <div class="stage-icon"><i data-lucide="phone"></i></div>
+            <div class="stage-name">4. Outreach</div>
+            <div class="stage-count" id="pipe2-outreach">0</div>
+            <div class="stage-status">outreach-specialist agent</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Run History -->
+      <div class="card">
+        <div class="card-header"><h3><i data-lucide="history"></i> Run History</h3></div>
+        <div class="card-body flush">
+          <table class="data-table">
+            <thead>
+              <tr><th>Date</th><th>Type</th><th>Stage</th><th>Listings</th><th>Duration</th><th>Status</th></tr>
+            </thead>
+            <tbody id="run-history-table">
+              <tr><td colspan="6"><div class="empty-state"><i data-lucide="clock"></i><h3>No runs yet</h3><p>Pipeline runs will appear here</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== LEADS VIEW ========== -->
+    <div class="view" id="view-leads">
+      <div class="main-header">
+        <h2>Leads</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-secondary"><i data-lucide="filter"></i> Filter</button>
+          <button class="btn btn-secondary"><i data-lucide="download"></i> Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Lead tier summary -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:var(--color-hot-bg);color:var(--color-hot)"><i data-lucide="flame"></i></div>
+          <div class="value" id="leads-hot">0</div>
+          <div class="label">Hot Leads (70+)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:var(--color-warm-bg);color:var(--color-warm)"><i data-lucide="sun"></i></div>
+          <div class="value" id="leads-warm">0</div>
+          <div class="label">Warm Leads (50-69)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:var(--color-cold-bg);color:var(--color-cold)"><i data-lucide="snowflake"></i></div>
+          <div class="value" id="leads-cold">0</div>
+          <div class="label">Cold Leads (&lt;50)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon" style="background:#EFF6FF;color:var(--color-scrape)"><i data-lucide="list"></i></div>
+          <div class="value" id="leads-total">0</div>
+          <div class="label">Total Scored</div>
+        </div>
+      </div>
+
+      <!-- Leads Table -->
+      <div class="card">
+        <div class="card-header"><h3><i data-lucide="target"></i> All Leads</h3></div>
+        <div class="card-body flush">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Cap Rate</th>
+                <th>DOM</th>
+                <th>Score</th>
+                <th>Tier</th>
+                <th>Financing</th>
+              </tr>
+            </thead>
+            <tbody id="all-leads-table">
+              <tr><td colspan="9"><div class="empty-state"><i data-lucide="search"></i><h3>No leads found</h3><p>Run /hunt or /scrape to start collecting leads</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== OUTREACH VIEW ========== -->
+    <div class="view" id="view-outreach">
+      <div class="main-header">
+        <h2>Outreach</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-stage-outreach"><i data-lucide="phone"></i> Generate Scripts</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i data-lucide="phone-outgoing"></i> Outreach Queue</h3></div>
+        <div class="card-body flush">
+          <table class="data-table">
+            <thead>
+              <tr><th>Property</th><th>Seller Type</th><th>Broker</th><th>Score</th><th>Phone Script</th><th>Email</th><th>Status</th></tr>
+            </thead>
+            <tbody id="outreach-table">
+              <tr><td colspan="7"><div class="empty-state"><i data-lucide="phone-off"></i><h3>No outreach yet</h3><p>Score leads first, then generate outreach scripts</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== WATCHLIST VIEW ========== -->
+    <div class="view" id="view-watchlist">
+      <div class="main-header">
+        <h2>Watchlist</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-primary"><i data-lucide="plus"></i> Add Watch</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i data-lucide="eye"></i> Active Watches</h3></div>
+        <div class="card-body flush">
+          <table class="data-table">
+            <thead>
+              <tr><th>Property Type</th><th>Keyword</th><th>Location</th><th>Last Checked</th><th>New Listings</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="watchlist-table">
+              <tr><td colspan="6"><div class="empty-state"><i data-lucide="eye-off"></i><h3>No watches set</h3><p>Run /watch to monitor for new listings</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== AGENTS VIEW ========== -->
+    <div class="view" id="view-agents">
+      <div class="main-header">
+        <h2>Our Team</h2>
+        <div class="main-header-actions">
+          <span class="tag tag-outreach" style="font-size:11px;padding:5px 12px;">9 Active Members</span>
+        </div>
+      </div>
+
+      <!-- Hero Banner -->
+      <div class="team-hero">
+        <div class="team-hero-eyebrow">Human-Augmented Intelligence Team</div>
+        <div class="team-hero-title">One Principal. Nine Extensions.</div>
+        <div class="team-hero-sub">
+          Every team member is a direct extension of the human principal — bringing specialized intelligence
+          to bear across every phase of deal discovery. Each operates within a defined scope, governed by
+          a service agreement, and available 24/7 to surface commercial real estate opportunities.
+        </div>
+        <div class="team-hero-badges">
+          <span class="hero-badge">Commercial Real Estate Intelligence</span>
+          <span class="hero-badge">Owner-Financed Acquisitions</span>
+          <span class="hero-badge">AI-Augmented Research</span>
+          <span class="hero-badge">24/7 Availability</span>
+        </div>
+      </div>
+
+      <!-- Team Profile Grid -->
+      <div class="profile-grid">
+
+        <!-- AGT-001: Lead Researcher -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:var(--color-scrape-bg);color:var(--color-scrape)">
+                <i data-lucide="crown"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Director of Research Operations</div>
+                <div class="profile-dept">Strategy &amp; Intelligence</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-001</span>
+                  <span class="profile-status-badge idle" id="agent-lead-status">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Orchestrates the full deal-discovery pipeline across all research phases. Delegates to specialists, synthesizes multi-agent findings, and surfaces the highest-quality investment opportunities. The strategic core of the team.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> director@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0001</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Pipeline Strategy</span>
+              <span class="profile-skill-tag">Team Coordination</span>
+              <span class="profile-skill-tag">Market Research</span>
+              <span class="profile-skill-tag">Report Synthesis</span>
+              <span class="profile-skill-tag">CRE Intelligence</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-002: Data Collector -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:var(--color-scrape-bg);color:var(--color-scrape)">
+                <i data-lucide="database"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Sr. Data Intelligence Analyst</div>
+                <div class="profile-dept">Data Operations</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-002</span>
+                  <span class="profile-status-badge idle" id="agent-data-status">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Gathers structured listing data from listing platforms at scale. Handles browser automation, multi-parameter searches, and pagination to deliver clean, validated JSON datasets to the analysis pipeline.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> data@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0002</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Web Scraping</span>
+              <span class="profile-skill-tag">Browser Automation</span>
+              <span class="profile-skill-tag">Data Extraction</span>
+              <span class="profile-skill-tag">Pagination</span>
+              <span class="profile-skill-tag">JSON Structuring</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-003: Market Analyst -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:var(--color-analyze-bg);color:var(--color-analyze)">
+                <i data-lucide="bar-chart-2"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Senior Market Analyst</div>
+                <div class="profile-dept">Market Intelligence</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-003</span>
+                  <span class="profile-status-badge idle" id="agent-market-status">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Enriches raw listings with market intelligence — comparable sales, cap rate benchmarks, price-per-unit analysis, and regional economic indicators. Contextualizes every deal within its local market.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> analysis@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0003</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Cap Rate Analysis</span>
+              <span class="profile-skill-tag">Comp Research</span>
+              <span class="profile-skill-tag">Price Benchmarking</span>
+              <span class="profile-skill-tag">NOI Modeling</span>
+              <span class="profile-skill-tag">Regional Economics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-004: Deal Scout -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:var(--color-score-bg);color:var(--color-score)">
+                <i data-lucide="star"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Investment Associate</div>
+                <div class="profile-dept">Deal Evaluation</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-004</span>
+                  <span class="profile-status-badge idle" id="agent-deal-status">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Scores every opportunity on a 100-point investment quality scale. Detects seller motivation signals, evaluates deal economics, and ranks top prospects for owner-financed acquisition strategies.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> scout@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0004</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Deal Scoring</span>
+              <span class="profile-skill-tag">Seller Motivation</span>
+              <span class="profile-skill-tag">DSCR Modeling</span>
+              <span class="profile-skill-tag">Risk Assessment</span>
+              <span class="profile-skill-tag">Investment Ranking</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-005: Outreach Specialist -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:var(--color-outreach-bg);color:var(--color-outreach)">
+                <i data-lucide="phone-outgoing"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Director of Business Development</div>
+                <div class="profile-dept">Business Development</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-005</span>
+                  <span class="profile-status-badge idle" id="agent-outreach-status">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Crafts personalized outreach scripts tailored to each seller's unique situation — retirement, estate, tired landlord, or institutional. Adapts tone, pitch, and structure to maximize response rate.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> biz@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0005</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Outreach Scripting</span>
+              <span class="profile-skill-tag">Seller Profiling</span>
+              <span class="profile-skill-tag">Pitch Personalization</span>
+              <span class="profile-skill-tag">Negotiation Strategy</span>
+              <span class="profile-skill-tag">CRM Management</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-006: Prediction Market Intel -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:#F5F3FF;color:#7C3AED">
+                <i data-lucide="trending-up"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Economic Intelligence Analyst</div>
+                <div class="profile-dept">Forecasting &amp; Intelligence</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-006</span>
+                  <span class="profile-status-badge idle">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Monitors Kalshi and Polymarket prediction markets for forward-looking economic signals. Provides probability-weighted timing analyses and behavioral economics frameworks that give the team an information edge.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> intel@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0006</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Prediction Markets</span>
+              <span class="profile-skill-tag">Economic Forecasting</span>
+              <span class="profile-skill-tag">Market Timing</span>
+              <span class="profile-skill-tag">Behavioral Economics</span>
+              <span class="profile-skill-tag">Probability Modeling</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-007: Notebook Researcher -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:#FFF7ED;color:#C2410C">
+                <i data-lucide="book-open"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Research Analyst</div>
+                <div class="profile-dept">Knowledge Management</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-007</span>
+                  <span class="profile-status-badge idle">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Conducts deep research across the team's accumulated knowledge graph. Surfaces patterns, answers strategic questions, and uncovers opportunities hidden within the data that shape deal strategy.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> research@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0007</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Deep Research</span>
+              <span class="profile-skill-tag">Knowledge Graph</span>
+              <span class="profile-skill-tag">Insight Extraction</span>
+              <span class="profile-skill-tag">Pattern Recognition</span>
+              <span class="profile-skill-tag">Strategic Q&amp;A</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-008: Notebook Reporter -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:#FFF1F2;color:#BE123C">
+                <i data-lucide="file-text"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Communications &amp; Publishing Analyst</div>
+                <div class="profile-dept">Knowledge Management</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-008</span>
+                  <span class="profile-status-badge idle">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Generates professional deliverables from accumulated research — market reports, investor presentations, audio briefings, and visual artifacts ready for stakeholder and client distribution.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> reports@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0008</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Report Generation</span>
+              <span class="profile-skill-tag">Investor Presentations</span>
+              <span class="profile-skill-tag">Slide Decks</span>
+              <span class="profile-skill-tag">Audio Briefings</span>
+              <span class="profile-skill-tag">Data Visualization</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGT-009: Notebook Uploader -->
+        <div class="profile-card">
+          <div class="profile-card-top">
+            <div class="profile-card-header">
+              <div class="profile-avatar" style="background:#F0F9FF;color:#0284C7">
+                <i data-lucide="upload-cloud"></i>
+              </div>
+              <div class="profile-meta">
+                <div class="profile-title-text">Data Operations Specialist</div>
+                <div class="profile-dept">Knowledge Management</div>
+                <div class="profile-badges">
+                  <span class="profile-id-badge">AGT-009</span>
+                  <span class="profile-status-badge idle">Idle</span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-bio">
+              Ingests pipeline outputs, research findings, and web sources into the team's knowledge graph. Maintains institutional memory and ensures all data is current, organized, and searchable.
+            </div>
+          </div>
+          <div class="profile-card-mid">
+            <div class="profile-contact-row"><i data-lucide="mail"></i> ops@[yourdomain].com</div>
+            <div class="profile-contact-row"><i data-lucide="phone"></i> +1 (314) 555-0009</div>
+          </div>
+          <div class="profile-card-bottom">
+            <div class="profile-skills-label">Core Capabilities</div>
+            <div class="profile-skills">
+              <span class="profile-skill-tag">Source Ingestion</span>
+              <span class="profile-skill-tag">Knowledge Base Mgmt</span>
+              <span class="profile-skill-tag">Pipeline Integration</span>
+              <span class="profile-skill-tag">Data Currency</span>
+              <span class="profile-skill-tag">Archive Management</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /profile-grid -->
+
+      <!-- Service Agreement -->
+      <div class="soa-card">
+        <div class="soa-card-header">
+          <h3><i data-lucide="file-check-2"></i> Team Service Agreement</h3>
+          <span class="soa-doc-id">SOA-2026-001 · Effective 2026-01-01</span>
+        </div>
+        <div class="soa-grid">
+          <div class="soa-section">
+            <div class="soa-label">Principal</div>
+            <div class="soa-value">Human Operator</div>
+            <div class="soa-sub">All agents operate as direct extensions of the human principal. Final acquisition decisions require human approval.</div>
+          </div>
+          <div class="soa-section">
+            <div class="soa-label">Scope of Work</div>
+            <div class="soa-value">Deal Discovery Pipeline</div>
+            <div class="soa-sub">
+              <ul class="soa-deliverables">
+                <li>Listing platform scraping &amp; extraction</li>
+                <li>Market analysis &amp; comp research</li>
+                <li>Investment scoring &amp; ranking</li>
+                <li>Personalized outreach scripting</li>
+                <li>Investor-ready reporting</li>
+              </ul>
+            </div>
+          </div>
+          <div class="soa-section">
+            <div class="soa-label">Service Level</div>
+            <div class="soa-value">24/7 · On-Demand</div>
+            <div class="soa-sub">Each agent activates on command with no delay. Pipeline runs complete within minutes. All outputs are validated before delivery to the principal.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== ACTIVITY VIEW ========== -->
+    <div class="view" id="view-activity">
+      <div class="main-header">
+        <h2>Activity Log</h2>
+        <div class="main-header-actions">
+          <button class="btn btn-secondary" onclick="loadData()"><i data-lucide="refresh-cw"></i> Refresh</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i data-lucide="scroll-text"></i> All Activity</h3></div>
+        <div class="card-body flush">
+          <ul class="activity-list" id="full-activity">
+            <li class="activity-item">
+              <span class="activity-dot system"></span>
+              <div>
+                <div>Project scaffolding created — 5 agents, 5 skills, 7 commands, 5 hooks, 4 rules</div>
+                <div class="activity-time">2026-03-03</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PROJECT FILES VIEW ========== -->
+    <div class="view" id="view-project">
+      <div class="main-header">
+        <h2>Project Files</h2>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><h3><i data-lucide="folder-tree"></i> Directory Structure</h3></div>
+          <div class="card-body">
+            <div class="tree">
+              <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>__crexi/</strong></div>
+              <div class="tree-indent">
+                <div class="tree-item"><i data-lucide="file-text"></i> CLAUDE.md</div>
+                <div class="tree-item"><i data-lucide="file-text"></i> CLAUDE.local.md</div>
+                <div class="tree-item"><i data-lucide="file"></i> .gitignore</div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>.claude/</strong></div>
+                <div class="tree-indent">
+                  <div class="tree-item"><i data-lucide="file-cog"></i> settings.json</div>
+                  <div class="tree-item"><i data-lucide="file-cog"></i> settings.local.json</div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>agents/</strong> <span class="tag tag-scrape">5 agents</span></div>
+                  <div class="tree-indent">
+                    <div class="tree-item"><i data-lucide="bot"></i> lead-researcher.md</div>
+                    <div class="tree-item"><i data-lucide="bot"></i> data-collector.md</div>
+                    <div class="tree-item"><i data-lucide="bot"></i> market-analyst.md</div>
+                    <div class="tree-item"><i data-lucide="bot"></i> deal-scout.md</div>
+                    <div class="tree-item"><i data-lucide="bot"></i> outreach-specialist.md</div>
+                  </div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>skills/</strong> <span class="tag tag-analyze">5 skills</span></div>
+                  <div class="tree-indent">
+                    <div class="tree-item"><i data-lucide="sparkles"></i> deal-scan/</div>
+                    <div class="tree-item"><i data-lucide="sparkles"></i> deal-score/</div>
+                    <div class="tree-item"><i data-lucide="sparkles"></i> deal-finder/</div>
+                    <div class="tree-item"><i data-lucide="sparkles"></i> outreach-composer/</div>
+                    <div class="tree-item"><i data-lucide="sparkles"></i> seller-profiler/</div>
+                  </div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>commands/</strong> <span class="tag tag-score">7 commands</span></div>
+                  <div class="tree-indent">
+                    <div class="tree-item"><i data-lucide="terminal"></i> hunt.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> scrape.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> analyze.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> score.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> outreach.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> report.md</div>
+                    <div class="tree-item"><i data-lucide="terminal"></i> watch.md</div>
+                  </div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>hooks/</strong> <span class="tag tag-outreach">5 hooks</span></div>
+                  <div class="tree-indent">
+                    <div class="tree-item"><i data-lucide="shield"></i> validate-command.sh</div>
+                    <div class="tree-item"><i data-lucide="shield"></i> validate-data.sh</div>
+                    <div class="tree-item"><i data-lucide="shield"></i> agent-report.sh</div>
+                    <div class="tree-item"><i data-lucide="shield"></i> session-summary.sh</div>
+                    <div class="tree-item"><i data-lucide="shield"></i> preserve-context.sh</div>
+                  </div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>rules/</strong> <span class="tag tag-hot">4 rules</span></div>
+                  <div class="tree-indent">
+                    <div class="tree-item"><i data-lucide="scale"></i> data-quality.md</div>
+                    <div class="tree-item"><i data-lucide="scale"></i> ethical-research.md</div>
+                    <div class="tree-item"><i data-lucide="scale"></i> scraping-safety.md</div>
+                    <div class="tree-item"><i data-lucide="scale"></i> cre-conventions.md</div>
+                  </div>
+                  <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>agent-memory/</strong> <span class="tag tag-idle">5 agents</span></div>
+                </div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>dashboard/</strong></div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>data/</strong></div>
+                <div class="tree-indent">
+                  <div class="tree-item"><i data-lucide="folder"></i> raw/</div>
+                  <div class="tree-item"><i data-lucide="folder"></i> processed/</div>
+                  <div class="tree-item"><i data-lucide="folder"></i> exports/</div>
+                  <div class="tree-item"><i data-lucide="folder"></i> comps/</div>
+                  <div class="tree-item"><i data-lucide="file"></i> watchlist.json</div>
+                </div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>docs/</strong></div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>scripts/</strong></div>
+                <div class="tree-item"><i data-lucide="folder" class="tree-folder"></i> <strong>templates/</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3><i data-lucide="info"></i> Project Summary</h3></div>
+          <div class="card-body">
+            <table class="data-table">
+              <tbody>
+                <tr><td style="font-weight:600">Project</td><td>Deal Intelligence</td></tr>
+                <tr><td style="font-weight:600">Agents</td><td>5 (lead-researcher, data-collector, market-analyst, deal-scout, outreach-specialist)</td></tr>
+                <tr><td style="font-weight:600">Skills</td><td>5 (deal-scan, deal-score, deal-finder, outreach-specialist, seller-profiler)</td></tr>
+                <tr><td style="font-weight:600">Commands</td><td>7 (/hunt, /scrape, /analyze, /score, /outreach, /report, /watch)</td></tr>
+                <tr><td style="font-weight:600">Hooks</td><td>5 (PreToolUse, PostToolUse, SubagentStop, Stop, PreCompact)</td></tr>
+                <tr><td style="font-weight:600">Rules</td><td>4 (data-quality, ethical-research, scraping-safety, cre-conventions)</td></tr>
+                <tr><td style="font-weight:600">Agent Memory</td><td>5 project-scoped stores</td></tr>
+                <tr><td style="font-weight:600">Agent Teams</td><td>Enabled (experimental)</td></tr>
+                <tr><td style="font-weight:600">Auto Memory</td><td>Enabled</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ============================================
+     JAVASCRIPT — State Management & Charts
+     ============================================ -->
+<script>
+  // ---- STATE ----
+  let state = null;
+  const DATA_PATH = 'data/state.json';
+
+  // ---- VIEW MANAGEMENT ----
+  function showView(viewName) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+
+    const view = document.getElementById('view-' + viewName);
+    if (view) view.classList.add('active');
+
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      if (link.getAttribute('onclick')?.includes(viewName)) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // ---- DATA LOADING ----
+  async function loadData() {
+    try {
+      const resp = await fetch(DATA_PATH + '?t=' + Date.now());
+      if (resp.ok) {
+        state = await resp.json();
+        renderAll();
+      }
+    } catch(e) {
+      // Use demo state if file not available (static open)
+      state = getDemoState();
+      renderAll();
+    }
+  }
+
+  function getDemoState() {
+    return {
+      project: { name: "Deal Intelligence", version: "1.0.0" },
+      pipeline: {
+        totalRuns: 0,
+        stages: {
+          scrape: { runs: 0, status: "idle" },
+          analyze: { runs: 0, status: "idle" },
+          score: { runs: 0, status: "idle" },
+          outreach: { runs: 0, status: "idle" }
+        }
+      },
+      agents: {
+        "lead-researcher": { tasksCompleted: 0, status: "idle" },
+        "data-collector": { tasksCompleted: 0, status: "idle" },
+        "market-analyst": { tasksCompleted: 0, status: "idle" },
+        "deal-scout": { tasksCompleted: 0, status: "idle" },
+        "outreach-specialist": { tasksCompleted: 0, status: "idle" }
+      },
+      metrics: {
+        totalListingsScraped: 0, totalAnalyzed: 0, totalScored: 0,
+        hotLeads: 0, warmLeads: 0, coldLeads: 0, outreachGenerated: 0,
+        avgCapRate: 0,
+        topPropertyTypes: {
+          "Mobile Home Park": 0, "Gas Station": 0, "Car Wash": 0,
+          "Self Storage": 0, "Multifamily": 0
+        },
+        topStates: {}
+      },
+      leads: [],
+      activityLog: []
+    };
+  }
+
+  // ---- RENDER ----
+  function renderAll() {
+    if (!state) return;
+    const m = state.metrics;
+
+    // KPIs
+    setText('kpi-scraped', m.totalListingsScraped);
+    setText('kpi-analyzed', m.totalAnalyzed);
+    setText('kpi-hot', m.hotLeads);
+    setText('kpi-outreach', m.outreachGenerated);
+
+    // Lead counts
+    setText('leads-hot', m.hotLeads);
+    setText('leads-warm', m.warmLeads);
+    setText('leads-cold', m.coldLeads);
+    setText('leads-total', m.totalScored);
+    setText('sidebar-hot-count', m.hotLeads);
+
+    // Pipeline counts
+    const p = state.pipeline.stages;
+    setText('pipe-scrape-count', p.scrape.runs);
+    setText('pipe-analyze-count', p.analyze.runs);
+    setText('pipe-score-count', p.score.runs);
+    setText('pipe-outreach-count', p.outreach.runs);
+    setText('pipe-scrape-status', capitalize(p.scrape.status));
+    setText('pipe-analyze-status', capitalize(p.analyze.status));
+    setText('pipe-score-status', capitalize(p.score.status));
+    setText('pipe-outreach-status', capitalize(p.outreach.status));
+    setText('pipe2-scrape', p.scrape.runs);
+    setText('pipe2-analyze', p.analyze.runs);
+    setText('pipe2-score', p.score.runs);
+    setText('pipe2-outreach', p.outreach.runs);
+
+    // Render charts
+    renderLeadDistChart();
+    renderCapRateChart();
+    renderStatesChart();
+
+    // Render tables and lists
+    renderLeadsTable();
+    renderRecentActivity();
+    renderFullActivity();
+    renderOutreachTable();
+    renderWatchlistTable();
+    renderAgentCards();
+  }
+
+  function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val ?? 0;
+  }
+
+  function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : 'Idle'; }
+
+  function formatPrice(n) {
+    if (!n) return '-';
+    if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+    return '$' + n;
+  }
+
+  // ---- CHARTS ----
+  let chartLeadDist, chartCapRate, chartStates;
+
+  function renderLeadDistChart() {
+    const ctx = document.getElementById('chart-lead-dist');
+    if (!ctx) return;
+    if (chartLeadDist) chartLeadDist.destroy();
+
+    const m = state.metrics;
+    const hasData = m.hotLeads + m.warmLeads + m.coldLeads > 0;
+
+    chartLeadDist = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Hot (70+)', 'Warm (50-69)', 'Cold (<50)'],
+        datasets: [{
+          data: hasData ? [m.hotLeads, m.warmLeads, m.coldLeads] : [1, 1, 1],
+          backgroundColor: hasData
+            ? ['#EF4444', '#F59E0B', '#9CA3AF']
+            : ['#F5F0E8', '#F5F0E8', '#F5F0E8'],
+          borderWidth: 0,
+          spacing: 2,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: '68%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 16,
+              usePointStyle: true,
+              pointStyleWidth: 8,
+              font: { family: "'Inter'", size: 12 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function renderCapRateChart() {
+    const ctx = document.getElementById('chart-caprate');
+    if (!ctx) return;
+    if (chartCapRate) chartCapRate.destroy();
+
+    const types = state.metrics.topPropertyTypes || {};
+    const labels = Object.keys(types).length > 0 ? Object.keys(types)
+      : ['MHP', 'Gas Station', 'Car Wash', 'Self Storage', 'Multifamily'];
+    // Benchmark cap rates by type
+    const benchmarkMap = { 'Mobile Home Park': 7.0, 'Gas Station': 8.0, 'Car Wash': 8.5, 'Self Storage': 7.5, 'Multifamily': 6.5, 'Special Purpose': 9.0 };
+    const benchmarks = labels.map(l => benchmarkMap[l] || 7.0);
+    // Compute actual avg cap rate per property type from leads
+    const capByType = {};
+    const countByType = {};
+    (state.leads || []).forEach(l => {
+      if (l.propertyType && l.capRate > 0) {
+        capByType[l.propertyType] = (capByType[l.propertyType] || 0) + l.capRate;
+        countByType[l.propertyType] = (countByType[l.propertyType] || 0) + 1;
+      }
+    });
+    const actual = labels.map(l => countByType[l] ? +(capByType[l] / countByType[l]).toFixed(1) : 0);
+
+    chartCapRate = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Market Avg',
+            data: benchmarks,
+            backgroundColor: 'rgba(212, 163, 115, 0.3)',
+            borderColor: '#D4A373',
+            borderWidth: 1,
+            borderRadius: 4
+          },
+          {
+            label: 'Our Leads',
+            data: actual,
+            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+            borderColor: '#3B82F6',
+            borderWidth: 1,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { padding: 16, usePointStyle: true, pointStyleWidth: 8, font: { family: "'Inter'", size: 12 } }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Cap Rate %', font: { size: 11 } },
+            grid: { color: 'rgba(0,0,0,0.04)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  function renderStatesChart() {
+    const ctx = document.getElementById('chart-states');
+    if (!ctx) return;
+    if (chartStates) chartStates.destroy();
+
+    const stateData = state.metrics.topStates || {};
+    const hasData = Object.keys(stateData).length > 0;
+
+    const labels = hasData ? Object.keys(stateData) : ['AZ', 'TX', 'FL', 'CA', 'GA'];
+    const data = hasData ? Object.values(stateData) : [0, 0, 0, 0, 0];
+
+    chartStates = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Listings',
+          data: data,
+          backgroundColor: [
+            '#D4A373', '#E9C46A', '#F4A261', '#2A9D8F', '#264653'
+          ],
+          borderRadius: 4,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // ---- RENDER LEADS TABLE ----
+  function renderLeadsTable() {
+    if (!state.leads || state.leads.length === 0) return;
+
+    const sorted = [...state.leads].sort((a, b) => (b.score || 0) - (a.score || 0));
+
+    // Top leads (dashboard)
+    const topTbody = document.getElementById('top-leads-table');
+    if (topTbody) {
+      topTbody.innerHTML = sorted.slice(0, 5).map(l => `
+        <tr>
+          <td><strong>${l.name || '-'}</strong></td>
+          <td><span class="tag tag-${getStageTag(l.propertyType)}">${l.propertyType || '-'}</span></td>
+          <td>${formatPrice(l.askingPrice)}</td>
+          <td>${l.capRate ? l.capRate.toFixed(1) + '%' : '-'}</td>
+          <td>
+            ${l.score || 0}
+            <span class="score-bar"><span class="score-bar-fill" style="width:${l.score || 0}%;background:${getScoreColor(l.score)}"></span></span>
+          </td>
+          <td><span class="tag tag-${getTierTag(l.score)}">${getTier(l.score)}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    // All leads
+    const allTbody = document.getElementById('all-leads-table');
+    if (allTbody) {
+      allTbody.innerHTML = sorted.map(l => `
+        <tr>
+          <td><strong>${l.name || '-'}</strong></td>
+          <td><span class="tag tag-${getStageTag(l.propertyType)}">${l.propertyType || '-'}</span></td>
+          <td>${l.state || '-'}</td>
+          <td>${formatPrice(l.askingPrice)}</td>
+          <td>${l.capRate ? l.capRate.toFixed(1) + '%' : '-'}</td>
+          <td>${l.daysOnMarket || '-'}</td>
+          <td>
+            ${l.score || 0}
+            <span class="score-bar"><span class="score-bar-fill" style="width:${l.score || 0}%;background:${getScoreColor(l.score)}"></span></span>
+          </td>
+          <td><span class="tag tag-${getTierTag(l.score)}">${getTier(l.score)}</span></td>
+          <td>${l.ownerFinancing ? '&#10003;' : '-'}</td>
+        </tr>
+      `).join('');
+    }
+  }
+
+  function getTier(score) {
+    if (score >= 70) return 'Hot';
+    if (score >= 50) return 'Warm';
+    return 'Cold';
+  }
+
+  function getTierTag(score) {
+    if (score >= 70) return 'hot';
+    if (score >= 50) return 'warm';
+    return 'cold';
+  }
+
+  function getScoreColor(score) {
+    if (score >= 70) return '#EF4444';
+    if (score >= 50) return '#F59E0B';
+    return '#9CA3AF';
+  }
+
+  function getStageTag(type) {
+    const map = {
+      'Mobile Home Park': 'scrape', 'Gas Station': 'score',
+      'Car Wash': 'analyze', 'Self Storage': 'outreach',
+      'Multifamily': 'scrape'
+    };
+    return map[type] || 'idle';
+  }
+
+  // ---- RENDER ACTIVITY ----
+  function timeAgo(ts) {
+    if (!ts) return '';
+    const diff = Date.now() - new Date(ts).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return mins + 'm ago';
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return hrs + 'h ago';
+    const days = Math.floor(hrs / 24);
+    return days + 'd ago';
+  }
+
+  function activityDotClass(event) {
+    if (event === 'completed') return 'success';
+    if (event === 'started') return 'running';
+    if (event === 'error') return 'error';
+    return 'system';
+  }
+
+  function renderRecentActivity() {
+    const el = document.getElementById('recent-activity');
+    if (!el || !state.activityLog || state.activityLog.length === 0) return;
+    el.innerHTML = state.activityLog.slice(0, 8).map(a => `
+      <li class="activity-item">
+        <span class="activity-dot ${activityDotClass(a.event)}"></span>
+        <div>
+          <div>${a.message}</div>
+          <div class="activity-time">${a.agent !== 'system' ? '<strong>' + a.agent + '</strong> &middot; ' : ''}${timeAgo(a.timestamp)}</div>
+        </div>
+      </li>
+    `).join('');
+  }
+
+  function renderFullActivity() {
+    const el = document.getElementById('full-activity');
+    if (!el || !state.activityLog || state.activityLog.length === 0) return;
+    el.innerHTML = state.activityLog.map(a => `
+      <li class="activity-item">
+        <span class="activity-dot ${activityDotClass(a.event)}"></span>
+        <div>
+          <div>${a.message}</div>
+          <div class="activity-time">${a.agent !== 'system' ? '<strong>' + a.agent + '</strong> &middot; ' : ''}${a.stage ? '<span class="tag tag-' + a.stage + '">' + a.stage + '</span> &middot; ' : ''}${timeAgo(a.timestamp)}</div>
+        </div>
+      </li>
+    `).join('');
+  }
+
+  // ---- RENDER OUTREACH ----
+  function renderOutreachTable() {
+    const el = document.getElementById('outreach-table');
+    if (!el || !state.outreachQueue || state.outreachQueue.length === 0) return;
+    el.innerHTML = state.outreachQueue.map(o => {
+      const lead = (state.leads || []).find(l => l.id === o.leadId);
+      const statusTag = o.status === 'sent' ? 'outreach' : o.status === 'pending' ? 'score' : 'idle';
+      return `
+        <tr>
+          <td><strong>${o.propertyName || '-'}</strong></td>
+          <td><span class="tag tag-analyze">${o.scriptType || '-'}</span></td>
+          <td>${o.brokerName || '-'}<br><small>${o.brokerPhone || ''}</small></td>
+          <td>${lead ? lead.score : '-'}</td>
+          <td>${o.method === 'phone' ? '&#9742; Ready' : '-'}</td>
+          <td>${o.method === 'email' ? '&#9993; ' + (o.brokerEmail || '') : '-'}</td>
+          <td><span class="tag tag-${statusTag}">${capitalize(o.status)}</span></td>
+        </tr>`;
+    }).join('');
+  }
+
+  // ---- RENDER WATCHLIST ----
+  function renderWatchlistTable() {
+    const el = document.getElementById('watchlist-table');
+    if (!el || !state.watchlist || state.watchlist.length === 0) return;
+    el.innerHTML = state.watchlist.map(w => `
+      <tr>
+        <td><strong>${w.type || '-'}</strong></td>
+        <td>-</td>
+        <td>${(w.states || []).join(', ')}</td>
+        <td>${timeAgo(w.addedAt)}</td>
+        <td>-</td>
+        <td><span class="tag tag-outreach">Active</span></td>
+      </tr>
+    `).join('');
+  }
+
+  // ---- RENDER AGENT CARDS ----
+  function renderAgentCards() {
+    if (!state.agents) return;
+    const agentMap = {
+      'lead-researcher': { statusId: 'agent-lead-status', statsId: 'agent-lead-stats' },
+      'data-collector': { statusId: 'agent-data-status', statsId: 'agent-data-stats' },
+      'market-analyst': { statusId: 'agent-market-status', statsId: 'agent-market-stats' },
+      'deal-scout': { statusId: 'agent-deal-status', statsId: 'agent-deal-stats' },
+      'outreach-specialist': { statusId: 'agent-outreach-status', statsId: 'agent-outreach-stats' }
+    };
+    Object.entries(state.agents).forEach(([key, agent]) => {
+      const ids = agentMap[key];
+      if (!ids) return;
+      const statusEl = document.getElementById(ids.statusId);
+      const statsEl = document.getElementById(ids.statsId);
+      if (statusEl) {
+        const tagClass = agent.status === 'running' ? 'tag-hot' : 'tag-idle';
+        statusEl.className = 'tag ' + tagClass;
+        statusEl.textContent = capitalize(agent.status);
+      }
+      if (statsEl) {
+        statsEl.textContent = (agent.tasksCompleted || 0) + ' tasks';
+      }
+    });
+  }
+
+  // ---- INIT ----
+  document.addEventListener('DOMContentLoaded', () => {
+    lucide.createIcons();
+    loadData();
+  });
+</script>
+
+</body>
+</html>

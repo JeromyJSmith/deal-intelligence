@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deal Intelligence — Command Center v2</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+
+  <!-- Mapbox GL JS v3.3.0 -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+  <!-- Tabulator 6.3.1 -->
+  <link href="https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator_simple.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
+
+  <!-- Marked.js (markdown rendering) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Inter font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; }
+
+    :root {
+      --sidebar-w: 256px;
+      --detail-w: 420px;
+      --accent: #059669;
+      --accent-hover: #047857;
+    }
+
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    #app { display: flex; height: 100vh; background: #111827; overflow: hidden; }
+
+    /* LEFT SIDEBAR */
+    #sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: #111827;
+      border-right: 1px solid #1f2937;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    /* CENTER PANEL */
+    #center-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: #0f172a;
+      overflow: hidden;
+    }
+
+    /* VIEW TOGGLE BAR */
+    #view-bar {
+      background: #1f2937;
+      border-bottom: 1px solid #374151;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* MAP / GRID / PIPELINE WRAPPERS */
+    #map-wrapper, #grid-wrapper, #pipeline-wrapper {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    #map-container { flex: 1; }
+
+    /* RIGHT DETAIL PANEL */
+    #detail-panel {
+      width: 0;
+      flex-shrink: 0;
+      background: #1f2937;
+      border-left: 1px solid #374151;
+      overflow: hidden;
+      transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    #detail-panel.open { width: var(--detail-w); }
+
+    #detail-content { flex: 1; overflow-y: auto; }
+
+    /* ============================================================
+       VIEW TOGGLE BUTTONS
+       ============================================================ */
+    .view-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 7px;
+      border: 1px solid #374151;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .view-btn:hover { background: #374151; color: #e5e7eb; }
+    .view-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ============================================================
+       SIDEBAR COMPONENTS
+       ============================================================ */
+    .sidebar-section {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #4b5563;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    /* Tier toggle buttons */
+    .tier-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid #374151;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: #6b7280;
+    }
+    .tier-toggle[data-tier="A"] { border-color: #10b981; }
+    .tier-toggle[data-tier="B"] { border-color: #3b82f6; }
+    .tier-toggle[data-tier="C"] { border-color: #f59e0b; }
+    .tier-toggle[data-tier="D"] { border-color: #ef4444; }
+    .tier-toggle[data-tier="A"].active { background: #10b981; color: #fff; }
+    .tier-toggle[data-tier="B"].active { background: #3b82f6; color: #fff; }
+    .tier-toggle[data-tier="C"].active { background: #f59e0b; color: #fff; }
+    .tier-toggle[data-tier="D"].active { background: #ef4444; color: #fff; }
+
+    /* Sidebar inputs */
+    .sidebar-input {
+      width: 100%;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 12px;
+      color: #e5e7eb;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .sidebar-input:focus { border-color: var(--accent); }
+    .sidebar-input option { background: #1f2937; }
+
+    /* Range slider */
+    .sidebar-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: #374151;
+      outline: none;
+      cursor: pointer;
+    }
+    .sidebar-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+
+    /* Toggle switch */
+    .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+    .toggle-input { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+    .toggle-input input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; inset: 0;
+      background: #374151; border-radius: 20px;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      left: 3px; top: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle-input input:checked + .toggle-slider { background: var(--accent); }
+    .toggle-input input:checked + .toggle-slider::before { transform: translateX(16px); }
+
+    /* ============================================================
+       STAT CARDS
+       ============================================================ */
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #1f2937;
+      border-radius: 8px;
+      padding: 10px 8px;
+      flex: 1;
+    }
+    .stat-card .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #f9fafb;
+      line-height: 1;
+    }
+    .stat-card .stat-label { font-size: 9px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+
+    /* ============================================================
+       KANBAN
+       ============================================================ */
+    #pipeline-wrapper {
+      overflow-x: auto;
+      padding: 20px;
+      background: #111827;
+    }
+    #kanban-board {
+      display: flex;
+      gap: 14px;
+      height: 100%;
+      align-items: flex-start;
+      min-width: max-content;
+    }
+
+    /* ============================================================
+       TABULATOR OVERRIDES
+       ============================================================ */
+    #tabulator-table {
+      height: 100%;
+      border: none !important;
+      background: #111827;
+    }
+    .tabulator { border: none !important; background: #111827 !important; font-family: 'Inter', sans-serif !important; }
+    .tabulator .tabulator-header { background: #1f2937 !important; border-bottom: 1px solid #374151 !important; }
+    .tabulator .tabulator-header .tabulator-col { background: #1f2937 !important; border-right: 1px solid #374151 !important; }
+    .tabulator .tabulator-header .tabulator-col-title { font-size: 11px !important; font-weight: 700 !important; color: #9ca3af !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; }
+    .tabulator .tabulator-tableholder { background: #111827 !important; }
+    .tabulator .tabulator-row { background: #111827 !important; border-bottom: 1px solid #1f2937 !important; color: #e5e7eb !important; cursor: pointer !important; }
+    .tabulator .tabulator-row:hover { background: #1f2937 !important; }
+    .tabulator .tabulator-row.tabulator-selected { background: rgba(5,150,105,0.15) !important; }
+    .tabulator .tabulator-footer { background: #1f2937 !important; border-top: 1px solid #374151 !important; color: #9ca3af !important; }
+    .tabulator .tabulator-footer .tabulator-page { background: #374151 !important; color: #9ca3af !important; border: none !important; border-radius: 4px !important; }
+    .tabulator .tabulator-footer .tabulator-page.active { background: var(--accent) !important; color: #fff !important; }
+    .tabulator .tabulator-header .tabulator-header-filter input,
+    .tabulator .tabulator-header .tabulator-header-filter select {
+      background: #111827 !important; border: 1px solid #374151 !important; color: #e5e7eb !important; border-radius: 4px !important; font-size: 11px !important;
+    }
+    .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="ascending"] .tabulator-arrow { border-bottom-color: var(--accent) !important; }
+    .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="descending"] .tabulator-arrow { border-top-color: var(--accent) !important; }
+
+    /* ============================================================
+       MAPBOX OVERRIDES
+       ============================================================ */
+    .mapboxgl-popup-content {
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      background: #1f2937;
+      color: #e5e7eb;
+      max-width: 280px;
+    }
+    .mapboxgl-popup-close-button { color: #6b7280; font-size: 18px; }
+    .mapboxgl-popup-close-button:hover { color: #e5e7eb; background: none; }
+    .mapboxgl-popup-tip { border-top-color: #1f2937 !important; border-bottom-color: #1f2937 !important; }
+    .mapboxgl-ctrl-group { background: #1f2937 !important; border: 1px solid #374151 !important; }
+    .mapboxgl-ctrl button { background: #1f2937 !important; }
+    .mapboxgl-ctrl button:hover { background: #374151 !important; }
+    .mapboxgl-ctrl button .mapboxgl-ctrl-icon { filter: invert(0.8); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 99999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       LOADING STATE
+       ============================================================ */
+    #loading-overlay {
+      position: fixed; inset: 0; background: #0f172a;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 99998; transition: opacity 0.4s;
+    }
+    #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid #1f2937;
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ============================================================
+       TYPOGRAPHY SCALE + DESIGN SYSTEM TOKENS
+       ============================================================ */
+    :root {
+      --text-xs:   10px;
+      --text-sm:   11px;
+      --text-base: 12px;
+      --text-md:   13px;
+      --text-lg:   14px;
+      --fw-med:    500;
+      --fw-semi:   600;
+      --fw-bold:   700;
+      --fw-black:  800;
+      /* Detail panel dark theme tokens */
+      --dp-bg:      #1f2937;
+      --dp-card:    #111827;
+      --dp-card2:   #0f172a;
+      --dp-divider: #374151;
+      --dp-text:    #f3f4f6;
+      --dp-muted:   #9ca3af;
+      --dp-dim:     #6b7280;
+    }
+
+    /* ============================================================
+       KANBAN HOVER (replace inline handlers)
+       ============================================================ */
+    .k-card { transition: box-shadow 0.15s, transform 0.12s; }
+    .k-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important; transform: translateY(-1px) !important; }
+    .k-next-btn { transition: opacity 0.15s; }
+    .k-next-btn:hover { opacity: 1 !important; }
+
+    /* ============================================================
+       KEYBOARD FOCUS RINGS (accessibility)
+       ============================================================ */
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ============================================================
+       RANGE SLIDER THUMB HOVER
+       ============================================================ */
+    .sidebar-range::-webkit-slider-thumb { transition: transform 0.15s; }
+    .sidebar-range::-webkit-slider-thumb:hover { transform: scale(1.25); }
+
+    /* ============================================================
+       DATA PROVENANCE BADGES
+       ============================================================ */
+    .data-badge {
+      display: inline-block;
+      font-size: 8px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .data-badge-verified  { background: #064e3b; color: #6ee7b7; }
+    .data-badge-estimated { background: #78350f; color: #fde68a; }
+    .data-badge-missing   { background: #1f2937; color: #6b7280; border: 1px solid #374151; }
+
+    /* DSCR color coding */
+    .dscr-good    { color: #34d399; font-weight: 800; }
+    .dscr-caution { color: #fbbf24; font-weight: 800; }
+    .dscr-poor    { color: #f87171; font-weight: 800; }
+  </style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p style="color:#4b5563;font-size:13px;margin-top:16px;font-weight:600">Loading deal intelligence...</p>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+  <!-- ============================================================
+       LEFT SIDEBAR
+       ============================================================ -->
+  <aside id="sidebar">
+
+    <!-- Branding -->
+    <div class="sidebar-section">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <div style="width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb;letter-spacing:-0.01em">DI Command</div>
+          <div style="font-size:10px;color:#4b5563;font-weight:600">Deal Intelligence v2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline Stats -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">Pipeline</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">—</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-card" style="border-left:2px solid #10b981">
+          <div class="stat-value" id="stat-tier-a" style="color:#10b981">—</div>
+          <div class="stat-label">Tier A</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-tier-b" style="color:#3b82f6">—</div>
+          <div class="stat-label">Tier B</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;background:#1f2937;border-radius:7px;padding:7px 10px">
+        <span style="font-size:11px;color:#6b7280">On map</span>
+        <span style="font-size:12px;font-weight:700;color:#e5e7eb" id="stat-on-map">—</span>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="sidebar-section" style="flex:1;overflow-y:auto">
+      <div class="sidebar-label">Filters
+        <span style="float:right;font-size:10px;color:var(--accent);font-weight:700;cursor:pointer" onclick="resetFilters()">Reset</span>
+      </div>
+
+      <!-- Tier toggles -->
+      <div style="margin-bottom:12px">
+        <div style="font-size:11px;color:#6b7280;margin-bottom:6px">Tier</div>
+        <div style="display:flex;gap:5px">
+          <button class="tier-toggle active" data-tier="A">A</button>
+          <button class="tier-toggle active" data-tier="B">B</button>
+          <button class="tier-toggle active" data-tier="C">C</button>
+          <button class="tier-toggle active" data-tier="D">D</button>
+        </div>
+      </div>
+
+      <!-- Type filter -->
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:#6b7280;margin-bottom:5px">Property Type</div>
+        <input id="filter-type" class="sidebar-input" placeholder="Search type...">
+      </div>
+
+      <!-- State filter -->
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:#6b7280;margin-bottom:5px">State</div>
+        <select id="filter-state" class="sidebar-input">
+          <option value="">All States</option>
+        </select>
+      </div>
+
+      <!-- DOM slider -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <div style="font-size:11px;color:#6b7280">Min Days on Market</div>
+          <div style="font-size:11px;color:var(--accent);font-weight:700" id="filter-dom-val">Any</div>
+        </div>
+        <input type="range" id="filter-dom" class="sidebar-range" min="0" max="900" step="30" value="0">
+      </div>
+
+      <!-- Score slider -->
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <div style="font-size:11px;color:#6b7280">Min Deal Score</div>
+          <div style="font-size:11px;color:var(--accent);font-weight:700" id="filter-score-val">Any</div>
+        </div>
+        <input type="range" id="filter-score" class="sidebar-range" min="0" max="100" step="5" value="0">
+      </div>
+
+      <!-- Owner finance toggle -->
+      <div style="margin-bottom:12px">
+        <div class="toggle-wrap">
+          <label class="toggle-input">
+            <input type="checkbox" id="filter-owner-finance">
+            <span class="toggle-slider"></span>
+          </label>
+          <span style="font-size:12px;color:#9ca3af">Owner Finance Only</span>
+        </div>
+      </div>
+
+      <!-- Showing count -->
+      <div style="background:#1f2937;border-radius:7px;padding:8px 10px;text-align:center">
+        <span style="font-size:11px;color:#6b7280">Showing </span>
+        <span style="font-size:13px;font-weight:700;color:var(--accent)" id="filtered-count">—</span>
+        <span style="font-size:11px;color:#6b7280"> deals</span>
+      </div>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="sidebar-section">
+      <button onclick="exportCrmState()" style="width:100%;background:#1f2937;color:#9ca3af;border:1px solid #374151;border-radius:7px;padding:8px;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:6px">Export CRM State</button>
+      <a href="dashboard-v1.html" style="display:block;text-align:center;font-size:11px;color:#4b5563;text-decoration:none">← Back to v1</a>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       CENTER PANEL
+       ============================================================ -->
+  <main id="center-panel">
+
+    <!-- View Toggle Bar -->
+    <div id="view-bar">
+      <button class="view-btn active" data-view="globe">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Globe
+      </button>
+      <button class="view-btn" data-view="map">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 6l7-3 8 4 7-4v15l-7 4-8-4-7 3V6z"/></svg>
+        Map
+      </button>
+      <button class="view-btn" data-view="heat">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        Heat
+      </button>
+      <button class="view-btn" data-view="clusters">
+        <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><circle cx="12" cy="12" r="3"/></svg>
+        Clusters
+      </button>
+      <div style="width:1px;height:20px;background:#374151;margin:0 4px"></div>
+      <button class="view-btn" data-view="grid">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Grid
+      </button>
+      <button class="view-btn" data-view="pipeline">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18"/><rect x="10" y="7" width="5" height="14"/><rect x="17" y="10" width="4" height="11"/></svg>
+        Pipeline
+      </button>
+
+      <!-- Right side: deal counter -->
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+        <div style="font-size:11px;color:#4b5563">
+          <span id="map-count" style="font-weight:700;color:#9ca3af">—</span> on map
+        </div>
+        <div style="width:1px;height:16px;background:#374151"></div>
+        <div style="font-size:11px;color:#4b5563">
+          Last run: <span style="color:#9ca3af;font-weight:600">Mar 4, 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP VIEW -->
+    <div id="map-wrapper">
+      <div id="map-container"></div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="grid-wrapper" style="display:none;background:#111827;overflow:hidden">
+      <div id="tabulator-table"></div>
+    </div>
+
+    <!-- PIPELINE VIEW -->
+    <div id="pipeline-wrapper" style="display:none">
+      <div id="kanban-board"></div>
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       RIGHT DETAIL PANEL
+       ============================================================ -->
+  <aside id="detail-panel">
+    <div id="detail-content" style="height:100%;overflow-y:auto"></div>
+  </aside>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ===================================================
+   CONFIG
+   =================================================== */
+const MAPBOX_TOKEN = 'YOUR_MAPBOX_TOKEN_HERE'; // Set your Mapbox public token here
+
+// Approximate coordinates for scored pipeline deals (addresses known, no lat/lng in data)
+const SCORED_COORDS = {
+  'crexi-1894639': [-93.9, 39.8],     // Harrison County, MO
+  'crexi-1697719': [-94.54, 38.97],   // Kansas City, MO
+  'crexi-1491886': [-118.25, 34.03],  // Los Angeles, CA
+  'crexi-1657474': [-87.75, 41.93],   // Chicago, IL
+  'crexi-2318076': [-90.04, 29.98],   // New Orleans, LA
+  'crexi-1019705': [-81.84, 26.59],   // Fort Myers, FL
+  'crexi-1668397': [-121.40, 38.63],  // Sacramento, CA
+  'crexi-2297035': [-88.93, 39.84],   // Decatur, IL
+  'crexi-2078336': [-91.90, 34.78],   // Lonoke, AR
+  'crexi-2300950': [-73.92, 41.60],   // Wappingers Falls, NY
+  'crexi-2300956': [-74.27, 41.35]    // Chester, NY
+};
+
+/* ===================================================
+   STATE
+   =================================================== */
+const state = {
+  currentView: 'globe',
+  selectedDeal: null,
+  allDeals: [],
+  filteredDeals: [],
+  crmState: {},
+  map: null,
+  tabulator: null,
+  tabulatorInit: false,
+  userInteracting: false,
+  filters: {
+    tiers: ['A','B','C','D'],
+    type: '',
+    state: '',
+    domMin: 0,
+    scoreMin: 0,
+    ownerFinance: false
+  }
+};
+
+/* ===================================================
+   DATA LOADING
+   =================================================== */
+async function loadData() {
+  try {
+    const [tierARes, scoredRes] = await Promise.all([
+      fetch('./data/processed/2026-03-04_tier-a-pipeline.json'),
+      fetch('./data/processed/2026-03-04_scored-pipeline.json')
+    ]);
+
+    const tierAData = await tierARes.json();
+    const scoredData = await scoredRes.json();
+
+    // Build lookup map from scored pipeline (rich intelligence)
+    const enrichedMap = {};
+    (scoredData.listings || []).forEach(d => { enrichedMap[d.id] = d; });
+
+    // Process tier-A deals (have geocoords)
+    const tierADeals = (tierAData.listings || []).map(d => ({
+      ...d,
+      _enriched: enrichedMap[d.id] || null
+    }));
+
+    // Add scored-only deals (not in tier-A; use approx coords)
+    const tierAIds = new Set(tierADeals.map(d => d.id));
+    const scoredOnly = (scoredData.listings || [])
+      .filter(d => !tierAIds.has(d.id))
+      .map(d => {
+        const coords = SCORED_COORDS[d.id] || null;
+        const addrParts = (d.address || '').split(',');
+        return {
+          id: d.id,
+          crexiId: parseInt(d.id.replace('crexi-','')),
+          url: d.url,
+          name: d.name,
+          type: d.type,
+          city: addrParts[1]?.trim() || addrParts[0]?.trim() || '',
+          state: d.state,
+          askingPrice: d.askingPrice,
+          daysOnMarket: d.daysOnMarket,
+          dealScore: d.dealScore,
+          tier: d.tier,
+          latitude: coords ? coords[1] : null,
+          longitude: coords ? coords[0] : null,
+          sqft: d.sqft,
+          brokerageName: d.brokerage || '',
+          scrapedAt: d.scrapedAt,
+          _enriched: d
+        };
+      });
+
+    state.allDeals = [...tierADeals, ...scoredOnly];
+    state.filteredDeals = [...state.allDeals];
+
+    populateStateFilter();
+    updateSidebarStats();
+    document.getElementById('map-count').textContent =
+      state.filteredDeals.filter(d => d.latitude && d.longitude).length;
+
+  } catch (err) {
+    console.error('Data load error:', err);
+    showToast('Load failed — serve via: node scripts/serve-dashboard.js', 'error');
+  }
+}
+
+function populateStateFilter() {
+  const states = [...new Set(state.allDeals.map(d => d.state).filter(Boolean))].sort();
+  const sel = document.getElementById('filter-state');
+  states.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+/* ===================================================
+   MAP INITIALIZATION
+   =================================================== */
+function initMap() {
+  mapboxgl.accessToken = MAPBOX_TOKEN;
+
+  state.map = new mapboxgl.Map({
+    container: 'map-container',
+    style: 'mapbox://styles/mapbox/dark-v11',
+    projection: { name: 'globe' },
+    zoom: 2.2,
+    center: [-98, 38]
+  });
+
+  state.map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+  state.map.on('load', () => {
+    // Globe atmosphere
+    state.map.setFog({
+      color: 'rgb(10, 15, 30)',
+      'high-color': 'rgb(20, 40, 80)',
+      'horizon-blend': 0.025,
+      'space-color': 'rgb(5, 8, 20)',
+      'star-intensity': 0.75
+    });
+
+    addDealLayers();
+    spinGlobe();
+  });
+
+  // Pause spin on interaction
+  state.map.on('mousedown',  () => { state.userInteracting = true; });
+  state.map.on('touchstart', () => { state.userInteracting = true; });
+  state.map.on('dragstart',  () => { state.userInteracting = true; });
+  state.map.on('mouseup',    () => { state.userInteracting = false; spinGlobe(); });
+  state.map.on('touchend',   () => { state.userInteracting = false; spinGlobe(); });
+  state.map.on('moveend',    () => { if (!state.userInteracting) spinGlobe(); });
+}
+
+function addDealLayers() {
+  const geoJSON = buildGeoJSON(state.filteredDeals);
+
+  if (state.map.getSource('deals')) {
+    removeDealLayers();
+  }
+
+  state.map.addSource('deals', {
+    type: 'geojson',
+    data: geoJSON,
+    cluster: true,
+    clusterMaxZoom: 10,
+    clusterRadius: 50
+  });
+
+  // Cluster bubbles
+  state.map.addLayer({
+    id: 'deal-clusters',
+    type: 'circle',
+    source: 'deals',
+    filter: ['has', 'point_count'],
+    paint: {
+      'circle-color': ['step',['get','point_count'], '#10b981', 5, '#3b82f6', 15, '#f59e0b'],
+      'circle-radius': ['step',['get','point_count'], 20, 5, 28, 15, 36],
+      'circle-opacity': 0.88,
+      'circle-stroke-color': 'rgba(255,255,255,0.25)',
+      'circle-stroke-width': 2
+    }
+  });
+
+  // Cluster count labels
+  state.map.addLayer({
+    id: 'deal-cluster-count',
+    type: 'symbol',
+    source: 'deals',
+    filter: ['has', 'point_count'],
+    layout: {
+      'text-field': '{point_count_abbreviated}',
+      'text-font': ['DIN Offc Pro Medium','Arial Unicode MS Bold'],
+      'text-size': 13
+    },
+    paint: { 'text-color': '#ffffff' }
+  });
+
+  // Individual deal points
+  state.map.addLayer({
+    id: 'deal-points',
+    type: 'circle',
+    source: 'deals',
+    filter: ['!', ['has', 'point_count']],
+    paint: {
+      'circle-color': ['get', 'color'],
+      'circle-radius': ['interpolate',['linear'],['zoom'], 2, 5, 8, 9, 14, 16],
+      'circle-opacity': 0.92,
+      'circle-stroke-color': 'rgba(255,255,255,0.5)',
+      'circle-stroke-width': 1.5
+    }
+  });
+
+  // Heatmap (hidden by default)
+  state.map.addLayer({
+    id: 'deal-heatmap',
+    type: 'heatmap',
+    source: 'deals',
+    maxzoom: 13,
+    layout: { visibility: 'none' },
+    paint: {
+      'heatmap-weight': ['interpolate',['linear'],['get','score'], 0, 0, 100, 1],
+      'heatmap-intensity': ['interpolate',['linear'],['zoom'], 0, 1, 9, 3],
+      'heatmap-color': [
+        'interpolate',['linear'],['heatmap-density'],
+        0,   'rgba(0,0,100,0)',
+        0.2, 'rgba(0,80,200,0.4)',
+        0.4, 'rgba(0,160,100,0.6)',
+        0.6, 'rgba(255,180,0,0.8)',
+        0.8, 'rgba(255,80,0,0.9)',
+        1.0, 'rgba(255,30,30,1)'
+      ],
+      'heatmap-radius': ['interpolate',['linear'],['zoom'], 0, 25, 9, 50],
+      'heatmap-opacity': 0.85
+    }
+  }, 'deal-points');
+
+  // Click: individual deal
+  state.map.on('click', 'deal-points', e => {
+    const id = e.features[0].properties.id;
+    const deal = state.allDeals.find(d => d.id === id);
+    if (deal) openDealPanel(deal);
+  });
+
+  // Click: cluster → zoom in
+  state.map.on('click', 'deal-clusters', e => {
+    const clusterId = e.features[0].properties.cluster_id;
+    state.map.getSource('deals').getClusterExpansionZoom(clusterId, (err, zoom) => {
+      if (!err) state.map.easeTo({ center: e.features[0].geometry.coordinates, zoom: zoom + 1 });
+    });
+  });
+
+  // Popup on hover
+  const popup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false, offset: 12 });
+
+  state.map.on('mouseenter', 'deal-points', e => {
+    state.map.getCanvas().style.cursor = 'pointer';
+    const p = e.features[0].properties;
+    const tier = p.tier || 'C';
+    const tColor = { A:'#10b981', B:'#3b82f6', C:'#f59e0b', D:'#ef4444' }[tier] || '#9ca3af';
+    popup.setLngLat(e.features[0].geometry.coordinates)
+      .setHTML(`
+        <div style="font-size:12px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span style="background:${tColor};color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:9999px">T${tier}</span>
+            <span style="font-weight:700;color:#f9fafb;font-size:11px">${formatPrice(p.price)}</span>
+          </div>
+          <div style="color:#e5e7eb;font-weight:600;line-height:1.35;margin-bottom:4px">${p.name}</div>
+          <div style="color:#9ca3af;font-size:11px">${p.city}, ${p.state} · ${p.dom}d</div>
+          <div style="margin-top:6px;color:#6b7280;font-size:10px">Click to open deal intelligence</div>
+        </div>
+      `).addTo(state.map);
+  });
+
+  state.map.on('mouseleave', 'deal-points', () => {
+    state.map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
+
+  state.map.on('mouseenter', 'deal-clusters', () => { state.map.getCanvas().style.cursor = 'pointer'; });
+  state.map.on('mouseleave', 'deal-clusters', () => { state.map.getCanvas().style.cursor = ''; });
+}
+
+function removeDealLayers() {
+  ['deal-heatmap','deal-points','deal-cluster-count','deal-clusters'].forEach(id => {
+    if (state.map.getLayer(id)) state.map.removeLayer(id);
+  });
+  if (state.map.getSource('deals')) state.map.removeSource('deals');
+}
+
+function buildGeoJSON(deals) {
+  const features = deals.filter(d => d.latitude && d.longitude).map(d => ({
+    type: 'Feature',
+    geometry: { type: 'Point', coordinates: [d.longitude, d.latitude] },
+    properties: {
+      id:    d.id,
+      name:  d.name || '',
+      tier:  d.tier || 'C',
+      score: d.dealScore || 0,
+      price: d.askingPrice || 0,
+      dom:   d.daysOnMarket || 0,
+      city:  d.city || '',
+      state: d.state || '',
+      color: tierColor(d.tier)
+    }
+  }));
+  return { type: 'FeatureCollection', features };
+}
+
+/* ===================================================
+   GLOBE SPIN
+   =================================================== */
+function spinGlobe() {
+  if (state.currentView !== 'globe') return;
+  if (state.userInteracting) return;
+  const zoom = state.map.getZoom();
+  if (zoom > 4.5) return;
+  const center = state.map.getCenter();
+  center.lng -= 0.25;
+  state.map.easeTo({ center, duration: 1000, easing: n => n });
+}
+
+/* ===================================================
+   VIEW MANAGEMENT
+   =================================================== */
+function switchView(view) {
+  state.currentView = view;
+
+  document.querySelectorAll('.view-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === view)
+  );
+
+  const isMap = ['globe','map','heat','clusters'].includes(view);
+  document.getElementById('map-wrapper').style.display      = isMap       ? 'flex' : 'none';
+  document.getElementById('grid-wrapper').style.display     = view==='grid'     ? 'flex' : 'none';
+  document.getElementById('pipeline-wrapper').style.display = view==='pipeline' ? 'flex' : 'none';
+
+  if (isMap && state.map) {
+    state.map.resize();
+    if (view === 'globe') {
+      state.map.setProjection({ name: 'globe' });
+      setLayerVisibility('visible','visible','visible','none');
+      state.map.easeTo({ zoom: 2.2, center: [-98,38], duration: 1200 });
+      setTimeout(spinGlobe, 1300);
+    } else if (view === 'map') {
+      state.map.setProjection({ name: 'mercator' });
+      setLayerVisibility('visible','visible','visible','none');
+      state.map.flyTo({ center: [-95,38], zoom: 4, duration: 1500 });
+    } else if (view === 'clusters') {
+      state.map.setProjection({ name: 'mercator' });
+      setLayerVisibility('visible','visible','visible','none');
+      state.map.flyTo({ center: [-95,38], zoom: 4, duration: 1500 });
+    } else if (view === 'heat') {
+      state.map.setProjection({ name: 'mercator' });
+      setLayerVisibility('none','none','none','visible');
+      state.map.flyTo({ center: [-95,38], zoom: 4, duration: 1500 });
+    }
+  } else if (view === 'grid') {
+    if (!state.tabulatorInit) {
+      initTabulator();
+      state.tabulatorInit = true;
+    } else {
+      state.tabulator.replaceData(state.filteredDeals);
+    }
+  } else if (view === 'pipeline') {
+    renderKanban();
+  }
+}
+
+function setLayerVisibility(clusters, clusterCount, points, heatmap) {
+  const vis = (id, v) => { if (state.map.getLayer(id)) state.map.setLayoutProperty(id,'visibility',v); };
+  vis('deal-clusters', clusters);
+  vis('deal-cluster-count', clusterCount);
+  vis('deal-points', points);
+  vis('deal-heatmap', heatmap);
+}
+
+/* ===================================================
+   TABULATOR GRID
+   =================================================== */
+function initTabulator() {
+  state.tabulator = new Tabulator('#tabulator-table', {
+    data: state.filteredDeals,
+    layout: 'fitDataStretch',
+    responsiveLayout: 'hide',
+    height: '100%',
+    pagination: 'local',
+    paginationSize: 50,
+    paginationSizeSelector: [25, 50, 100, 250],
+    movableColumns: true,
+    selectable: 1,
+    initialSort: [{ column: 'dealScore', dir: 'desc' }],
+    rowClick: (e, row) => openDealPanel(row.getData()),
+    columns: [
+      {
+        title: 'Tier', field: 'tier', width: 68, hozAlign: 'center',
+        headerFilter: 'list',
+        headerFilterParams: { values: { '': 'All', A:'A', B:'B', C:'C', D:'D' }, clearable: true },
+        formatter: cell => {
+          const t = cell.getValue() || 'C';
+          const c = { A:'#10b981', B:'#3b82f6', C:'#f59e0b', D:'#ef4444' }[t] || '#9ca3af';
+          return `<span style="background:${c};color:#fff;padding:2px 10px;border-radius:9999px;font-size:11px;font-weight:800">T${t}</span>`;
+        }
+      },
+      {
+        title: 'Property', field: 'name', minWidth: 200,
+        formatter: cell => `<span style="font-weight:600;color:#f9fafb">${cell.getValue()||''}</span>`,
+        headerFilter: 'input'
+      },
+      {
+        title: 'Type', field: 'type', minWidth: 130,
+        formatter: cell => {
+          const t = (cell.getValue()||'').split(',')[0].split('/')[0].trim();
+          return `<span style="color:#9ca3af;font-size:12px">${t}</span>`;
+        },
+        headerFilter: 'input'
+      },
+      {
+        title: 'Location', field: 'city', minWidth: 130,
+        formatter: (cell, fp, onRendered) => {
+          const r = cell.getRow().getData();
+          return `<span style="color:#d1d5db">${r.city||''}, ${r.state||''}</span>`;
+        },
+        headerFilter: 'input'
+      },
+      {
+        title: 'Price', field: 'askingPrice', width: 110, hozAlign: 'right', sorter: 'number',
+        formatter: cell => `<span style="font-weight:700;color:#f9fafb">${formatPrice(cell.getValue())}</span>`
+      },
+      {
+        title: 'DOM', field: 'daysOnMarket', width: 72, hozAlign: 'center', sorter: 'number',
+        formatter: cell => {
+          const v = cell.getValue()||0;
+          const c = v>365?'#ef4444':v>180?'#f59e0b':'#9ca3af';
+          return `<span style="color:${c};font-weight:700">${v}</span>`;
+        }
+      },
+      {
+        title: 'Cap Rate', field: '_enriched', width: 85, hozAlign: 'center',
+        sorter: (a,b) => ((a?.capRate||0)-(b?.capRate||0)),
+        formatter: cell => {
+          const e = cell.getValue();
+          return e?.capRate ? `<span style="color:#10b981;font-weight:700">${(e.capRate*100).toFixed(1)}%</span>` : '<span style="color:#4b5563">—</span>';
+        }
+      },
+      {
+        title: 'Score', field: 'dealScore', width: 72, hozAlign: 'center', sorter: 'number',
+        formatter: cell => {
+          const v = Math.round(cell.getValue()||0);
+          const bg = v>=80?'#059669':v>=65?'#d97706':'#dc2626';
+          return `<span style="background:${bg};color:#fff;padding:2px 8px;border-radius:9999px;font-size:12px;font-weight:800">${v}</span>`;
+        }
+      },
+      {
+        title: 'Owner Finance', field: 'name', width: 105, hozAlign: 'center',
+        formatter: (cell, fp, onRendered) => {
+          return hasOwnerFinance(cell.getRow().getData())
+            ? '<span style="color:#10b981;font-weight:700">✓</span>'
+            : '<span style="color:#374151">—</span>';
+        }
+      },
+      {
+        title: 'CRM', field: 'id', width: 120, hozAlign: 'center',
+        formatter: cell => {
+          const stage = (state.crmState[cell.getValue()]||{}).stage || 'New';
+          const c = stageColor(stage);
+          return `<span style="background:${c}22;color:${c};padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">${stage}</span>`;
+        }
+      }
+    ]
+  });
+}
+
+/* ===================================================
+   KANBAN BOARD
+   =================================================== */
+const STAGES = ['New','Researching','Contacted','LOI','Under Contract','Closed','Dead'];
+const STAGE_STYLES = {
+  'New':            { bg:'#f3f4f6', header:'#6b7280', border:'#e5e7eb' },
+  'Researching':    { bg:'#eff6ff', header:'#2563eb', border:'#bfdbfe' },
+  'Contacted':      { bg:'#fffbeb', header:'#d97706', border:'#fde68a' },
+  'LOI':            { bg:'#fff7ed', header:'#ea580c', border:'#fed7aa' },
+  'Under Contract': { bg:'#f5f3ff', header:'#7c3aed', border:'#ddd6fe' },
+  'Closed':         { bg:'#f0fdf4', header:'#059669', border:'#bbf7d0' },
+  'Dead':           { bg:'#fef2f2', header:'#dc2626', border:'#fecaca' }
+};
+
+function renderKanban() {
+  const byStage = {};
+  STAGES.forEach(s => { byStage[s] = []; });
+  state.filteredDeals.forEach(d => {
+    const s = (state.crmState[d.id]||{}).stage || 'New';
+    if (byStage[s]) byStage[s].push(d);
+    else byStage['New'].push(d);
+  });
+
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = STAGES.map(stage => {
+    const st = STAGE_STYLES[stage];
+    const deals = byStage[stage];
+    const idx = STAGES.indexOf(stage);
+    const nextStage = STAGES[idx+1];
+    return `
+      <div style="background:${st.bg};border:1px solid ${st.border};border-radius:12px;min-width:230px;width:230px;flex-shrink:0;display:flex;flex-direction:column;max-height:calc(100vh - 100px)">
+        <div style="padding:12px 14px;border-bottom:1px solid ${st.border};flex-shrink:0">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:11px;font-weight:800;color:${st.header};text-transform:uppercase;letter-spacing:0.06em">${stage}</span>
+            <span style="background:${st.header};color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:9999px">${deals.length}</span>
+          </div>
+        </div>
+        <div style="padding:8px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:7px">
+          ${deals.length === 0
+            ? '<div style="color:#9ca3af;font-size:11px;text-align:center;padding:24px 8px;opacity:0.7">No deals</div>'
+            : deals.map(d => `
+              <div class="k-card" data-id="${d.id}" style="background:#fff;border-radius:8px;padding:10px 12px;cursor:pointer;border:1px solid rgba(0,0,0,0.07);box-shadow:0 1px 3px rgba(0,0,0,0.06)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:5px">
+                  <div style="font-size:12px;font-weight:700;color:#111827;line-height:1.3;flex:1">${(d.name||'').length>44?(d.name||'').slice(0,44)+'…':d.name}</div>
+                  <span style="background:${tierColor(d.tier)};color:#fff;font-size:9px;font-weight:800;padding:1px 6px;border-radius:9999px;flex-shrink:0">T${d.tier||'C'}</span>
+                </div>
+                <div style="font-size:11px;color:#6b7280;margin-bottom:5px">${d.city||''},${d.state||''}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:12px;font-weight:800;color:#111827">${formatPrice(d.askingPrice)}</span>
+                  <span style="font-size:10px;color:#9ca3af">${d.daysOnMarket||0}d · ${Math.round(d.dealScore||0)}pts</span>
+                </div>
+                ${nextStage ? `<button class="k-next-btn" data-id="${d.id}" data-next="${nextStage}" style="margin-top:8px;width:100%;background:${st.header};color:#fff;border:none;padding:5px;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;opacity:0.85">→ ${nextStage}</button>` : ''}
+              </div>
+            `).join('')
+          }
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Bind events
+  board.querySelectorAll('.k-card').forEach(el => {
+    el.addEventListener('click', e => {
+      if (e.target.classList.contains('k-next-btn')) return;
+      const deal = state.allDeals.find(d => d.id === el.dataset.id);
+      if (deal) openDealPanel(deal);
+    });
+  });
+  board.querySelectorAll('.k-next-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      updateDealStage(btn.dataset.id, btn.dataset.next);
+      renderKanban();
+    });
+  });
+}
+
+/* ===================================================
+   DEAL DETAIL PANEL
+   =================================================== */
+function openDealPanel(deal) {
+  state.selectedDeal = deal;
+  document.getElementById('detail-panel').classList.add('open');
+  renderDealDetail(deal);
+  if (['globe','map','heat','clusters'].includes(state.currentView) && state.map) {
+    setTimeout(() => state.map.resize(), 300);
+  }
+}
+
+function closeDealPanel() {
+  state.selectedDeal = null;
+  document.getElementById('detail-panel').classList.remove('open');
+  if (['globe','map','heat','clusters'].includes(state.currentView) && state.map) {
+    setTimeout(() => state.map.resize(), 300);
+  }
+}
+
+function renderDealDetail(deal) {
+  const enriched  = deal._enriched || {};
+  const crm       = state.crmState[deal.id] || { stage:'New', notes:'', watchlisted:false };
+  const scores    = enriched.scores ? {
+    sellerMotivation:     enriched.scores.sellerMotivation    || 0,
+    financingFlexibility: enriched.scores.financingFlexibility || 0,
+    dealEconomics:        enriched.scores.dealEconomics       || 0,
+    businessQuality:      enriched.scores.businessQuality     || 0
+  } : deriveScores(deal);
+
+  const tier       = deal.tier || 'C';
+  const tc         = { A:'#10b981', B:'#3b82f6', C:'#f59e0b', D:'#ef4444' };
+  const totalScore = Math.round(deal.dealScore || 0);
+  const scoreC     = totalScore>=80?'#34d399':totalScore>=65?'#fbbf24':'#f87171';
+  const signals    = enriched.distressSignals || deriveDistressSignals(deal);
+  const highlights = enriched.investmentHighlights || [];
+  const outreach   = enriched.outreachScript || generateOutreachScript(deal);
+  const capRate    = enriched.capRate ? `${(enriched.capRate*100).toFixed(1)}%` : null;
+  const noi        = enriched.noi ? enriched.noi : null;
+  const finTerms   = enriched.financingTerms || (hasOwnerFinance(deal) ? 'Owner financing available' : null);
+  const units      = enriched.units || deal.units || null;
+
+  // ── Derived financials ──
+  const down    = deal.askingPrice ? Math.round(deal.askingPrice * 0.10) : 0;
+  const note    = deal.askingPrice ? deal.askingPrice - down : 0;
+  const r       = 0.065 / 12;
+  const n       = 300; // 25yr amortization
+  const monthly = note > 0 ? Math.round((note * r) / (1 - Math.pow(1+r, -n))) : 0;
+  const annualDebt = monthly * 12;
+  const dscr    = (noi && annualDebt > 0) ? (noi / annualDebt) : null;
+  const dscrClass = dscr ? (dscr >= 1.25 ? 'dscr-good' : dscr >= 1.0 ? 'dscr-caution' : 'dscr-poor') : '';
+  const pricePerSqft = (deal.sqft && deal.askingPrice) ? Math.round(deal.askingPrice / deal.sqft) : null;
+  const pricePerUnit = (units && deal.askingPrice) ? Math.round(deal.askingPrice / units) : null;
+
+  // ── Data freshness ──
+  const freshDate = deal.scrapedAt ? new Date(deal.scrapedAt) : null;
+  const daysSince = freshDate ? Math.round((Date.now() - freshDate.getTime()) / 86400000) : null;
+  const freshColor = daysSince === null ? '#6b7280' : daysSince < 7 ? '#34d399' : daysSince < 30 ? '#fbbf24' : '#f87171';
+  const freshLabel = daysSince === null ? 'Unknown' : daysSince === 0 ? 'Today' : `${daysSince}d ago`;
+
+  document.getElementById('detail-content').innerHTML = `
+
+    <!-- ── HEADER ── -->
+    <div style="padding:18px 18px 14px;border-bottom:1px solid #374151;position:sticky;top:0;background:#1f2937;z-index:5">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:800;color:#f9fafb;line-height:1.35;margin-bottom:6px">${deal.name||'Property'}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center">
+            <span style="background:${tc[tier]};color:#fff;font-size:10px;font-weight:800;padding:3px 9px;border-radius:9999px">TIER ${tier}</span>
+            <span style="background:#374151;color:#d1d5db;font-size:10px;font-weight:600;padding:3px 9px;border-radius:9999px">${(deal.type||'').split(',')[0].trim()}</span>
+            <span style="background:#374151;color:#d1d5db;font-size:10px;font-weight:600;padding:3px 9px;border-radius:9999px">📍 ${deal.city||''}, ${deal.state||''}</span>
+          </div>
+          <div style="margin-top:7px;font-size:10px;color:${freshColor}">Data: <span style="font-weight:700">${freshLabel}</span></div>
+        </div>
+        <button onclick="closeDealPanel()" style="background:none;border:none;color:#6b7280;cursor:pointer;font-size:20px;padding:2px;flex-shrink:0;line-height:1" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- ── CRM STAGE ── -->
+    <div style="padding:12px 18px;border-bottom:1px solid #374151;background:#111827">
+      <div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px">CRM Stage</div>
+      <div style="display:flex;gap:4px;flex-wrap:wrap">
+        ${STAGES.map(s => {
+          const sc = stageColor(s);
+          const active = crm.stage === s;
+          return `<button onclick="setStageAndRefresh('${deal.id}','${s}')" style="font-size:10px;font-weight:700;padding:4px 9px;border-radius:6px;border:1px solid ${active?sc:'#374151'};background:${active?sc:'transparent'};color:${active?'#fff':'#6b7280'};cursor:pointer;transition:all 0.15s">${s}</button>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- ── SCORE BREAKDOWN ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em">Deal Score</div>
+          <div style="font-size:9px;color:#4b5563;margin-top:2px">${enriched.scores ? 'Source: scoring pipeline' : 'Source: estimated from DOM + type'}</div>
+        </div>
+        <div style="font-size:30px;font-weight:900;color:${scoreC};line-height:1">${totalScore}</div>
+      </div>
+      ${[
+        { label:'Seller Motivation',    weight:'35%', score: scores.sellerMotivation },
+        { label:'Financing Flexibility',weight:'25%', score: scores.financingFlexibility },
+        { label:'Deal Economics',       weight:'25%', score: scores.dealEconomics },
+        { label:'Business Quality',     weight:'15%', score: scores.businessQuality }
+      ].map(d => {
+        const s = Math.round(d.score||0);
+        const c = s>=80?'#34d399':s>=60?'#fbbf24':'#f87171';
+        return `
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+              <span style="font-size:11px;color:#9ca3af">${d.label} <span style="opacity:0.5">(${d.weight})</span></span>
+              <span style="font-size:12px;font-weight:800;color:${c}">${s}</span>
+            </div>
+            <div style="background:#374151;border-radius:9999px;height:5px;overflow:hidden">
+              <div style="height:100%;width:${s}%;background:${c};border-radius:9999px;transition:width 0.6s ease"></div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- ── FINANCIAL METRICS ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px">Financial Metrics</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Asking Price</div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb">${formatPrice(deal.askingPrice)}</div>
+        </div>
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Days on Market</div>
+          <div style="font-size:13px;font-weight:800;color:${(deal.daysOnMarket||0)>365?'#f87171':(deal.daysOnMarket||0)>180?'#fbbf24':'#f9fafb'}">${deal.daysOnMarket||'—'} days</div>
+        </div>
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">
+            Cap Rate <span class="data-badge ${capRate ? 'data-badge-verified' : 'data-badge-estimated'}">${capRate ? 'Verified' : 'est.'}</span>
+          </div>
+          <div style="font-size:13px;font-weight:800;color:${capRate?'#34d399':'#4b5563'}">${capRate || '—'}</div>
+        </div>
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">
+            NOI <span class="data-badge ${noi ? 'data-badge-verified' : 'data-badge-estimated'}">${noi ? 'Verified' : 'est.'}</span>
+          </div>
+          <div style="font-size:13px;font-weight:800;color:${noi?'#f9fafb':'#4b5563'}">${noi ? formatPrice(noi)+'/yr' : '—'}</div>
+        </div>
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">
+            DSCR <span class="data-badge ${dscr ? 'data-badge-verified' : 'data-badge-estimated'}">${dscr ? 'calc' : 'N/A'}</span>
+          </div>
+          <div style="font-size:13px;font-weight:800;color:${dscr?'inherit':'#4b5563'}" ${dscr?`class="${dscrClass}"`:''}>${dscr ? dscr.toFixed(2)+'x' : '—'}</div>
+        </div>
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Sq Footage</div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb">${deal.sqft ? deal.sqft.toLocaleString()+' sqft' : '—'}</div>
+        </div>
+        ${pricePerSqft ? `
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Price / SqFt</div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb">$${pricePerSqft.toLocaleString()}</div>
+        </div>` : ''}
+        ${units ? `
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Units</div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb">${units}</div>
+        </div>` : ''}
+        ${pricePerUnit ? `
+        <div style="background:#111827;border-radius:8px;padding:9px 11px">
+          <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Price / Unit</div>
+          <div style="font-size:13px;font-weight:800;color:#f9fafb">${formatPrice(pricePerUnit)}</div>
+        </div>` : ''}
+      </div>
+    </div>
+
+    <!-- ── SELLER INTELLIGENCE ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px">Seller Intelligence</div>
+      ${signals.length > 0 ? `
+        <div style="margin-bottom:10px">
+          <div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Distress Signals</div>
+          ${signals.map(s => `
+            <div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:5px">
+              <span style="color:#f87171;flex-shrink:0;font-size:12px">⚠</span>
+              <span style="font-size:12px;color:#d1d5db;line-height:1.4">${s}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      ${enriched.sellerMotivation ? `
+        <div style="background:#1c1700;border:1px solid #92400e;border-radius:9px;padding:11px 13px">
+          <div style="font-size:10px;font-weight:800;color:#fbbf24;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Motivation Analysis</div>
+          <p style="font-size:12px;color:#fde68a;line-height:1.6;margin:0">${enriched.sellerMotivation}</p>
+        </div>
+      ` : ''}
+      ${deal.brokerageName ? `
+        <div style="margin-top:9px;font-size:12px;color:#6b7280"><span style="font-weight:700;color:#9ca3af">Brokerage:</span> ${deal.brokerageName}</div>
+      ` : ''}
+    </div>
+
+    <!-- ── FINANCING ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px">Financing</div>
+      ${finTerms ? `
+        <div style="background:#001a0a;border:1px solid #065f46;border-radius:9px;padding:10px 13px;margin-bottom:10px">
+          <div style="font-size:10px;font-weight:800;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px">Seller Terms</div>
+          <div style="font-size:13px;font-weight:700;color:#a7f3d0">${finTerms}</div>
+        </div>
+      ` : ''}
+      <div style="background:#111827;border-radius:9px;padding:11px 13px">
+        <div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Proposed Structure <span class="data-badge data-badge-estimated">EST</span></div>
+        ${buildProposedStructure(deal)}
+      </div>
+    </div>
+
+    ${highlights.length > 0 ? `
+    <!-- ── INVESTMENT HIGHLIGHTS ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:11px">Investment Highlights</div>
+      ${highlights.map(h => `
+        <div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:5px">
+          <span style="color:#34d399;flex-shrink:0;font-weight:700">✓</span>
+          <span style="font-size:12px;color:#d1d5db;line-height:1.4">${h}</span>
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
+
+    <!-- ── OUTREACH SCRIPT ── -->
+    <div style="padding:16px 18px;border-bottom:1px solid #374151">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.07em">Outreach Script</div>
+        <button onclick="copyToClipboard(${JSON.stringify(outreach)})" style="font-size:11px;background:var(--accent);color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:700">Copy</button>
+      </div>
+      <div style="background:#0f172a;border:1px solid #374151;border-radius:9px;padding:14px 15px">
+        <p style="font-size:12px;color:#d1d5db;line-height:1.8;margin:0;font-style:italic">"${outreach}"</p>
+      </div>
+    </div>
+
+    <!-- ── ACTIONS ── -->
+    <div style="padding:16px 18px">
+      <a href="${deal.url||'#'}" target="_blank" style="display:block;text-align:center;background:var(--accent);color:#fff;padding:11px;border-radius:9px;text-decoration:none;font-weight:700;font-size:13px;margin-bottom:8px;transition:background 0.15s">View Listing →</a>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button onclick="toggleWatchlist('${deal.id}')" style="background:${crm.watchlisted?'#1c1700':'#374151'};color:${crm.watchlisted?'#fbbf24':'#d1d5db'};border:1px solid ${crm.watchlisted?'#92400e':'#4b5563'};padding:9px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">${crm.watchlisted?'★ Watching':'☆ Watchlist'}</button>
+        <button onclick="exportDeal('${deal.id}')" style="background:#374151;color:#d1d5db;border:1px solid #4b5563;padding:9px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">↓ Export</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ===================================================
+   DERIVED INTELLIGENCE
+   =================================================== */
+function deriveScores(deal) {
+  const dom = deal.daysOnMarket || 0;
+  const smScore = dom>730?100 : dom>365?90 : dom>180?75 : dom>90?55 : 40;
+  const nameText = (deal.name||'').toLowerCase();
+  const ffScore  = /owner.financ|seller.financ|0%.interest|lease.to.own|0%.down/i.test(nameText) ? 88 : 45;
+  const price    = deal.askingPrice || 0;
+  const deScore  = price<150000?85 : price<400000?75 : price<800000?62 : price<1500000?50 : 38;
+  const typeLC   = (deal.type||'').toLowerCase();
+  const bqScore  = /mobile.home|self.stor|gas.station|car.wash/i.test(typeLC) ? 90
+                 : /multifamily|mixed.use/i.test(typeLC) ? 72
+                 : /retail|industrial/i.test(typeLC) ? 62 : 55;
+  return { sellerMotivation: smScore, financingFlexibility: ffScore, dealEconomics: deScore, businessQuality: bqScore };
+}
+
+function deriveDistressSignals(deal) {
+  const signals = [];
+  const dom = deal.daysOnMarket || 0;
+  if (dom > 730) signals.push(`${dom} DOM — over 2 years on market (extreme motivation)`);
+  else if (dom > 365) signals.push(`${dom} DOM — over a year on market (high motivation)`);
+  else if (dom > 180) signals.push(`${dom} DOM — 6+ months without sale`);
+  if (/0%.interest|0%.down/i.test(deal.name||'')) signals.push('0% financing terms — seller sacrificing yield to close');
+  if (deal.askingPrice && deal.askingPrice < 100000) signals.push('Sub-$100K asking price — aggressive seller motivation');
+  return signals;
+}
+
+function generateOutreachScript(deal) {
+  const enriched   = deal._enriched || {};
+  const dom        = deal.daysOnMarket || 0;
+  const type       = (deal.type || '').split(',')[0].trim().toLowerCase();
+  const price      = formatPrice(deal.askingPrice);
+  const capPct     = enriched.capRate ? `${(enriched.capRate * 100).toFixed(1)}% cap rate` : null;
+  const noiStr     = enriched.noi ? `$${Math.round(enriched.noi / 1000)}K NOI` : null;
+  const econDetail = [capPct, noiStr].filter(Boolean).join(', ');
+  const econPhrase = econDetail ? ` The ${econDetail} fits my acquisition criteria exactly.` : '';
+
+  if (dom > 365) {
+    return `I've been tracking your ${type} at ${price} — ${dom} days on market is meaningful.${econPhrase} That tells me you haven't found the right buyer yet, not that the deal isn't there. I acquire properties with owner financing, which means no bank approval, no 60-day close window — we move on your timeline. What's held up previous conversations?`;
+  }
+  if (dom > 180) {
+    return `Your ${type} at ${price} caught my attention — six months without a close usually means conventional buyers can't make the numbers work.${econPhrase} I specialize in owner-financed acquisitions and can structure a deal that gives you monthly income at your price. Would 15 minutes to run through a possible structure be worth your time?`;
+  }
+  return `Your ${type} at ${price} caught my attention.${econPhrase} I focus on owner-financed acquisitions and move quickly once terms align — no bank committees, no contingencies I can't control. I'm not a tire-kicker. Can we spend 10 minutes to see if your situation and my approach are a match?`;
+}
+
+function buildProposedStructure(deal) {
+  const price   = deal.askingPrice || 0;
+  const down    = Math.round(price * 0.10);
+  const note    = price - down;
+  const r       = 0.065 / 12;
+  const n       = 300; // 25yr
+  const monthly = note > 0 ? Math.round((note * r) / (1 - Math.pow(1+r, -n))) : 0;
+  return `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      ${[
+        ['Purchase Price', formatPrice(price)],
+        ['Down (10%)',      formatPrice(down)],
+        ['Seller Note',    formatPrice(note)],
+        ['Interest',       '6.5% fixed'],
+        ['Amortization',   '25yr / 5yr balloon'],
+        ['Est. Monthly',   '~'+formatPrice(monthly)]
+      ].map(([l,v]) => `
+        <div>
+          <div style="font-size:9px;color:#6b7280;font-weight:600;text-transform:uppercase">${l}</div>
+          <div style="font-size:12px;font-weight:800;color:#f9fafb">${v}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ===================================================
+   CRM MANAGEMENT
+   =================================================== */
+function loadCrmState() {
+  try {
+    const saved = localStorage.getItem('crexi-crm-state-v2');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state.crmState = parsed.deals || parsed;
+    }
+  } catch(e) {}
+  // Initialize missing
+  state.allDeals.forEach(d => {
+    if (!state.crmState[d.id]) {
+      state.crmState[d.id] = { stage:'New', notes:'', watchlisted:false, updatedAt: new Date().toISOString() };
+    }
+  });
+}
+
+function saveCrmState() {
+  localStorage.setItem('crexi-crm-state-v2', JSON.stringify({ deals: state.crmState }));
+}
+
+function updateDealStage(id, stage) {
+  if (!state.crmState[id]) state.crmState[id] = { stage:'New', notes:'', watchlisted:false };
+  state.crmState[id].stage = stage;
+  state.crmState[id].updatedAt = new Date().toISOString();
+  saveCrmState();
+}
+
+function setStageAndRefresh(id, stage) {
+  updateDealStage(id, stage);
+  if (state.selectedDeal && state.selectedDeal.id === id) renderDealDetail(state.selectedDeal);
+  if (state.currentView === 'grid' && state.tabulatorInit) state.tabulator.replaceData(state.filteredDeals);
+  if (state.currentView === 'pipeline') renderKanban();
+  showToast(`Moved to ${stage}`);
+}
+
+function toggleWatchlist(id) {
+  if (!state.crmState[id]) state.crmState[id] = { stage:'New', notes:'', watchlisted:false };
+  state.crmState[id].watchlisted = !state.crmState[id].watchlisted;
+  saveCrmState();
+  if (state.selectedDeal && state.selectedDeal.id === id) renderDealDetail(state.selectedDeal);
+  showToast(state.crmState[id].watchlisted ? '★ Added to watchlist' : 'Removed from watchlist');
+}
+
+function exportCrmState() {
+  const blob = new Blob([JSON.stringify({ deals: state.crmState, exportedAt: new Date().toISOString() }, null, 2)], { type:'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href:url, download:`crm-state-${new Date().toISOString().split('T')[0]}.json` });
+  a.click(); URL.revokeObjectURL(url);
+  showToast('CRM state exported');
+}
+
+function exportDeal(id) {
+  const deal = state.allDeals.find(d => d.id === id);
+  if (!deal) return;
+  const blob = new Blob([JSON.stringify({ ...deal, crmEntry: state.crmState[id]||{}, exportedAt: new Date().toISOString() }, null, 2)], { type:'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href:url, download:`deal-${id}.json` });
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Deal exported');
+}
+
+/* ===================================================
+   FILTERS
+   =================================================== */
+function applyFilters() {
+  const f = state.filters;
+  state.filteredDeals = state.allDeals.filter(d => {
+    if (f.tiers.length > 0 && !f.tiers.includes(d.tier||'C')) return false;
+    if (f.type && !(d.type||'').toLowerCase().includes(f.type.toLowerCase())) return false;
+    if (f.state && (d.state||'') !== f.state) return false;
+    if (f.domMin > 0 && (d.daysOnMarket||0) < f.domMin) return false;
+    if (f.scoreMin > 0 && (d.dealScore||0) < f.scoreMin) return false;
+    if (f.ownerFinance && !hasOwnerFinance(d)) return false;
+    return true;
+  });
+
+  const onMap = state.filteredDeals.filter(d => d.latitude && d.longitude).length;
+  document.getElementById('filtered-count').textContent = state.filteredDeals.length;
+  document.getElementById('map-count').textContent = onMap;
+
+  // Refresh active view
+  if (['globe','map','heat','clusters'].includes(state.currentView) && state.map?.getSource?.('deals')) {
+    state.map.getSource('deals').setData(buildGeoJSON(state.filteredDeals));
+  } else if (state.currentView === 'grid' && state.tabulatorInit) {
+    state.tabulator.replaceData(state.filteredDeals);
+  } else if (state.currentView === 'pipeline') {
+    renderKanban();
+  }
+}
+
+function resetFilters() {
+  state.filters = { tiers:['A','B','C','D'], type:'', state:'', domMin:0, scoreMin:0, ownerFinance:false };
+  document.getElementById('filter-type').value = '';
+  document.getElementById('filter-state').value = '';
+  document.getElementById('filter-dom').value = 0;
+  document.getElementById('filter-score').value = 0;
+  document.getElementById('filter-owner-finance').checked = false;
+  document.getElementById('filter-dom-val').textContent = 'Any';
+  document.getElementById('filter-score-val').textContent = 'Any';
+  document.querySelectorAll('.tier-toggle').forEach(b => b.classList.add('active'));
+  applyFilters();
+}
+
+/* ===================================================
+   UTILITIES
+   =================================================== */
+function formatPrice(n) {
+  if (!n || n === 0) return '—';
+  if (n >= 1000000) return '$'+(n/1000000).toFixed(1)+'M';
+  if (n >= 1000)    return '$'+Math.round(n/1000)+'K';
+  return '$'+n.toLocaleString();
+}
+
+function tierColor(tier) {
+  return { A:'#10b981', B:'#3b82f6', C:'#f59e0b', D:'#ef4444' }[tier] || '#9ca3af';
+}
+
+function stageColor(stage) {
+  return {
+    'New':'#6b7280', 'Researching':'#2563eb', 'Contacted':'#d97706',
+    'LOI':'#ea580c', 'Under Contract':'#7c3aed', 'Closed':'#059669', 'Dead':'#dc2626'
+  }[stage] || '#6b7280';
+}
+
+function hasOwnerFinance(deal) {
+  const t = ((deal.name||'')+' '+(deal._enriched?.financingTerms||'')).toLowerCase();
+  return /owner.financ|seller.financ|0%.interest|0%.down|lease.to.own|owner.carry|seller.carry/i.test(t);
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard?.writeText(text)
+    .then(() => showToast('Copied to clipboard!'))
+    .catch(() => {
+      const el = Object.assign(document.createElement('textarea'), { value: text });
+      document.body.appendChild(el); el.select(); document.execCommand('copy');
+      document.body.removeChild(el); showToast('Copied!');
+    });
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type==='error' ? '#dc2626' : '#059669';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function updateSidebarStats() {
+  const counts = { A:0, B:0, C:0, D:0 };
+  state.allDeals.forEach(d => { if (counts[d.tier] !== undefined) counts[d.tier]++; });
+  document.getElementById('stat-total').textContent   = state.allDeals.length;
+  document.getElementById('stat-tier-a').textContent  = counts.A;
+  document.getElementById('stat-tier-b').textContent  = counts.B;
+  document.getElementById('stat-on-map').textContent  = state.allDeals.filter(d => d.latitude && d.longitude).length;
+  document.getElementById('filtered-count').textContent = state.filteredDeals.length;
+}
+
+/* ===================================================
+   INIT
+   =================================================== */
+async function init() {
+  await loadData();
+  loadCrmState();
+  initMap();
+
+  // Tier toggles
+  document.querySelectorAll('.tier-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tier = btn.dataset.tier;
+      btn.classList.toggle('active');
+      if (btn.classList.contains('active')) {
+        if (!state.filters.tiers.includes(tier)) state.filters.tiers.push(tier);
+      } else {
+        state.filters.tiers = state.filters.tiers.filter(t => t !== tier);
+      }
+      applyFilters();
+    });
+  });
+
+  // Text / select filters
+  document.getElementById('filter-type').addEventListener('input', e => {
+    state.filters.type = e.target.value; applyFilters();
+  });
+  document.getElementById('filter-state').addEventListener('change', e => {
+    state.filters.state = e.target.value; applyFilters();
+  });
+
+  // DOM slider
+  document.getElementById('filter-dom').addEventListener('input', e => {
+    const v = parseInt(e.target.value)||0;
+    state.filters.domMin = v;
+    document.getElementById('filter-dom-val').textContent = v > 0 ? `${v}+ days` : 'Any';
+    applyFilters();
+  });
+
+  // Score slider
+  document.getElementById('filter-score').addEventListener('input', e => {
+    const v = parseInt(e.target.value)||0;
+    state.filters.scoreMin = v;
+    document.getElementById('filter-score-val').textContent = v > 0 ? `${v}+` : 'Any';
+    applyFilters();
+  });
+
+  // Owner finance toggle
+  document.getElementById('filter-owner-finance').addEventListener('change', e => {
+    state.filters.ownerFinance = e.target.checked; applyFilters();
+  });
+
+  // View buttons
+  document.querySelectorAll('.view-btn').forEach(btn =>
+    btn.addEventListener('click', () => switchView(btn.dataset.view))
+  );
+
+  // Hide loading overlay
+  setTimeout(() => {
+    document.getElementById('loading-overlay').classList.add('hidden');
+    setTimeout(() => document.getElementById('loading-overlay').style.display = 'none', 400);
+  }, 600);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
